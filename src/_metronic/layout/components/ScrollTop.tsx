@@ -10,6 +10,8 @@ import {KTSVG} from '../../helpers'
 
 export function ScrollTop() {
   const {pathname} = useLocation()
+  console.log('pathname', pathname);
+  
   const isFirstRun = useRef(true)
 
   const pluginsReinitialization = () => {

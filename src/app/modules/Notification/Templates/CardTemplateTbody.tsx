@@ -37,6 +37,9 @@ const CardTemplateTbody: React.FC<Props> = ({ notify, subTitle }) => {
         setIDS(id)
     }
         ;
+
+// hi, pritesh admin is removed from baseURL
+
     return (
         <tbody >
             <tr>

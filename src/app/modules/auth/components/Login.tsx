@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import * as Yup from 'yup'
 import clsx from 'clsx'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { getUserByToken, handleLogin, login } from '../core/_requests'
 import { toAbsoluteUrl } from '../../../../_metronic/helpers'
@@ -33,6 +33,7 @@ const initialValues = {
 */
 
 export function Login() {
+  const Navigate = useNavigate()
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const { saveAuth, setCurrentUser } = useAuth()
@@ -56,7 +57,12 @@ export function Login() {
           localStorage.setItem(Constants.token, response.authToken);
           localStorage.setItem(Constants.user, JSON.stringify(response.data.user));
           setLoggedIn(true);
-          window.location.href = '/metronic8/react/demo1/dashboard';
+          window.location.href = '/dashboard';
+// if(isLoggedIn){
+//   Navigate("/dashboard")
+
+// }
+
         }
       } catch (error) {
         console.error(error)
