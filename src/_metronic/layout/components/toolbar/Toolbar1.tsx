@@ -27,19 +27,19 @@ const Toolbar1 = () => {
   }
   React.useEffect(() => {
     // console.log(3,localKey)
+    console.log('=>>>>>> window.location .origin', window.location.origin, '>>>>>>>>>>>>>', window.location.origin.includes("3011"))
     // console.log("main url ", window.location.origin)
-    if (window.location.origin.includes("carselona")) {
-      localStorage.setItem("API", JSON.stringify(true))
-      const stats = JSON.parse(localStorage.getItem("API") || "")
-      console.log('true', stats);
-   
-    }
-    else {
+    if (window.location.origin.includes("3011")) {
       console.log('window.location.origin', window.location.origin);
       localStorage.setItem("API", JSON.stringify(false))
       const stats = JSON.parse(localStorage.getItem("API") || "")
       console.log('false', stats);
-    
+    }
+    else {
+      localStorage.setItem("API", JSON.stringify(true))
+      console.log('window.location.origin', window.location.origin);
+      const stats = JSON.parse(localStorage.getItem("API") || "")
+      console.log('true', stats);
     }
   }, [])
   return (
