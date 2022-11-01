@@ -24,26 +24,22 @@ const Toolbar1 = () => {
     localStorage.setItem("ischecked", JSON.stringify(!x))
     const is = JSON.parse(localStorage.getItem("ischecked") || "")
     console.log('xxxxxxxxxxxxxxxxx', is);
-  
   }
   React.useEffect(() => {
- 
-      // console.log(3,localKey)
-      // console.log("main url ", window.location.origin)
-      if (window.location.origin.includes(".com")) {
-        console.log('window.location.origin', window.location.origin);
-        localStorage.setItem("API", JSON.stringify(true))
-        const stats = JSON.parse(localStorage.getItem("API") || "")
-        console.log('true', stats);
-      
-      }
-      else{
-        console.log('window.location.origin', window.location.origin);
-        localStorage.setItem("API", JSON.stringify(false))
-        const stats = JSON.parse(localStorage.getItem("API") || "")
-        console.log('false', stats);
-      }
-    
+    // console.log(3,localKey)
+    // console.log("main url ", window.location.origin)
+    if (window.location.origin.includes(":")) {
+      console.log('window.location.origin', window.location.origin);
+      localStorage.setItem("API", JSON.stringify(false))
+      const stats = JSON.parse(localStorage.getItem("API") || "")
+      console.log('false', stats);
+    }
+    else {
+      console.log('window.location.origin', window.location.origin);
+      localStorage.setItem("API", JSON.stringify(true))
+      const stats = JSON.parse(localStorage.getItem("API") || "")
+      console.log('true', stats);
+    }
   }, [])
   return (
     <>
