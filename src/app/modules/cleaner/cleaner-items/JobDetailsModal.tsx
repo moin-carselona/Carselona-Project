@@ -8,12 +8,12 @@ const JobDetailsModal = (props: any) => {
   let arr: any[] = []
   data.map((item: any) => {
     item.attendence_data.map((data: any) => {
-      data.timeslot_data.filter((inner: any) => {
+      data.timeslot_data["06AM-07AM"].filter((inner: any) => {
         arr.push(inner)
       })
     })
   })
-  // console.log('arr', arr);
+
   
   let filteredData = arr.filter((item: any) => item.cleanerid === id)[0]
 

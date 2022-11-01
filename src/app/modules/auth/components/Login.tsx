@@ -55,7 +55,9 @@ export function Login() {
         const response = await handleLogin(payload);
         if (response.status === 200) {
           localStorage.setItem(Constants.token, response.authToken);
-          localStorage.setItem(Constants.user, JSON.stringify(response.data.user));
+          localStorage.setItem(Constants.user, JSON.stringify(response.data.id));
+          // localStorage.setItem("userData", JSON.stringify(response.data.id));
+
           setLoggedIn(true);
           window.location.href = '/dashboard';
 // if(isLoggedIn){

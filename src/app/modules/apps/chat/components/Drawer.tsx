@@ -8,7 +8,7 @@ const Drawer: FC = () => {
       <div className='d-flex flex-wrap flex-stack mb-6'>
         <h3 className='fw-bolder my-2'>
           My Contacts
-          <span className='fs-6 text-gray-400 fw-bold ms-1'>(59)</span>
+          <span className='fs-6 text-gray-400 fw-bold ms-1'>(60)</span>
         </h3>
 
         <div className='d-flex my-2'>

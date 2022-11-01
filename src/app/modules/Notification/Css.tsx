@@ -12,29 +12,54 @@ export const PushNotifyCssBTN: CSS.Properties = { width: "100%" }
 export const PushNotifyCssBTNPush: CSS.Properties = { width: "60%", display: "flex", alignItems: "center", justifyContent: "center" }
 export const PushNotifyCssBTNChceckBoxParent: CSS.Properties = { width: "50%", display: "flex", height: "20", alignItems: "center", justifyContent: "start", gap: "10px" }
 export const PushNotifyCssBTNChceckBox: CSS.Properties = { marginTop: "-12px" }
-export const Create_BtnCssView: CSS.Properties = { width: "100px",  height:"30px", border:"0.2px solid #519ff7", color:"white", background:"#519ff7" }
+export const Create_BtnCssView: CSS.Properties = { width: "100px", height: "30px", border: "0.2px solid #519ff7", color: "white", background: "#519ff7" }
 export const colourStyles = {
     option: (styles: any, { data, isDisabled, isFocused, isSelected, width }: any) => {
         return {
             ...styles,
             backgroundColor: isFocused ? "#519ff7" : null,
             color: "#333333", width: "100%",
-           
+
         };
     },
     control: (styles: any, { isFocused, isSelected }: any) => {
         return {
             ...styles,
             color: "#333333", width: "100%",
-            border:  "0.2px solid #519ff7" 
+            border: "0.2px solid #519ff7"
             // boxShadow: isFocused ? "0px 0px 6px #ff8b67" : "none",
-           
+
         };
     },
     input: (styles: any) => {
         return {
             ...styles,
-            width: "450px"
+            width: "200px"
+        };
+    }
+}
+export const colourStyles2 = {
+    option: (styles: any, { data, isDisabled, isFocused, isSelected, width }: any) => {
+        return {
+            ...styles,
+            backgroundColor: isFocused ? "#519ff7" : null,
+            color: "#333333", width: "100%",
+
+        };
+    },
+    control: (styles: any, { isFocused, isSelected }: any) => {
+        return {
+            ...styles,
+            color: "#333333", width: "100%",
+            border: "0.2px solid whitesmoke"
+            // boxShadow: isFocused ? "0px 0px 6px #ff8b67" : "none",
+
+        };
+    },
+    input: (styles: any) => {
+        return {
+            ...styles,
+            width: "200px"
         };
     }
 }

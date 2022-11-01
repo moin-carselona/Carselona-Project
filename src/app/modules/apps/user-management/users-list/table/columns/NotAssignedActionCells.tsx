@@ -9,15 +9,20 @@ import { deleteUser } from '../../core/_requests'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import React from 'react'
+import { useCallback } from 'react'
 import { Dialog } from '@mui/material'
 import AssignerCleanerComponent from '../../../../../stats/StatsItems/AssignerCleanerComponent'
 import ChangeCleanerComponent from '../../../../../stats/StatsItems/ChangeCleanerComponent'
+import { useDispatch } from 'react-redux'
 
 type Props = {
   id: ID
+  data:any
+  referece :string
 }
 
-const NotAssignedActionCells: FC<Props> = ({ id }) => {
+const NotAssignedActionCells: FC<Props> = ({ referece, id,data }) => {
+  const dispatch = useDispatch()
   const { setItemIdForUpdate } = useListView()
   const { query } = useQueryResponse()
   const queryClient = useQueryClient()
@@ -36,7 +41,7 @@ const NotAssignedActionCells: FC<Props> = ({ id }) => {
     onSuccess: () => {
       // ✅ update detail view directly
       queryClient.invalidateQueries([`${QUERIES.USERS_LIST}-${query}`])
-    },
+    }, 
   })
 
   const handleChangeStatus = (id: ID) => {
@@ -54,9 +59,35 @@ const NotAssignedActionCells: FC<Props> = ({ id }) => {
     }
   }
 
+  // const handleEditModal = (id: any) => {
+  //   // console.log('order id from UserActonsCell', id);
+  //   dispatch({type:"ASSIGN_CLEANER_ID", payload: id})
+  //   // setModalOpen(true)
+    // let filteredData = data.filter((item: any) => item.id === id)[0]
+    // console.log('Assign cleaner Details', filteredData);
+    // // console.log('data assin clean', data);
+    // setId(id)
+    // navigate('assign-cleaner-view',{
+    //   state: {
+    //     filteredData
+    //   }
+    // })
+  // }
+  
   const handleAssignCleanerOpen = (id: any) => {
-    setId(id);
-    setAssignCleanerOpen(true);
+    dispatch({type:"ASSIGN_CLEANER_ID", payload: id})
+
+    let filteredData = data.filter((item: any) => item.id === id)[0]
+    console.log('Assign cleaner Details from not assign ', filteredData);
+    // console.log('data assin clean', data);
+    setId(id)
+    navigate('/apps/statistics/same-day/assign-cleaner-view',{
+      state: {
+        filteredData, referece
+      }
+    })
+    // setId(id);
+    // setAssignCleanerOpen(true);
   }
 
   const handleChangeCleanerOpen = (id: any) => {
@@ -99,7 +130,7 @@ const NotAssignedActionCells: FC<Props> = ({ id }) => {
         <div className='menu-item px-3'>
           <a className='menu-link px-3 bg-success text-white'
             onClick={() => handleAssignCleanerOpen(id)}>
-            Assign Cleaner
+            Assign Cleaner Not Active
           </a>
         </div>
         <div className='menu-item px-3'>

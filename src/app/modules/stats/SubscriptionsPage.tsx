@@ -15,7 +15,7 @@ import PausedStatsComponent from './StatsItems/PausedStatsComponent'
 import ReactivatedSubscriptionComponent from './StatsItems/ReactivatedSubscriptionComponent'
 import RenewedSubscriptionComponent from './StatsItems/RenewedSubscriptionComponent'
 import SameDayStatsComponent from './StatsItems/SameDayStatsComponent'
-import UpcomingStatsComponent from './StatsItems/UpcomingStatsComponent.'
+import UpcomingStatsComponent from '../NotAssignedCleaner/UpcomingStatsComponent.'
 import UpdateSubscriptionComponent from './StatsItems/UpdateSubscriptionComponent'
 
 const SubscriptionsPage = () => {

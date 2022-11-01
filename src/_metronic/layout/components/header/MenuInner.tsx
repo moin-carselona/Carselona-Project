@@ -19,7 +19,7 @@ export function MenuInner() {
         {/* PAGES */}
         <MenuInnerWithSub
           title='Pages'
-          to='/crafted/pages'
+          to='/crafted/pagesss'
           fontIcon='bi-archive'
           hasArrow={true}
           menuPlacement='right-start'
@@ -53,6 +53,18 @@ export function MenuInner() {
           >
             <MenuItem to='/crafted/pages/wizards/horizontal' title='Horizontal' hasBullet={true} />
             <MenuItem to='/crafted/pages/wizards/vertical' title='Vertical' hasBullet={true} />
+          </MenuInnerWithSub>
+          <MenuInnerWithSub
+            title='tickets'
+            to='/tickets/details'
+            hasArrow={true}
+            hasBullet={true}
+            menuPlacement='right-start'
+            menuTrigger={`{default:'click', lg: 'hover'}`}
+          >
+            <MenuItem to='/tickets/details/address' title='Address' hasBullet={true} />
+            <MenuItem to='/tickets/details/subscription' title='Address' hasBullet={true} />
+            {/* <MenuItem to='/crafted/pages/wizards/vertical' title='Vertical' hasBullet={true} /> */}
           </MenuInnerWithSub>
         </MenuInnerWithSub>
 

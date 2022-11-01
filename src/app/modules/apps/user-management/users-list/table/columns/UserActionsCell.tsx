@@ -7,6 +7,8 @@ import {
   // Modal,
   // Typography
 } from '@mui/material'
+import { useCallback } from 'react'
+
 import axios from 'axios'
 
 import {MenuComponent} from '../../../../../../../_metronic/assets/ts/components'
@@ -19,13 +21,17 @@ import UpdateSubscriptionComponent from '../../../../../stats/StatsItems/UpdateS
 import ChangeCleanerComponent from '../../../../../stats/StatsItems/ChangeCleanerComponent'
 import ChangTimeSlotComponent from '../../../../../stats/StatsItems/ChangeTimeSlotComponent'
 import CleanerAvailability from '../../../../../cleaner/cleaner-items/CleanerAvailability'
+import { useDispatch } from 'react-redux'
 
 type Props = {
   id: ID
   data: any
+  referece:string
 }
 
-const UserActionsCell: FC<Props> = ({id, data}) => {
+const UserActionsCell: FC<Props> = ({referece, id, data}) => {
+  const dispatch = useDispatch()
+  // console.log('userACtion id', id);
   const {setItemIdForUpdate} = useListView()
   const {query} = useQueryResponse()
   const queryClient = useQueryClient()
@@ -74,18 +80,24 @@ const UserActionsCell: FC<Props> = ({id, data}) => {
   }
 
   const handleEditModal = (id: any) => {
+    // console.log('order id from UserActonsCell', id);
+    dispatch({type:"ASSIGN_CLEANER_ID", payload: id})
     // setModalOpen(true)
     let filteredData = data.filter((item: any) => item.id === id)[0]
-    console.log('data assin clean', data);
+    console.log('Assign cleaner Details', filteredData);
+    // console.log('data assin clean', data);
     setId(id)
     navigate('assign-cleaner-view',{
       state: {
-        filteredData
+        filteredData,
+        referece
       }
     })
   }
 
   const handleAssignCleanerOpen = (id: any) => {
+    console.log('id moin assign', id);
+    console.log("assigned moin ")
     setAssignCleanerOpen(true)
     setId(id)
   }
@@ -154,7 +166,7 @@ const UserActionsCell: FC<Props> = ({id, data}) => {
             data-kt-users-table-filter='delete_row'
             onClick={() => handleEditModal(id)}
           >
-            Assign Cleaner
+            Assign Cleaner Active
           </a>
         </div>
 

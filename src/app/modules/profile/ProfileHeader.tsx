@@ -7,6 +7,7 @@ import {useLocation} from 'react-router-dom'
 
 const ProfileHeader: React.FC = () => {
   const location = useLocation()
+  // console.log('location moi', location);
 
   return (
     <div className='card mb-5 mb-xl-10'>
@@ -173,6 +174,7 @@ const ProfileHeader: React.FC = () => {
               >
                 Overview
               </Link>
+           
             </li>
             <li className='nav-item'>
               <Link

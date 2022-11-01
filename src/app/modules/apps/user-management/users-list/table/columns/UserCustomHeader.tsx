@@ -11,7 +11,7 @@ type Props = {
   tableProps: PropsWithChildren<HeaderProps<User>>
 }
 const UserCustomHeader: FC<Props> = ({className, title, tableProps}) => {
-  console.log('tableProps', tableProps);
+  // console.log('tableProps', tableProps);
   const id = tableProps.column.id
   const {state, updateState} = useQueryRequest()
 

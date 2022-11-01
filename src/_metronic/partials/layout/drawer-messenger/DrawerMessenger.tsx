@@ -1,10 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {FC} from 'react'
+import { ChatBox } from '../../../../app/modules/Tickets/ChatBox'
+import DialogBox from '../../../../app/modules/Tickets/DialogBox/DialogBox'
 import {KTSVG} from '../../../helpers'
-import {ChatInner} from '../../chat/ChatInner'
+// import {ChatInner} from '../../chat/ChatInner'
 
-const DrawerMessenger: FC = () => (
-  <div
+const DrawerMessenger: FC = () => {
+const [PopOpenClose, setPopOpenClose] = React.useState(false)
+
+ const TicketCustomerInformationPopupBTN = ()=>{
+  setPopOpenClose(!PopOpenClose)
+}
+  return (
+
+    <div
     id='kt_drawer_chat'
     className='bg-body'
     data-kt-drawer='true'
@@ -21,7 +30,7 @@ const DrawerMessenger: FC = () => (
         <div className='card-title'>
           <div className='d-flex justify-content-center flex-column me-3'>
             <a href='#' className='fs-4 fw-bolder text-gray-900 text-hover-primary me-1 mb-2 lh-1'>
-              Brian Cox
+               Carselona Daily - Chat 
             </a>
 
             <div className='mb-0 lh-1'>
@@ -39,7 +48,7 @@ const DrawerMessenger: FC = () => (
               data-kt-menu-placement='bottom-end'
               data-kt-menu-flip='top-end'
             >
-              <i className='bi bi-three-dots fs-3'></i>
+              <i className='bi bi-three-dots fs-3' onClick={TicketCustomerInformationPopupBTN}></i>
             </button>
           </div>
 
@@ -49,9 +58,13 @@ const DrawerMessenger: FC = () => (
         </div>
       </div>
 
-      <ChatInner isDrawer={true} />
+      {/* <ChatInner isDrawer={true} > */}
+      <ChatBox isDrawer={true}></ChatBox>
+ {PopOpenClose && <DialogBox TicketCustomerInformationPopupBTN={TicketCustomerInformationPopupBTN} PopOpenClose={PopOpenClose} />}
+
     </div>
   </div>
-)
+  )
+}
 
 export {DrawerMessenger}

@@ -51,6 +51,23 @@ export function AsideMenuMain() {
           <AsideMenuItem to='/crafted/pages/wizards/vertical' title='Vertical' hasBullet={true} />
         </AsideMenuItemWithSub>
       </AsideMenuItemWithSub>
+
+      {/* tickets ========================================================= */}
+      <AsideMenuItemWithSub
+        to='/crafted/pages'
+        title='Tickets'
+        fontIcon='bi-archive'
+        icon='/media/icons/duotune/general/gen022.svg'
+      >
+        <AsideMenuItemWithSub to='/crafted/pages/tickets' title='All Tickets' hasBullet={true}>
+          <AsideMenuItem to='/crafted/pages/tickets/Address' title='Address' hasBullet={true} />
+          <AsideMenuItem to='/crafted/pages/tickets/subscription' title='subscription' hasBullet={true} />
+  
+        </AsideMenuItemWithSub>
+  
+      </AsideMenuItemWithSub>
+
+      {/* tickets =========================================================== */}
       {/* <AsideMenuItemWithSub
         to='/crafted/accounts'
         title='Accounts'
@@ -178,7 +195,24 @@ export function AsideMenuMain() {
       >
         <AsideMenuItem to='/notification/template' title='Template' hasBullet={true} />
         <AsideMenuItem to='/notification/send-notification' title='Send Notification' hasBullet={true} />
-      
+      </AsideMenuItemWithSub>
+    {/* all rating side menu   */}
+      <AsideMenuItemWithSub
+        to='/ratings'
+        title='All Ratings'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/all/ratings' title='Ratings' hasBullet={true} />
+      </AsideMenuItemWithSub>
+    {/* all tickets side menu   */}
+      <AsideMenuItemWithSub
+        to='/Tickets'
+        title='All Tickets'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/all/tickets' title='Tickets' hasBullet={true} />
       </AsideMenuItemWithSub>
     </>
   )

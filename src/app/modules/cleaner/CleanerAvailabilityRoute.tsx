@@ -1,6 +1,9 @@
 import { Dialog } from '@mui/material'
 import axios from 'axios'
 import React, { useMemo } from 'react'
+
+import moment from "moment";
+import { toast } from 'react-toastify'
 import { useLocation } from 'react-router'
 import { useTable } from 'react-table'
 import { cleanerJobColumns } from '../apps/user-management/users-list/table/columns/_cleanerJobColumns'
@@ -8,6 +11,9 @@ import { adminBaseCleanerAvailibilityURL } from './api'
 import CleanerDetailsModel from './cleaner-items/CleanerDetailsModel'
 import JobDetailsModal from './cleaner-items/JobDetailsModal'
 import CleanerTableBodyComponent from './common/CleanerTableBodyComponent'
+import MultiSelect from './common/MultiSelect'
+import { useSelector } from 'react-redux';
+import { MonthString,MonthNumber } from './Months';
 const CleanerAvailabilityRoute = (props: {
   subscriptionId?: any
   distenceRadius?: string
@@ -15,47 +21,73 @@ const CleanerAvailabilityRoute = (props: {
 }) => {
   const { subscriptionId, distenceRadius, iscleanerpage } = props
   const { state }: any = useLocation()
-  const { filteredData = {} } = state || {}
+  const { filteredData = {}, referece } = state || {}
+  console.log('referece', referece);
+  // console.log('filteredData', filteredData);
   const [cleanerStats, setCleanerStats] = React.useState<any>([])
   // console.log('cleanerStats', cleanerStats);
   const [distenceRadeus, setDistenceRadeus] = React.useState<any>(3)
-  // console.log('distenceRadeus', distenceRadeus);
   const [dates, setDates] = React.useState<any>([])
+  // console.log('dates', dates);
+  const [empty] = React.useState<any>([])
   const [superVisor, setSuperVisor] = React.useState([])
   const [cleanerList, setCleanerList] = React.useState([])
-  const [timeSlots, setTimeSlots] = React.useState([])
+  const [timeSlots, setTimeSlots] = React.useState<any>([])
+  const [timeSlotsfilter, settimeSlotsfilter] = React.useState([])
+  const [SelectedTimingMultiSelect, setSelectedTimingMultiSelect] = React.useState<any>([])
+  const [timingSlots, setTimingslots] = React.useState<any>([])
+  // console.log('SelectedTimingMultiSelect', SelectedTimingMultiSelect);
   const [selectedCleaner, setCleaner] = React.useState('0')
-  const [selectedSupervisor, setSelectedSupervisor] = React.useState('')
+  // const [selectedSupervisor, setSelectedTiming] = React.useState('')
   const [id, setId] = React.useState('')
   const [isModalOpen, setModalOpen] = React.useState(false)
   const [isCleanerModelOpen, setCleanerModelOpen] = React.useState(false)
   const [isLoading, setLoading] = React.useState(false)
   const [countData, setCountData] = React.useState<any>(Object)
-  const [attendencedatefrom, setAttendencedatefrom] = React.useState('2022-08-29')
-  const [attendencedateto, setAttendencedateto] = React.useState('2022-09-03')
+  const today = new Date();
+
+  let firstDay = new Date(today.setDate(today.getDate() - today.getDay())).toString();
+  let lastDay = new Date(today.setDate(today.getDate() - today.getDay() + 6)).toString();
+  // console.log('lastDay', lastDay);
+  let FirstDate :any =  MonthString.indexOf(firstDay.split(" ")[1])
+  let lastDate :any =  MonthString.indexOf(lastDay.split(" ")[1])
+  let start = firstDay.split(" ")[3] +"-"+ MonthNumber[FirstDate] +"-"+ firstDay.split(" ")[2]
+  // console.log('start', start);
+  let last = lastDay.split(" ")[3] +"-"+ MonthNumber[lastDate] +"-"+ lastDay.split(" ")[2]
+  const [attendencedatefrom, setAttendencedatefrom] = React.useState<any>(start)
+  // console.log('attendencedatefrom', attendencedatefrom);
+  const [attendencedateto, setAttendencedateto] = React.useState<any>(last)
+  // console.log('attendencedateto', attendencedateto);
+  const [loading2, setloading2] = React.useState(false)
+  const [trackStatus, setTrackStatus] = React.useState(false)
   const data = useMemo(() => cleanerStats, [cleanerStats])
-  const columns = useMemo(() => cleanerJobColumns, [])
+  const columns = useMemo(() => cleanerJobColumns, [cleanerJobColumns])
+  const reference = useMemo(() => referece, [referece])
+  console.log('reference', reference);
   const AminBaseURL = adminBaseCleanerAvailibilityURL  // base url present in api.tsx file inside cleaner folder
-  // const API = "https://adminapi.carselonadaily.com/api/admin/getCleanerWeekTimeSlots"
-  // const API = "https://adminapi.carselonadaily.com/api/admin/getactivecleanerbycity"
-  // ?start=0&length=10&attendencedatefrom=2022-08-26&attendencedateto=2022-08-26
+  const subscription_order_id = useSelector((store: any) => store.ActivePaidSubscriptionReducer.Assign_cleaner_id)
+  // console.log('subscription_order_id', subscription_order_id);
+
   React.useEffect(() => {
-    // console.log('distenceRadius', distenceRadeus);
+
     setLoading(true)
-    const formData = new FormData()
-    // formData.append("city", "6");
-    // selectedCleaner
-    // formData.append("cleanerid", "0");
-    formData.append('fromDate', attendencedatefrom)
-    formData.append('toDate', attendencedateto)
-    formData.append('subscriptionID', subscriptionId)
-    distenceRadius
-      ? formData.append('distenceRadius', distenceRadeus)
-      : formData.delete('distenceRadius')
+
+    const payloads = {
+      fromDate: attendencedatefrom,
+      toDate: attendencedateto,
+      subscriptionID: filteredData?.id,
+      timeslots: empty,
+      distenceRadius: distenceRadeus
+    }
+
+
+
     axios
-      .post(`${AminBaseURL}/admin/getAvalabilitybySubscription`, formData)
+      .post(`${AminBaseURL}/admin/getAvalabilitybySubscription`, payloads)
       .then((response) => {
+        // console.log('response', response);
         setDates(response.data.dates)
+        settimeSlotsfilter(response.data.timeslots)
         setCleanerStats(response.data.data)
         setCountData(response.data.countData)
         setLoading(false)
@@ -88,102 +120,95 @@ const CleanerAvailabilityRoute = (props: {
         console.error('ERROR', error)
       })
   }, [])
-  const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({
-    columns,
-    data,
-  })
+  // const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({
+  //   columns,
+  //   data,
+  // })
   const handleFromDateChange = (e: any) => {
+    setloading2(true)
+
+    setTrackStatus(true)
     setAttendencedatefrom(e.target.value)
+    setloading2(false)
+
   }
   const handleToDateChange = (e: any) => {
+    setloading2(true)
+
+    setTrackStatus(true)
     setAttendencedateto(e.target.value)
+    setloading2(false)
+
   }
   const handleClick = () => {
-    // console.log('dates', dates);
-    const formData = new FormData()
-    // formData.append("city", "6");
-    // formData.append("cleanerid", selectedCleaner);
-    formData.append('fromDate', attendencedatefrom)
-    formData.append('toDate', attendencedateto)
-    formData.append('subscriptionID', subscriptionId)
-    distenceRadius
-      ? formData.append('distenceRadius', distenceRadeus)
-      : formData.delete('distenceRadius')
-    // const payload = {
-    //     city: 6,
-    //     cleanerid: selectedCleaner,
-    //     fromDate: attendencedatefrom,
-    //     toDate: attendencedateto
-    // }
-    setLoading(true)
-    axios
-      .post(`${AminBaseURL}/admin/getAvalabilitybySubscription`, formData)
-      .then((response) => {
-        console.log('response', response);
-        setCleanerStats(response.data.data)
-        setCountData(response.data.countData)
-        setDates(response.data.dates)
-        setLoading(false)
-      })
-      .catch((error) => {
-        setLoading(false)
-      })
-    // console.log('dates 2', dates);
-  }
-  const handleSupervisorChange = (e: any) => {
-    setLoading(true)
-    // const formData = new FormData();
-    // formData.append("city", "6");
-    // formData.append("cleanerid", e.target.value);
-    // formData.append("fromDate", attendencedatefrom);
-    // formData.append("toDate", attendencedateto);
-    setSelectedSupervisor(e.target.value)
-    const payload = {
-      city: 6,
-      cleanerid: '0',
-      fromData: attendencedatefrom,
-      toDate: attendencedateto,
-      societyid: e.target.value,
+    console.log('SelectedTimingMultiSelect', SelectedTimingMultiSelect);
+
+    // console.log('subscription_order_id clicked', subscription_order_id, timeSlotsfilter.length);
+
+    if (!trackStatus && timeSlotsfilter.length != 0) {
+      toast.error("Already Ckecked Plz Select field")
     }
-    axios
-      .post(`${AminBaseURL}/admin/getAvalabilitybySubscription`, payload)
-      .then((response) => {
-        setCleanerStats(response.data.data)
-        setCountData(response.data.countData)
-        setLoading(false)
-      })
-      .catch((error) => {
-        setLoading(false)
-      })
+    else {
+      let arr = []
+      for (let i = 0; i < timingSlots.length; i++) {
+        let payload = {
+          name: timingSlots[i]
+        }
+        arr.push(payload)
+      }
+      // console.log('arr', arr);
+      setTimeSlots(arr)
+      setloading2(true)
+      const payloads = {
+        fromDate: attendencedatefrom,
+        toDate: attendencedateto,
+        subscriptionID: filteredData?.id,
+        timeslots: empty || SelectedTimingMultiSelect,
+        distenceRadius: distenceRadeus
+      }
+      axios
+        .post(`${AminBaseURL}/admin/getAvalabilitybySubscription`, payloads)
+        .then((response) => {
+          // console.log('onlcick', response);
+          setDates(response.data.dates)
+          settimeSlotsfilter(response.data.timeslots)
+          setCleanerStats(response.data.data)
+          setloading2(false)
+          setTrackStatus(false)
+        })
+        .catch((error) => {
+          setloading2(false)
+        })
+    }
   }
   const handleCleanerChange = (e: any) => {
-    setLoading(true)
-    // const formData = new FormData();
-    // formData.append("city", "6");
-    // formData.append("cleanerid", "0");
-    // formData.append("fromDate", attendencedatefrom);
-    // formData.append("toDate", attendencedateto);
-    // formData.append("societyid", e.target.value)
+    setTrackStatus(true)
+    setloading2(true)
     setCleaner(e.target.value)
     const payload = {
-      city: 6,
-      cleanerid: e.target.value,
+      cleanerid: +e.target.value,
       fromData: attendencedatefrom,
+      timeslots: empty || SelectedTimingMultiSelect,
+
       toDate: attendencedateto,
-      societyid: selectedSupervisor,
+      subscriptionID: filteredData?.id,
+      distenceRadius: distenceRadeus
+
+
     }
     axios
       .post(`${AminBaseURL}/admin/getAvalabilitybySubscription`, payload)
       .then((response) => {
         setCleanerStats(response.data.data)
         setCountData(response.data.countData)
-        setLoading(false)
+        setloading2(false)
       })
       .catch((error) => {
-        setLoading(false)
+        setloading2(false)
       })
   }
   const handleDistanceFormData = (e: any) => {
+    setTrackStatus(true)
     setDistenceRadeus(e.target.value)
   }
   const handleJobDetailSubmit = (id: any) => {
@@ -210,20 +235,28 @@ const CleanerAvailabilityRoute = (props: {
   }
   return (
     <>
-      {!iscleanerpage && (
+      {!iscleanerpage && cleanerStats && (
         <div className='card mb-3 d-flex flex-row  justify-content-between position-sticky' style={{ top: "117px", zIndex: 99 }}>
           <div className='my-2'>
-            <div className='me-1 my-2'>
-              <span className='bg-secondary fw-bolder fs-3 rounded p-1'>
+            {/* <div className='me-1 my-2'>
+              <span className='fw-bolder fs-5 me-1'>
                 {filteredData?.frequencyname}
               </span>
+            </div> */}
+            <div className='d-flex'>
+              <span className='fw-bolder fs-5 me-1'>{'Frequency :'}</span>
+              <span className='text-muted fs-5'>{filteredData?.frequencyname} </span>
             </div>
             <div className='d-flex'>
-              <span className='text-muted fs-5 me-1'>{filteredData?.startdate}</span>
-              <span className='text-muted fs-5 me-1'>To</span>
-              <span className='text-muted fs-5'>{filteredData?.enddate}</span>
+              <span className='fw-bolder fs-5 me-1'>{'Subscription Date :'}</span>
+              <span className='text-muted fs-5'>{filteredData?.startdate} to {filteredData?.enddate}  </span>
             </div>
-            <div className='d-flex'>
+            {/* <div className='d-flex'>
+              <span className='text-muted fs-6 me-1 fw-bolder'>{filteredData?.startdate}</span>
+              <span className='text-muted fs-6 me-1 fw-bolder'>To</span>
+              <span className='text-muted fs-6 fw-bolder'>{filteredData?.enddate}</span>
+            </div> */}
+            {/* <div className='d-flex'>
               <span className='fw-bolder fs-5 me-1'>{'Payment Date:'}</span>
               <span className='text-muted fs-5'>{filteredData?.paymentdate}</span>
             </div>
@@ -234,50 +267,57 @@ const CleanerAvailabilityRoute = (props: {
             <div className='d-flex'>
               <span className='fw-bolder fs-5 me-1'>{'Payment Method:'}</span>
               <span className='text-muted fs-5'>{filteredData?.payment_mode}</span>
-            </div>
+            </div> */}
           </div>
           <div className='my-2'>
-            <div className='me-1 my-2'>
+            {/* <div className='me-1 my-2'>
               <span className='bg-secondary fw-bolder fs-3 rounded p-1'>Cleaner</span>
-            </div>
+            </div> */}
+
             <div className='d-flex'>
-              <span className='fw-bolder fs-5 me-1'>{'Cleaner Name:'}</span>
+              <span className='fw-bolder fs-5 me-1'>{'Customer Name:'}</span>
               <span className='text-muted fs-5'>{filteredData?.name}</span>
             </div>
             <div className='d-flex'>
-              <span className='fw-bolder fs-5 me-1'>{'Cleaner phone:'}</span>
+              <span className='fw-bolder fs-5 me-1'>{'Customer phone:'}</span>
               <span className='text-muted fs-5'>{filteredData?.phone}</span>
             </div>
           </div>
           <div className='my-2'>
-            <div className='me-1 my-2'>
+            {/* <div className='me-1 my-2'>
               <span className='bg-secondary fw-bolder fs-3 rounded p-1'>TimeSlot</span>
-            </div>
+            </div> */}
             <div className='d-flex'>
               <span className='fw-bolder fs-5 me-1'>{'Time:'}</span>
               <span className='text-muted fs-5'>{filteredData?.timeslotname}</span>
             </div>
-            <span className='text-muted fs-5'>{filteredData?.frequencyname}</span>
+            <div className='d-flex'>
+              <span className='fw-bolder fs-5 me-1'>{'Cleaning:'}</span>
+              <span className='text-muted fs-5'>{filteredData?.fulldaycleaning}</span>
+            </div>
           </div>
         </div>
       )}
       <div className='card'>
         <div className='d-flex mb-3 justify-content-around align-items-center flex-wrap px-3'>
           <div className='col-12 col-sm-12 col-md-12 col-lg-5 d-flex align-items-center mt-3'>
-            <select
+            {/* <select
               className='form-select form-select-solid me-2'
-              onChange={handleSupervisorChange}
-              value={selectedSupervisor}
+              onChange={handleSelectedTimeslot}
+              // value={selectedSupervisor}
             >
-              <option value=''>Select Society</option>
-              {superVisor?.map((item: any) => {
+              <option value=''>Filter By Time</option>
+              {timeSlotsfilter?.map((item: any) => {
                 return (
                   <option value={item.id} key={item.id}>
                     {item.name}
                   </option>
                 )
               })}
-            </select>
+            </select> */}
+            <span className='me-2' >
+              <MultiSelect setSelectedTimingMultiSelect={setSelectedTimingMultiSelect} setTrackStatus={setTrackStatus} setTimingslots={setTimingslots} timeSlotsfilter={timeSlotsfilter}></MultiSelect>
+            </span>
             <select
               className='form-select form-select-solid'
               onChange={handleCleanerChange}
@@ -305,12 +345,13 @@ const CleanerAvailabilityRoute = (props: {
               type='date'
               className='form-select form-select-solid me-2'
               onChange={handleFromDateChange}
-              value={attendencedatefrom}
+              value={ attendencedatefrom}
             />
             <input
               type='date'
               className='form-select form-select-solid me-2'
               onChange={handleToDateChange}
+              defaultValue={attendencedateto}
               value={attendencedateto}
             />
             <div>
@@ -320,42 +361,49 @@ const CleanerAvailabilityRoute = (props: {
             </div>
           </div>
         </div>
-        <div className='table-responsive px-3'>
-          <table
-            id='kt_table_users'
-            className='table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer'
-          >
-            <thead>
-              <tr>
-                <th style={{ width: '130px' }}>
-                  <div className='bg-secondary text-dark py-2 me-2 text-center fw-bolder rounded'>
-                    Cl Name
-                  </div>
-                </th>
-                <th>
-                  <div className='bg-secondary text-dark py-2 me-2 text-center fw-bolder rounded'>
-                    TimeSlots
-                  </div>
-                </th>
-                {dates?.map((item: any) => (
-                  <th key={item}>
-                    <div
-                      className='bg-secondary text-success py-2 me-1 text-center fw-bolder rounded'
-                      style={{ maxWidth: '230px', width: '140px' }}
-                    >
-                      {item}
+        {loading2 ? <div className='d-flex align-items-center justify-content-center h-75 flex-column'>
+          <div className='spinner-border mr-15' role='status'></div>
+          <h4 className='fw-bold mt-2'>Loading...</h4>
+        </div> :
+          <div className='table-responsive px-3'>
+            <table
+              id='kt_table_users'
+              className='table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer'
+            >
+              <thead>
+                <tr>
+                  <th style={{ width: '130px' }}>
+                    <div className='bg-secondary text-dark py-2 me-2 text-center fw-bolder rounded'>
+                      Cl Name
                     </div>
                   </th>
-                ))}
-              </tr>
-            </thead>
-            <CleanerTableBodyComponent
-              cleanerStats={cleanerStats}
-              timeSlots={timeSlots}
-              handleJobDetailSubmit={handleJobDetailSubmit} handleCleanerDetailsSubmit={handleCleanerDetailsSubmit}
-            />
-          </table>
-        </div>
+                  <th>
+                    <div className='bg-secondary text-dark py-2 me-2 text-center fw-bolder rounded'>
+                      TimeSlots
+                    </div>
+                  </th>
+                  {dates?.map((item: any) => (
+                    <th key={item}>
+                      <div
+                        className='bg-secondary text-success py-2 me-1 text-center fw-bolder rounded'
+                        style={{ maxWidth: '230px', width: '140px' }}
+                      >
+                        {item}
+                      </div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              {
+                cleanerStats && <CleanerTableBodyComponent
+                  cleanerStats={cleanerStats}
+                  timeSlots={timeSlots}
+                  handleJobDetailSubmit={handleJobDetailSubmit} handleCleanerDetailsSubmit={handleCleanerDetailsSubmit}
+                />
+              }
+            </table>
+          </div>
+        }
         {isModalOpen && (
           <Dialog
             open={true}
@@ -373,7 +421,7 @@ const CleanerAvailabilityRoute = (props: {
             aria-labelledby='alert-dialog-title'
             aria-describedby='alert-dialog-description'
           >
-            <CleanerDetailsModel id={id} data={data} handleCloseModalCleaner={handleCloseModalCleaner} />
+            <CleanerDetailsModel referece={referece} timeSlotsfilter={timeSlotsfilter} filteredCustomerData={filteredData} id={id} subscription_order_id={subscription_order_id} data={data} handleCloseModalCleaner={handleCloseModalCleaner} CustomerDetails={filteredData} />
           </Dialog>
         )}
       </div>

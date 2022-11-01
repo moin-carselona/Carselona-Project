@@ -18,6 +18,7 @@ export function login(email: string, password: string) {
 }
 export async function handleLogin(payload: LoginModel) {
   const response = await axios.post(LOGIN_URL, payload);
+
   return response.data;
 }
 // Server should return AuthModel
@@ -73,7 +74,6 @@ type medias = {
 export function getNotification() {
   return axios.get(REQUEST_NOTIFICATION_URL)
 }
-
 export function GetCartNotificationData() {
   return axios.get(REQUEST_NOTIFICATION_URL)
 }
@@ -87,8 +87,6 @@ export function SendNotificationTemplateToServer(templateData: any) {
   console.log('formdata', formdata);
   return axios.post(SEND_TEMPLATE_TO_SERVER, formdata)
 }
-
 export function getViewMedia(Templateid: any) {
-
   return axios.post(REQUEST_VIEW_MEDIA_URL, Templateid)
 }

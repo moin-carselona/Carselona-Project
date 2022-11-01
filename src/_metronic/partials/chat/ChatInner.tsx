@@ -53,28 +53,29 @@ const ChatInner: FC<Props> = (props, { isDrawer = false }) => {
   // }
 
   const sendMessage = (e: React.MouseEvent) => {
+    console.log("chat runned")
     // console.log("sda", userData.id)
     // console.log("sda", tickets)
-    const isPrivateMessage = e.currentTarget.id === 'private-message';
-    // ticketid: 4571
-    // answer: dd
-    // userid: 7
-    const formData = new FormData();
-    formData.append("ticketid", tickets.id)
-    formData.append("answer", message)
-    formData.append("userid", userData.id)
-    // isPrivateMessage ? formData.append("is", userData.id) : formData.delete()
-    setLoading(true)
-    axios.post('https://adminapi.carselonadaily.com/api/admin/replyonticketbyadmin', formData)
-      .then(response => {
-        setLoading(false)
-        toast.success("Message sent")
-        console.log("SUBCES")
-      }).catch(error => {
-        console.log(error);
-        setLoading(false)
-        toast.error("Something went wrong")
-      })
+    // const isPrivateMessage = e.currentTarget.id === 'private-message';
+    // // ticketid: 4571
+    // // answer: dd
+    // // userid: 7
+    // const formData = new FormData();
+    // formData.append("ticketid", tickets.id)
+    // formData.append("answer", message)
+    // formData.append("userid", userData.id)
+    // // isPrivateMessage ? formData.append("is", userData.id) : formData.delete()
+    // setLoading(true)
+    // axios.post('https://adminapi.carselonadaily.com/api/admin/replyonticketbyadmin', formData)
+    //   .then(response => {
+    //     setLoading(false)
+    //     toast.success("Message sent")
+    //     console.log("SUBCES")
+    //   }).catch(error => {
+    //     console.log(error);
+    //     setLoading(false)
+    //     toast.error("Something went wrong")
+    //   })
   }
 
   return (
@@ -128,7 +129,7 @@ const ChatInner: FC<Props> = (props, { isDrawer = false }) => {
                           href='#'
                           className='fs-5 fw-bolder text-gray-900 text-hover-primary me-1'
                         >
-                          {message.name}
+                          {message.name}  
                         </a>
                         <span className='text-muted fs-7 mb-1'>{message.createdAt}<small>{message.status == 1 ? '' : '(private message)'}</small></span>
                       </div>
@@ -156,7 +157,7 @@ const ChatInner: FC<Props> = (props, { isDrawer = false }) => {
                     `text-end`
                   )}
                   data-kt-element='message-text'
-                >{message.answers} </div>
+                >{message.answers } </div>
               </div>
             </div>
           )

@@ -78,7 +78,7 @@ const AssignerCleanerComponent: FC<Props> = ({ user, isUserLoading, selectedId }
     React.useEffect(() => {
         const formData = new FormData();
         formData.append('city', '6');
-        axios.post('https://adminapi.carselonadaily.com/api/admin/getactivecleanerforneworder', formData).then((response) => {
+        axios.post('https://testadminapi.carselonadaily.com/api/admin/getactivecleanerforneworder', formData).then((response) => {
             setResponseData(response.data);
             setLoading(false);
         }).catch(error => {
@@ -128,7 +128,7 @@ const AssignerCleanerComponent: FC<Props> = ({ user, isUserLoading, selectedId }
         formData.append('timeslotid', inputField.timeslotid);
         formData.append('jobsiteid', inputField.jobsiteid);
 
-        axios.post('https://adminapi.carselonadaily.com/api/admin/assigncleanertoneworder', formData).
+        axios.post('https://testadminapi.carselonadaily.com/api/admin/assigncleanertoneworder', formData).
         then((response) => {
             console.log("das", response.data)
             alert("Cleaner Assigned Successfully");

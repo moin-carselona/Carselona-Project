@@ -1,8 +1,12 @@
 import { applyMiddleware, compose, combineReducers, legacy_createStore } from 'redux'
 import thunk from 'redux-thunk'
 import { NotificationActionReducer } from "./Reducer/Notification/NotificationCreateReducer"
+import { ChatReducers } from "./Reducer/Chat/ChatReducer"
+import { ActivePaidSubscriptionReducer } from "./Reducer/ActivePaidSubscription/ActivePaidSubscriptionReducer"
 const rootReducer = combineReducers({
-  NotificationActionReducer
+  NotificationActionReducer,
+  ChatReducers,
+  ActivePaidSubscriptionReducer
 })
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const middleware = [thunk]

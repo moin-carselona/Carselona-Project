@@ -1,31 +1,31 @@
-import {DataGrid} from '@mui/x-data-grid'
+import { DataGrid } from '@mui/x-data-grid'
 import axios from 'axios'
-import React, {ChangeEvent} from 'react'
-import {FC, useEffect, useMemo} from 'react'
-import {Link, NavLink, Outlet, Route, Routes} from 'react-router-dom'
-import {ColumnInstance, Row, useTable} from 'react-table'
-import {KTCardBody, KTSVG} from '../../../../_metronic/helpers'
-import {UsersListLoading} from '../../apps/user-management/users-list/components/loading/UsersListLoading'
-import {UsersListPagination} from '../../apps/user-management/users-list/components/pagination/UsersListPagination'
+import React, { ChangeEvent } from 'react'
+import { FC, useEffect, useMemo } from 'react'
+import { Link, NavLink, Outlet, Route, Routes } from 'react-router-dom'
+import { ColumnInstance, Row, useTable } from 'react-table'
+import { TEST_ADMIN_BASE_API_URL } from '../../../../apiGlobally'
+import { KTCardBody, KTSVG } from '../../../../_metronic/helpers'
+import { UsersListLoading } from '../../apps/user-management/users-list/components/loading/UsersListLoading'
+import { UsersListPagination } from '../../apps/user-management/users-list/components/pagination/UsersListPagination'
 import {
   useQueryResponseData,
   useQueryResponseLoading,
 } from '../../apps/user-management/users-list/core/QueryResponseProvider'
-import {User} from '../../apps/user-management/users-list/core/_models'
-import {Stats} from '../../apps/user-management/users-list/core/_stats'
-import {CustomHeaderColumn} from '../../apps/user-management/users-list/table/columns/CustomHeaderColumn'
-import {CustomRow} from '../../apps/user-management/users-list/table/columns/CustomRow'
+import { User } from '../../apps/user-management/users-list/core/_models'
+import { Stats } from '../../apps/user-management/users-list/core/_stats'
+import { CustomHeaderColumn } from '../../apps/user-management/users-list/table/columns/CustomHeaderColumn'
+import { CustomRow } from '../../apps/user-management/users-list/table/columns/CustomRow'
 import {
   muiColumns,
   statsColumn,
 } from '../../apps/user-management/users-list/table/columns/statsColumns'
-import {usersColumns} from '../../apps/user-management/users-list/table/columns/_columns'
-
+import { usersColumns } from '../../apps/user-management/users-list/table/columns/_columns'
+import Paginations from './Paginations'
 type Props = {
   activeSubscriptions: any
   isLoading: boolean
 }
-
 const ActiveStatsComponent: FC<Props> = (props: Props) => {
   const [query, setQuery] = React.useState('')
   const [superVisor, setSuperVisor] = React.useState([])
@@ -33,34 +33,34 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
   const [packageList, setPackageList] = React.useState([])
   const [isLoading, setLoading] = React.useState(false)
   const [searchValue, setSearchValue] = React.useState('')
+  const [CurrentStatus, SetCurrentStatus] = React.useState('')
+  const [start, setPageStart] = React.useState<any>(1)
   const [customerStats, setCustomerStats] = React.useState<any>([])
   const users = useQueryResponseData()
   // const isLoading = useQueryResponseLoading()
   const data = useMemo(() => customerStats, [customerStats])
+  console.log('data', data);
   const columns = useMemo(() => usersColumns, [])
   const [pageSize, setPageSize] = React.useState(10)
   const [pageIndex, setPageIndex] = React.useState(0)
-  const {getTableProps, getTableBodyProps, headers, rows, prepareRow} = useTable({
+  const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({
     columns,
     data,
   })
-
-  const API =
-    'https://testadminapi.carselonadaily.com/api/admin/allactivesubscriptionswithpaymentDatatable'
-
+  // console.log('headers', headers);
+  const API = `${TEST_ADMIN_BASE_API_URL}/admin/allactivesubscriptionswithpaymentDatatablepagination`
   React.useEffect(() => {
     setLoading(true)
     axios
-      .get(`${API}?start=0&length=10`)
+      .get(`${API}?start=0&length=10&orders=desc&columns=id`)
       .then((response) => {
         setCustomerStats(response.data.data)
       })
       .catch((error) => {
         console.log('ERROR', error)
       })
-
     axios
-      .get('https://testadminapi.carselonadaily.com/api/admin/getSupervisorList')
+      .get(`${TEST_ADMIN_BASE_API_URL}/admin/getSupervisorList`)
       .then((response) => {
         setSuperVisor(response.data.data)
         setLoading(false)
@@ -69,9 +69,8 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         console.error('ERROR', error)
         setLoading(false)
       })
-
     axios
-      .get('https://testadminapi.carselonadaily.com/api/admin/getCleanerList')
+      .get(`${TEST_ADMIN_BASE_API_URL}/admin/getCleanerList`)
       .then((response) => {
         setCleanerList(response.data.data)
         setLoading(false)
@@ -80,9 +79,8 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         console.error('ERROR', error)
         setLoading(false)
       })
-
     axios
-      .get('https://testadminapi.carselonadaily.com/api/admin/getActivePackageDetails')
+      .get(`${TEST_ADMIN_BASE_API_URL}/admin/getActivePackageDetails`)
       .then((response) => {
         setPackageList(response.data.data)
         setLoading(false)
@@ -92,7 +90,6 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         setLoading(false)
       })
   }, [])
-
   const handleChange = (event: any) => {
     setLoading(true)
     setQuery(`?supervisor=${event.currentTarget.value}`)
@@ -107,7 +104,6 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         console.log('ERROR', error)
       })
   }
-
   const handleChangePageSize = (e: any) => {
     setLoading(true)
     setPageSize(e.target.value)
@@ -123,41 +119,46 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
       })
   }
 
-  const handlePagination = (e: any) => {
+  React.useEffect(() => {
+    axios
+      .get(`${API}?start=${start}&length=10&orders=desc&columns=id`)
+      .then((response) => {
+        setLoading(false)
+        setCustomerStats(response.data.data)
+        setLoading(false)
+      })
+      .catch((error) => {
+        setLoading(false)
+        console.log('ERROR', error)
+      })
+  }, [start])
+  const handlePaginationBTN = (value: any) => {
     setLoading(true)
-    if (e.currentTarget.id === 'next') {
-      axios
-        .get(`${API}?start=${pageIndex}&length=${pageSize}`)
-        .then((response) => {
-          setLoading(false)
-          setCustomerStats(response.data.data)
-          setPageIndex(pageIndex + 1)
-        })
-        .catch((error) => {
-          setLoading(false)
-          console.log('ERROR', error)
-        })
-    } else if (e.currentTarget.id === 'prev') {
-      axios
-        .get(`${API}?start=${pageIndex}&length=${pageSize}`)
-        .then((response) => {
-          setLoading(false)
-          setCustomerStats(response.data.data)
-          setPageIndex(pageIndex - 1)
-        })
-        .catch((error) => {
-          setLoading(false)
-          console.log('ERROR', error)
-        })
+    if (value == "prev") {
+      SetCurrentStatus("prev")
+      value >= 11 ? setPageStart((prev: any) => prev - 10) : setPageStart(1)
     }
-    setLoading(false)
-  }
+    else if (value == "next") {
+      SetCurrentStatus("next")
+      setPageStart((next: any) => next + 10)
+    }
+    else if (value == 1) {
+      SetCurrentStatus(value)
+      setPageStart(11)
+    }
+    else if (value == 2) {
+      SetCurrentStatus(value)
+      setPageStart(21)
+    }
+    else if (value == 3) {
+      SetCurrentStatus(value)
+      setPageStart(31)
+    }
 
+  }
   const handleSearch = (e: any) => {
     setSearchValue(e.target.value)
-
-    // const formData = new FormData();
-    // formData.append("search[value]", searchValue);
+  
     const params = new URLSearchParams()
     params.append('search[value]', e.target.value)
     params.append('search[regex]', 'false')
@@ -167,26 +168,22 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
     params.append('columns[6][orderable]', 'true')
     params.append('columns[6][search][value]', '')
     params.append('columns[6][search][regex]', 'false')
-
     params.append('columns[0][data]', 'id')
     params.append('columns[0][name]', '')
     params.append('columns[0][searchable]', 'true')
     params.append('columns[0][orderable]', 'true')
     params.append('columns[0][search][value]', '')
     params.append('columns[0][search][regex]', 'false')
-
     params.append('columns[19][data]', 'email')
     params.append('columns[19][name]', '')
     params.append('columns[19][searchable]', 'true')
     params.append('columns[19][orderable]', 'true')
     params.append('columns[19][search][value]', '')
     params.append('columns[19][search][regex]', 'false')
-
     params.append('draw', '3')
-
     setTimeout(() => {
       axios
-        .get(`${API}?start=${0}&length=${pageSize}`, {params})
+        .get(`${API}?start=${0}&length=${pageSize}`, { params })
         .then((response) => {
           setCustomerStats(response.data.data)
         })
@@ -195,7 +192,6 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         })
     }, 1000)
   }
-
   if (isLoading) {
     return (
       <div className='d-flex align-items-center justify-content-center h-75 flex-column'>
@@ -204,7 +200,6 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
       </div>
     )
   }
-
   return (
     <KTCardBody className='card py-4'>
       <div className='d-flex justify-content-between mb-3'>
@@ -286,10 +281,10 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
             </tr>
           </thead>
           <tbody className='text-gray-600 fw-bold' {...getTableBodyProps()}>
-            {rows.length > 0 ? (
-              rows.map((row: Row<User>, i) => {
+            {rows?.length > 0 ? (
+              rows?.map((row: Row<User>, i) => {
                 prepareRow(row)
-                return <CustomRow row={row} key={`row-${i}-${row.id}`} />
+                return <CustomRow row={row} key={`row-${i}-${row?.id}`} />
               })
             ) : (
               <tr>
@@ -304,42 +299,12 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         </table>
       </div>
       <div className='d-flex justify-content-end my-3'>
-        {/* <select onChange={handleChangePageSize} className='form-select form-select-solid w-25 bg-white' value={pageSize}>
-                    <option>Select Row Siz e</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                </select> */}
-        <nav aria-label='Page navigation example'>
-          <ul className='pagination'>
-            {pageIndex !== 0 && (
-              <li className='page-item'>
-                <button
-                  onClick={handlePagination}
-                  className={`page-link me-5 ${pageIndex === 0 ? 'disabled' : ''}`}
-                  id='prev'
-                >
-                  Previous
-                </button>
-              </li>
-            )}
-            {pageIndex !== 0 && (
-              <li className='page-item'>
-                <button className='page-link active'>{pageIndex}</button>
-              </li>
-            )}
-            <li className='page-item'>
-              <a onClick={handlePagination} className='page-link' id='next'>
-                Next
-              </a>
-            </li>
-          </ul>
-        </nav>
+        
+        <Paginations handlePaginationBTN={handlePaginationBTN} CurrentStatus={CurrentStatus}></Paginations>
       </div>
       <UsersListPagination />
       {isLoading && <UsersListLoading />}
     </KTCardBody>
   )
 }
-
 export default ActiveStatsComponent
