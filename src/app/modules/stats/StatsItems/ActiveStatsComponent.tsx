@@ -1,10 +1,10 @@
 import { DataGrid } from '@mui/x-data-grid'
 import axios from 'axios'
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { FC, useEffect, useMemo } from 'react'
 import { Link, NavLink, Outlet, Route, Routes } from 'react-router-dom'
 import { ColumnInstance, Row, useTable } from 'react-table'
-import { TEST_ADMIN_BASE_API_URL } from '../../../../apiGlobally'
+import { MAIN_ADMIN_BASE_API_URL, TEST_ADMIN_BASE_API_URL } from '../../../../apiGlobally'
 import { KTCardBody, KTSVG } from '../../../../_metronic/helpers'
 import { UsersListLoading } from '../../apps/user-management/users-list/components/loading/UsersListLoading'
 import { UsersListPagination } from '../../apps/user-management/users-list/components/pagination/UsersListPagination'
@@ -47,8 +47,10 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
     columns,
     data,
   })
+
+  const [localKeyS, setlocalKeyS] = useState(false)
   // console.log('headers', headers);
-  const API = `${TEST_ADMIN_BASE_API_URL}/admin/allactivesubscriptionswithpaymentDatatablepagination`
+  const API = `${localKeyS ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/allactivesubscriptionswithpaymentDatatablepagination`
   React.useEffect(() => {
     setLoading(true)
     axios
@@ -60,7 +62,7 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         console.log('ERROR', error)
       })
     axios
-      .get(`${TEST_ADMIN_BASE_API_URL}/admin/getSupervisorList`)
+      .get(`${localKeyS ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getSupervisorList`)
       .then((response) => {
         setSuperVisor(response.data.data)
         setLoading(false)
@@ -70,7 +72,7 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         setLoading(false)
       })
     axios
-      .get(`${TEST_ADMIN_BASE_API_URL}/admin/getCleanerList`)
+      .get(`${localKeyS ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getCleanerList`)
       .then((response) => {
         setCleanerList(response.data.data)
         setLoading(false)
@@ -80,7 +82,7 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         setLoading(false)
       })
     axios
-      .get(`${TEST_ADMIN_BASE_API_URL}/admin/getActivePackageDetails`)
+      .get(`${localKeyS ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getActivePackageDetails`)
       .then((response) => {
         setPackageList(response.data.data)
         setLoading(false)

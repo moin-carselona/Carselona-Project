@@ -58,7 +58,7 @@ const [SearchTickets, setSearchTickets] = React.useState("")
         }).catch(error => {
             console.log("ERROR", error);
         });
-        axios.get(`${TEST_ADMIN_BASE_API_URL}/admin/getActivePackageDetails`).then((response) => {
+        axios.get(`${localKeyS ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getActivePackageDetails`).then((response) => {
             setPackageList(response.data.data);
             setLoading(false);
         }).catch(error => {

@@ -15,41 +15,36 @@ const Toolbar1 = () => {
   const handleCreateTemplatesPop = () => {
     setCreateTemplatesPopOpen(!createTemplatesPop)
   }
-  const [localKey, setlocalKey] = useState<boolean>(false)
-  const [isCkecked, setisCkecked] = useState<boolean>(false)
+  // const [localKey, setlocalKey] = useState<boolean>(false)
   // console.log('localKey', localKey);
   const changeStatusApi = () => {
     // // console.log('localKey btn', localKey);
     // localStorage.setItem("API", JSON.stringify(!localKey))
-    localStorage.setItem("ischecked", JSON.stringify(!isCkecked))
+    let x = true
+    localStorage.setItem("ischecked", JSON.stringify(!x))
     const is = JSON.parse(localStorage.getItem("ischecked") || "")
-    // // console.log('stats', stats);
-    // setlocalKey(stats)
-    setisCkecked(is)
+    console.log('xxxxxxxxxxxxxxxxx', is);
+  
   }
   React.useEffect(() => {
-    localStorage.setItem("API", JSON.stringify(false))
-
-    if (isCkecked) {
-      localStorage.setItem("API", JSON.stringify(true))
-      const states = JSON.parse(localStorage.getItem("API") || "")
-
-    setlocalKey(states)
-
-  
-    }
-    else{
+ 
+      // console.log(3,localKey)
       // console.log("main url ", window.location.origin)
-      if (window.location.origin != "http://localhost:3011") {
-        localStorage.setItem("API", JSON.stringify(!localKey))
-        const stats = JSON.parse(localStorage.getItem("API") || "") || false
-        // console.log('stats', stats);
-        setlocalKey(stats)
-      }if(!isCkecked){
-        setlocalKey(false)
+      if (window.location.origin.includes(".com")) {
+        console.log('window.location.origin', window.location.origin);
+        localStorage.setItem("API", JSON.stringify(true))
+        const stats = JSON.parse(localStorage.getItem("API") || "")
+        console.log('true', stats);
+      
       }
-    }
-  }, [isCkecked])
+      else{
+        console.log('window.location.origin', window.location.origin);
+        localStorage.setItem("API", JSON.stringify(false))
+        const stats = JSON.parse(localStorage.getItem("API") || "")
+        console.log('false', stats);
+      }
+    
+  }, [])
   return (
     <>
       <div className='toolbar' id='kt_toolbar'>
@@ -93,7 +88,7 @@ const Toolbar1 = () => {
                   path='/media/icons/duotune/general/gen031.svg'
                   className='svg-icon-5 svg-icon-gray-500 me-1'
                 />
-                {localKey ? "AdminAPI" : "TestAPI"}
+                {/* {localKey ? "AdminAPI" : "TestAPI"} */}
               </a>
               {/* end::Menu */}
             </div>
