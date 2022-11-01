@@ -48,9 +48,12 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
     data,
   })
 
-  const [localKeyS, setlocalKeyS] = useState(false)
+  
+  const localKeyCheck = JSON.parse(localStorage.getItem("API") || "")
+  console.log('localKeyS from active', localKeyCheck);
+
   // console.log('headers', headers);
-  const API = `${localKeyS ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/allactivesubscriptionswithpaymentDatatablepagination`
+  const API = `${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/allactivesubscriptionswithpaymentDatatablepagination`
   React.useEffect(() => {
     setLoading(true)
     axios
@@ -62,7 +65,7 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         console.log('ERROR', error)
       })
     axios
-      .get(`${localKeyS ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getSupervisorList`)
+      .get(`${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getSupervisorList`)
       .then((response) => {
         setSuperVisor(response.data.data)
         setLoading(false)
@@ -72,7 +75,7 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         setLoading(false)
       })
     axios
-      .get(`${localKeyS ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getCleanerList`)
+      .get(`${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getCleanerList`)
       .then((response) => {
         setCleanerList(response.data.data)
         setLoading(false)
@@ -82,7 +85,7 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         setLoading(false)
       })
     axios
-      .get(`${localKeyS ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getActivePackageDetails`)
+      .get(`${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getActivePackageDetails`)
       .then((response) => {
         setPackageList(response.data.data)
         setLoading(false)

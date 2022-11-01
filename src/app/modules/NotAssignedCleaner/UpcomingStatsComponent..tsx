@@ -23,11 +23,9 @@ type Props = {
 }
 const UpcomingStatsComponent: FC<Props> = (props: Props) => {
     const [superVisor, setSuperVisor] = React.useState([]);
-    const [localKeyS, setlocalKeyS] = React.useState(true);
-    React.useEffect(() => {
-        const localKeyCheck = JSON.parse(localStorage.getItem("API") || "")
-        setlocalKeyS(localKeyCheck)
-    }, [])
+    const localKeyCheck = JSON.parse(localStorage.getItem("API") || "")
+    console.log('localKeyS from upcoming', localKeyCheck);
+
 const [SearchTickets, setSearchTickets] = React.useState("")
 
     // console.log('localKeyS', localKeyS);
@@ -49,16 +47,18 @@ const [SearchTickets, setSearchTickets] = React.useState("")
         columns,
         data,
     })
-    const API = `${localKeyS ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getAllNotAssingedSubscription`;
-    console.log('BaseURL', API);
+    const API = `${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getAllNotAssingedSubscription`;
+    console.log('BaseURL ============================ baseURL', API);
     React.useEffect(() => {
+        
         setLoading(true);
+        console.log('BaseURL ============================ baseURL', API);
         axios.get(`${API}?start=0&length=10&orders=desc&columns=id`).then((response) => {
             setCustomerStats(response.data.data);
         }).catch(error => {
             console.log("ERROR", error);
         });
-        axios.get(`${localKeyS ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getActivePackageDetails`).then((response) => {
+        axios.get(`${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getActivePackageDetails`).then((response) => {
             setPackageList(response.data.data);
             setLoading(false);
         }).catch(error => {
