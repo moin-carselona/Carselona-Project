@@ -16,15 +16,17 @@ import { notAssignedColumns } from "./_notAssignedColumns";
 import { MAIN_ADMIN_BASE_API_URL, TEST_ADMIN_BASE_API_URL } from "../../../apiGlobally";
 import Paginations from "./Paginations";
 import moment from "moment";
+import { LocalBaseURL } from "../../../BaseURLmanagement";
 
 type Props = {
     upcomingSubscriptions: any,
     isLoading: boolean
 }
 const UpcomingStatsComponent: FC<Props> = (props: Props) => {
+    LocalBaseURL()
     const [superVisor, setSuperVisor] = React.useState([]);
-    const localKeyCheck = JSON.parse(localStorage.getItem("API") || "")
-    console.log('localKeyS from upcoming', localKeyCheck);
+    const localKeyCheck = JSON.parse(localStorage.getItem("API") || "0")
+    // console.log('localKeyS from upcoming', localKeyCheck);
 
 const [SearchTickets, setSearchTickets] = React.useState("")
 
@@ -48,7 +50,7 @@ const [SearchTickets, setSearchTickets] = React.useState("")
         data,
     })
     const API = `${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getAllNotAssingedSubscription`;
-    console.log('BaseURL ============================ baseURL', API);
+    // console.log('BaseURL ============================ baseURL', API);
     React.useEffect(() => {
         
         setLoading(true);

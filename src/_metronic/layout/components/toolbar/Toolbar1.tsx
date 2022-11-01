@@ -8,6 +8,15 @@ import { useLayout } from '../../core'
 import { DefaultTitle } from '../header/page-title/DefaultTitle'
 import React from "react"
 const Toolbar1 = () => {
+  React.useEffect(()=>{
+    const onclickeBaseURLChange = JSON.parse(localStorage.getItem("ischecked") || "0")
+    if(!onclickeBaseURLChange){
+      console.log("checking when is chkekd not inlocal")
+    localStorage.setItem("ischecked", JSON.stringify(false))
+
+    }
+
+  },[])
   const CardTemplate = useSelector<any>((state) => state?.NotificationActionReducer.CreatTemplate)
   const { classes } = useLayout()
   const [showCreateAppModal, setShowCreateAppModal] = useState<boolean>(false)
@@ -15,33 +24,59 @@ const Toolbar1 = () => {
   const handleCreateTemplatesPop = () => {
     setCreateTemplatesPopOpen(!createTemplatesPop)
   }
-  // const [localKey, setlocalKey] = useState<boolean>(false)
-  // console.log('localKey', localKey);
+  const onclickeBaseURLChange =  JSON.parse(localStorage.getItem("ischecked") || "0") ? JSON.parse(localStorage.getItem("ischecked") || "0") : false
+  console.log('onclickeBaseURLChange toolbar', onclickeBaseURLChange);
+
+  const [localKey, setlocalKey] = useState<boolean>(onclickeBaseURLChange||false)
+  // console.log('localKey toolbar', localKey);
   const changeStatusApi = () => {
     // // console.log('localKey btn', localKey);
     // localStorage.setItem("API", JSON.stringify(!localKey))
-    let x = true
-    localStorage.setItem("ischecked", JSON.stringify(!x))
-    const is = JSON.parse(localStorage.getItem("ischecked") || "")
-    console.log('xxxxxxxxxxxxxxxxx', is);
+    localStorage.setItem("ischecked", JSON.stringify(!localKey))
+    const onclickeBaseURLChange = JSON.parse(localStorage.getItem("ischecked") || "0")
+    // console.log('onclickeBaseURLChange', onclickeBaseURLChange);
+    setlocalKey(onclickeBaseURLChange)
+    
   }
   React.useEffect(() => {
     // console.log(3,localKey)\
     console.log('=>>>>>> window.location .origin', window.location.origin, '>>>>>>>>>>>>>', window.location.origin.includes("3011"))
-    // console.log("main url ", window.location.origin)
+
+
+
+
+   // console.log("main url ", window.location.origin)
+   if(localKey){
+    localStorage.setItem("API", JSON.stringify(true))
+    
+  }else{
     if (window.location.origin.includes("3011")) {
       console.log('window.location.origin', window.location.origin);
       localStorage.setItem("API", JSON.stringify(false))
-      const stats = JSON.parse(localStorage.getItem("API") || "")
+      const stats = JSON.parse(localStorage.getItem("API") || "0")
       console.log('false', stats);
     }
     else {
       localStorage.setItem("API", JSON.stringify(true))
       console.log('window.location.origin', window.location.origin);
-      const stats = JSON.parse(localStorage.getItem("API") || "")
+      const stats = JSON.parse(localStorage.getItem("API") || "0")
       console.log('true', stats);
     }
-  }, [])
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  }, [localKey])
   return (
     <>
       <div className='toolbar' id='kt_toolbar'>
@@ -85,7 +120,7 @@ const Toolbar1 = () => {
                   path='/media/icons/duotune/general/gen031.svg'
                   className='svg-icon-5 svg-icon-gray-500 me-1'
                 />
-                {/* {localKey ? "AdminAPI" : "TestAPI"} */}
+                {localKey ? "AdminApi" : "TestAdminApi"}
               </a>
               {/* end::Menu */}
             </div>

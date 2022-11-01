@@ -5,6 +5,7 @@ import { FC, useEffect, useMemo } from 'react'
 import { Link, NavLink, Outlet, Route, Routes } from 'react-router-dom'
 import { ColumnInstance, Row, useTable } from 'react-table'
 import { MAIN_ADMIN_BASE_API_URL, TEST_ADMIN_BASE_API_URL } from '../../../../apiGlobally'
+import { LocalBaseURL } from '../../../../BaseURLmanagement'
 import { KTCardBody, KTSVG } from '../../../../_metronic/helpers'
 import { UsersListLoading } from '../../apps/user-management/users-list/components/loading/UsersListLoading'
 import { UsersListPagination } from '../../apps/user-management/users-list/components/pagination/UsersListPagination'
@@ -27,6 +28,8 @@ type Props = {
   isLoading: boolean
 }
 const ActiveStatsComponent: FC<Props> = (props: Props) => {
+  LocalBaseURL()
+
   const [query, setQuery] = React.useState('')
   const [superVisor, setSuperVisor] = React.useState([])
   const [cleanerList, setCleanerList] = React.useState([])
@@ -49,8 +52,9 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
   })
 
   
-  const localKeyCheck = JSON.parse(localStorage.getItem("API") || "")
-  console.log('localKeyS from active', localKeyCheck);
+  const localKeyCheck = JSON.parse(localStorage.getItem("API") || "0")
+  // const [localKeyCheck, setlocalKeyCheck] = useState(JSON.parse(localStorage.getItem("API") || "0"))
+  // console.log('localKeyS from active', localKeyCheck);
 
   // console.log('headers', headers);
   const API = `${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/allactivesubscriptionswithpaymentDatatablepagination`
@@ -94,7 +98,7 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         console.error('ERROR', error)
         setLoading(false)
       })
-  }, [])
+  }, [localKeyCheck])
   const handleChange = (event: any) => {
     setLoading(true)
     setQuery(`?supervisor=${event.currentTarget.value}`)
