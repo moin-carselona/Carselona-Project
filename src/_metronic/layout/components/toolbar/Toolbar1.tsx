@@ -28,14 +28,14 @@ const Toolbar1 = () => {
   React.useEffect(() => {
     // console.log(3,localKey)
     // console.log("main url ", window.location.origin)
-    if (window.location.origin.includes(":")) {
+    if (!window.location.origin.includes("carselona")) {
       console.log('window.location.origin', window.location.origin);
       localStorage.setItem("API", JSON.stringify(false))
       const stats = JSON.parse(localStorage.getItem("API") || "")
       console.log('false', stats);
     }
     else {
-      console.log('window.location.origin', window.location.origin);
+      
       localStorage.setItem("API", JSON.stringify(true))
       const stats = JSON.parse(localStorage.getItem("API") || "")
       console.log('true', stats);
