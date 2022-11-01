@@ -23,10 +23,10 @@ type Props = {
 }
 const UpcomingStatsComponent: FC<Props> = (props: Props) => {
     const [superVisor, setSuperVisor] = React.useState([]);
-    const [localKeyS, setlocalKeyS] = React.useState(false);
+    const [localKeyS, setlocalKeyS] = React.useState(true);
     React.useEffect(() => {
         const localKeyCheck = JSON.parse(localStorage.getItem("API") || "")
-        setlocalKeyS(localKeyS)
+        setlocalKeyS(localKeyCheck)
     }, [])
 const [SearchTickets, setSearchTickets] = React.useState("")
 
