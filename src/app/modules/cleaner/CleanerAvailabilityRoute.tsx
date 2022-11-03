@@ -14,6 +14,8 @@ import CleanerTableBodyComponent from './common/CleanerTableBodyComponent'
 import MultiSelect from './common/MultiSelect'
 import { useSelector } from 'react-redux';
 import { MonthString,MonthNumber } from './Months';
+import { LocalBaseURL } from '../../../BaseURLmanagement';
+import { MAIN_ADMIN_BASE_API_URL, TEST_ADMIN_BASE_API_URL } from '../../../apiGlobally';
 const CleanerAvailabilityRoute = (props: {
   subscriptionId?: any
   distenceRadius?: string
@@ -22,7 +24,7 @@ const CleanerAvailabilityRoute = (props: {
   const { subscriptionId, distenceRadius, iscleanerpage } = props
   const { state }: any = useLocation()
   const { filteredData = {}, referece } = state || {}
-  
+  LocalBaseURL()
   console.log('referece', referece);
   // console.log('filteredData', filteredData);
   const [cleanerStats, setCleanerStats] = React.useState<any>([])
@@ -67,6 +69,8 @@ const CleanerAvailabilityRoute = (props: {
   const data = useMemo(() => cleanerStats, [cleanerStats])
   const columns = useMemo(() => cleanerJobColumns, [cleanerJobColumns])
   const reference = useMemo(() => referece, [referece])
+  const localKeyCheck = JSON.parse(localStorage.getItem("API") || "0")
+
   console.log('reference', reference);
   const AminBaseURL = adminBaseCleanerAvailibilityURL  // base url present in api.tsx file inside cleaner folder
   const subscription_order_id = useSelector((store: any) => store.ActivePaidSubscriptionReducer.Assign_cleaner_id)
@@ -87,7 +91,7 @@ const CleanerAvailabilityRoute = (props: {
 
 
     axios
-      .post(`${AminBaseURL}/admin/getAvalabilitybySubscription`, payloads)
+      .post(`${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getAvalabilitybySubscription`, payloads)
       .then((response) => {
         setDates(response.data.dates)
         settimeSlotsfilter(response.data.timeslots)
@@ -100,7 +104,7 @@ const CleanerAvailabilityRoute = (props: {
         setLoading(false)
       })
     axios
-      .get(`${AminBaseURL}/admin/gettimeslots`)
+      .get(`${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/gettimeslots`)
       .then((response) => {
         setTimeSlots(response.data.data)
       })
@@ -108,7 +112,7 @@ const CleanerAvailabilityRoute = (props: {
         console.log(error)
       })
     axios
-      .get(`${AminBaseURL}/admin/getsociety`)
+      .get(`${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getsociety`)
       .then((response) => {
         setSuperVisor(response.data.data)
       })
@@ -116,7 +120,7 @@ const CleanerAvailabilityRoute = (props: {
         console.error('ERROR', error)
       })
     axios
-      .get(`${AminBaseURL}/admin/getCleanerList`)
+      .get(`${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getCleanerList`)
       .then((response) => {
         setCleanerList(response.data.data)
       })

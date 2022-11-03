@@ -16,17 +16,17 @@ const CleanerDetailsModel = (props: any) => {
   let FilteredCleanerData = data.filter((item: any) => item?.cleaner_details.id === id)
   console.log('FilteredCleanerData', FilteredCleanerData[0]);
   // this is to remve the default time dublicate in select =======================================================
-  let updatedtimeSlotsfilter = timeSlotsfilter.filter((orginalSlot: any) => orginalSlot.name !== CustomerDetails?.timeslotname)
+  let updatedtimeSlotsfilter = timeSlotsfilter?.filter((orginalSlot: any) => orginalSlot.name !== CustomerDetails?.timeslotname)
   // console.log('updatedtimeSlotsfilter', updatedtimeSlotsfilter);
   // =========================================================----------==========================================
   // this is to remve the default time dublicate in select =======================================================
   let updatedays = days.filter((days: any) => days.day !== CustomerDetails?.fulldaycleaning)
   // console.log('updatedtimeSlotsfilter', updatedtimeSlotsfilter);
   // =========================================================----------==========================================
-  const DefaultCustomerDayID = days.filter((day: any) => day.day === CustomerDetails?.fulldaycleaning)
+  const DefaultCustomerDayID = days?.filter((day: any) => day.day === CustomerDetails?.fulldaycleaning)
   // console.log('DefaultCustomerDayID', DefaultCustomerDayID[0]);
   // this is to select the default id timeslote id=======================================================================
-  const DefaultCustomerTimingID = timeSlotsfilter.filter((time: any) => time.name === CustomerDetails?.timeslotname)
+  const DefaultCustomerTimingID = timeSlotsfilter?.filter((time: any) => time.name === CustomerDetails?.timeslotname)
   // console.log('DefaultCustomerTimingID', DefaultCustomerTimingID[0]);
   // =========================================================----------==========================================
   const [SelectedDay, SetSelectedDay] = useState<any>()
@@ -35,29 +35,29 @@ const CleanerDetailsModel = (props: any) => {
   // =========================================================----------==========================================
   const localKeyCheck = JSON.parse(localStorage.getItem("API") || "0")
   const ChangedAPI = `${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/assigncleanertoneworder`
-
+  console.log('ChangedAPI ==================== >>>>>>>>>', ChangedAPI);
   const handleAssigNewCleanerToCustomer = () => {
     const payload = {
       "startdate": moment(SelectedDate).format("YYYY-MM-DD"),
-      "orderid": +filteredCustomerData.id,
+      "orderid": +filteredCustomerData?.id,
       "newordercleanerid": +FilteredCleanerData[0]?.cleaner_details?.id,
       "fullcleaningday": +SelectedDay || DefaultCustomerDayID[0]?.Value,
       "frequencyid": +filteredCustomerData.frequencyid,
-      "timeslotid": +SelectedTiming || DefaultCustomerTimingID[0].id,
-      "jobsiteid": +filteredCustomerData.jobsiteid,
+      "timeslotid": +SelectedTiming || DefaultCustomerTimingID[0]?.id,
+      "jobsiteid": +filteredCustomerData?.jobsiteid,
     }
     if (SelectedDay == "" && SelectedDate == "" && SelectedTiming == "") {
       toast.error("Haven't Selected any field")
     }
     else if (referece == "NotAssignCleaner") {
-      axios.post(`${ChangedAPI}/admin/assigncleanertoneworder`, payload).then((assin) => {
-        console.log('new Cleaner assined to not job customer', assin);
+      axios.post(`${ChangedAPI}`, payload).then((assin) => {
+         console.log('ChangedAPI ==================== >>>>>>>>> success', ChangedAPI);
         toast.success("Successful Assign cleaner")
       })
     }
     else {
-      axios.post(`${ChangedAPI}/admin/assigncleanertoneworder`, payload).then((assin) => {
-        console.log('new Cleaner assined to not job customer', assin);
+      axios.post(`${ChangedAPI}`, payload).then((assin) => {
+         console.log('ChangedAPI ==================== >>>>>>>>> success', ChangedAPI);
         toast.success("Successful Assign cleaner")
       })
     }

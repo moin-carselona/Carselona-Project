@@ -6,7 +6,7 @@ export const LocalBaseURL = () => {
     // const onclickeBaseURLChange = JSON.parse(localStorage.getItem("ischecked") || "")
 
 
-    const localKey =JSON.parse(localStorage.getItem("ischecked") || "0") ? JSON.parse(localStorage.getItem("ischecked") || "0") : false
+    const localKey =JSON.parse(localStorage.getItem("ischecked") || "0") 
     // console.log("main url ", window.location.origin)
     if (localKey) {
         localStorage.setItem("API", JSON.stringify(true))
