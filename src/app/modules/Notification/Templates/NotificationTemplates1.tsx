@@ -28,13 +28,7 @@ const NotificationTemplates1: React.FC<Props> = ({ className, isDataAvailable, s
   const onchangeValue = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSubTitle(event.target.value)
   }
-  // React.useEffect(() => {
-  //   async function getData() {
-  //     const { data } = await getViewMedia({ "Templateid": 2 })
-  //     console.log('data  get', data.templateData);
-  //   }
-  //   getData()
-  // }, [])
+
   return (
     <>
       <div className={`card ${className}`}>

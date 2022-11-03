@@ -66,7 +66,7 @@ const CleanerTableBodyComponent = (props: any) => {
                 <td>
                   <div
                     className='p-3 d-flex flex-column'
-                    style={{ maxWidth: '230px', width: '140px' }}
+                    style={{ maxWidth: '150px', width: '100px' }}
                   >
                     {attendance && (
                       <Body attendance={attendance} timeslots={timeslots} noJobClassName={noJobClassName} servicetype2ClassName={servicetype2ClassName} cleanerStat={cleanerStat} handleJobDetailSubmit={handleJobDetailSubmit} servicetype1ClassName={servicetype1ClassName}></Body>

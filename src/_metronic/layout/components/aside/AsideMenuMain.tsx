@@ -214,6 +214,17 @@ export function AsideMenuMain() {
       >
         <AsideMenuItem to='/all/tickets' title='Tickets' hasBullet={true} />
       </AsideMenuItemWithSub>
+    {/* react-table side menu   */}
+      <AsideMenuItemWithSub
+        to='/Tables'
+        title='React-table'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/all/tables' title='React Tables' hasBullet={true} />
+      </AsideMenuItemWithSub>
+    {/* react-table side menu   */}
+
     </>
   )
 }

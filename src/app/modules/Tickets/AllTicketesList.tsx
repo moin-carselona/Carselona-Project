@@ -13,6 +13,7 @@ import MultiTicketCategoryInput from './MultiSelect/MultiTicketCategoryInput'
 import { useDispatch, useSelector } from "react-redux"
 import { CustomRowTable } from './CustomRowTable'
 import { ChatTicketID } from '../../../Redux/Action/Chats/ChatAction'
+import Tables from '../TablesGeneral/Tables'
 const AllTicketesList: FC = () => {
     const [isLoading, setLoading] = React.useState(false)
     const [TicketsData, setTicketsData] = React.useState([])
@@ -190,7 +191,9 @@ const AllTicketesList: FC = () => {
         dispatch(ChatTicketID(ticketids))
     }
     return (
-        <KTCardBody className='card py-4'>
+        <>
+ 
+ <KTCardBody className='card py-4'>
             <div className='d-flex justify-content-between mb-3'>
                 <div className='align-items-center justify-content-center my-2'>
                     <input
@@ -198,7 +201,7 @@ const AllTicketesList: FC = () => {
                         data-kt-user-table-filter='search'
                         className='form-control form-control-solid'
                         placeholder='Search'
-
+                        
                         onChange={deb}
                     />
                 </div>
@@ -233,7 +236,7 @@ const AllTicketesList: FC = () => {
                                 <tr className='text-start text-muted fw-bolder fs-7 text-uppercase gs-0'>
                                     {headers.map((column: ColumnInstance<User>) => (
                                         <CustomHeaderColumn key={column.id} column={column} />
-                                    ))}
+                                        ))}
                                 </tr>
                             </thead>
                             <tbody className='text-gray-600 fw-bold'
@@ -244,8 +247,8 @@ const AllTicketesList: FC = () => {
                                         prepareRow(row)
                                         return <CustomRowTable HandleChipActivePaid={HandleChipActivePaid} row={row} key={`row-${i}-${row.id}`} />
                                     })
-                                ) : (
-                                    <tr>
+                                    ) : (
+                                        <tr>
                                         <td colSpan={7}>
                                             <div className='d-flex text-center w-100 align-content-center justify-content-center'>
                                                 No matching records found
@@ -261,7 +264,16 @@ const AllTicketesList: FC = () => {
                 !loading2 &&
                 <Paginations SetCurrentStatus={SetCurrentStatus} CurrentStatus={CurrentStatus} handlePaginationBTN={handlePaginationBTN} setLengths={setLengths} setPageStart={setPageStart} />
             }
+            
         </KTCardBody>
+            </>
     )
 }
 export default AllTicketesList
+
+
+
+
+
+
+

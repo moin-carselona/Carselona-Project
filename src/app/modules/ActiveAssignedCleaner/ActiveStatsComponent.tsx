@@ -1,62 +1,53 @@
 import { DataGrid } from '@mui/x-data-grid'
+import Typography from '@mui/material/Typography';
 import axios from 'axios'
-import React, { ChangeEvent, useState } from 'react'
-import { FC, useEffect, useMemo } from 'react'
-import { Link, NavLink, Outlet, Route, Routes } from 'react-router-dom'
+import React, { useCallback, useState } from 'react'
+import { FC, useMemo } from 'react'
 import { ColumnInstance, Row, useTable } from 'react-table'
-import { MAIN_ADMIN_BASE_API_URL, TEST_ADMIN_BASE_API_URL } from '../../../../apiGlobally'
-import { LocalBaseURL } from '../../../../BaseURLmanagement'
-import { KTCardBody, KTSVG } from '../../../../_metronic/helpers'
-import { UsersListLoading } from '../../apps/user-management/users-list/components/loading/UsersListLoading'
-import { UsersListPagination } from '../../apps/user-management/users-list/components/pagination/UsersListPagination'
+import { MAIN_ADMIN_BASE_API_URL, TEST_ADMIN_BASE_API_URL } from '../../../apiGlobally'
+import { LocalBaseURL } from '../../../BaseURLmanagement'
+import { KTCardBody, KTSVG } from '../../../_metronic/helpers'
 import {
   useQueryResponseData,
-  useQueryResponseLoading,
-} from '../../apps/user-management/users-list/core/QueryResponseProvider'
-import { User } from '../../apps/user-management/users-list/core/_models'
-import { Stats } from '../../apps/user-management/users-list/core/_stats'
-import { CustomHeaderColumn } from '../../apps/user-management/users-list/table/columns/CustomHeaderColumn'
-import { CustomRow } from '../../apps/user-management/users-list/table/columns/CustomRow'
-import {
-  muiColumns,
-  statsColumn,
-} from '../../apps/user-management/users-list/table/columns/statsColumns'
-import { usersColumns } from '../../apps/user-management/users-list/table/columns/_columns'
-import Paginations from './Paginations'
+} from '../apps/user-management/users-list/core/QueryResponseProvider'
+import { User } from '../apps/user-management/users-list/core/_models'
+import { CustomHeaderColumn } from '../apps/user-management/users-list/table/columns/CustomHeaderColumn'
+
+import { AciveCustomRow } from './AciveCustomRow'
+import { Paginations } from './Paginations'
+import { ActiveUserColumn } from './_columns'
 type Props = {
   activeSubscriptions: any
   isLoading: boolean
 }
 const ActiveStatsComponent: FC<Props> = (props: Props) => {
   LocalBaseURL()
-
   const [query, setQuery] = React.useState('')
   const [superVisor, setSuperVisor] = React.useState([])
   const [cleanerList, setCleanerList] = React.useState([])
   const [packageList, setPackageList] = React.useState([])
   const [isLoading, setLoading] = React.useState(false)
   const [searchValue, setSearchValue] = React.useState('')
-  const [CurrentStatus, SetCurrentStatus] = React.useState('')
   const [start, setPageStart] = React.useState<any>(1)
   const [customerStats, setCustomerStats] = React.useState<any>([])
+  console.log('customerStats', customerStats);
+  const [RecordsTotal, setRecordsTotal] = React.useState<any>([]);
+  const [limit, setlimit] = React.useState<number>(10);
+  console.log('limit', limit);
+  console.log('RecordsTotal', RecordsTotal);
+  const [RecordsFiltered, setRecordsFiltered] = React.useState<any>([]);
+  console.log('RecordsFiltered', RecordsFiltered);
   const users = useQueryResponseData()
-  // const isLoading = useQueryResponseLoading()
   const data = useMemo(() => customerStats, [customerStats])
-  console.log('data', data);
-  const columns = useMemo(() => usersColumns, [])
+  const [isLoadingBody, setisLoadingBody] = React.useState(false);
+  const columns = useMemo(() => ActiveUserColumn, [])
   const [pageSize, setPageSize] = React.useState(10)
-  const [pageIndex, setPageIndex] = React.useState(0)
+  const [totalFilterData, SettotalFilterData] = React.useState(1)
   const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({
     columns,
     data,
   })
-
-  
   const localKeyCheck = JSON.parse(localStorage.getItem("API") || "0")
-  // const [localKeyCheck, setlocalKeyCheck] = useState(JSON.parse(localStorage.getItem("API") || "0"))
-  // console.log('localKeyS from active', localKeyCheck);
-
-  // console.log('headers', headers);
   const API = `${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/allactivesubscriptionswithpaymentDatatablepagination`
   React.useEffect(() => {
     setLoading(true)
@@ -64,6 +55,9 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
       .get(`${API}?start=0&length=10&orders=desc&columns=id`)
       .then((response) => {
         setCustomerStats(response.data.data)
+        setRecordsTotal(response?.data?.recordsTotal)
+        setRecordsFiltered(response?.data?.recordsFiltered)
+        setlimit(response?.data?.limit)
       })
       .catch((error) => {
         console.log('ERROR', error)
@@ -82,6 +76,8 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
       .get(`${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getCleanerList`)
       .then((response) => {
         setCleanerList(response.data.data)
+        setRecordsTotal(response?.data?.recordsTotal)
+        setRecordsFiltered(response?.data?.recordsFiltered)
         setLoading(false)
       })
       .catch((error) => {
@@ -92,6 +88,8 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
       .get(`${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getActivePackageDetails`)
       .then((response) => {
         setPackageList(response.data.data)
+        setRecordsTotal(response?.data?.recordsTotal)
+        setRecordsFiltered(response?.data?.recordsFiltered)
         setLoading(false)
       })
       .catch((error) => {
@@ -107,6 +105,8 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
       .then((response) => {
         setLoading(false)
         setCustomerStats(response.data.data)
+        setRecordsTotal(response?.data?.recordsTotal)
+        setRecordsFiltered(response?.data?.recordsFiltered)
       })
       .catch((error) => {
         setLoading(false)
@@ -127,14 +127,14 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
         console.log('ERROR', error)
       })
   }
-
   React.useEffect(() => {
     axios
       .get(`${API}?start=${start}&length=10&orders=desc&columns=id`)
       .then((response) => {
-        setLoading(false)
         setCustomerStats(response.data.data)
-        setLoading(false)
+        setRecordsTotal(response?.data?.recordsTotal)
+        setRecordsFiltered(response?.data?.recordsFiltered)
+        setisLoadingBody(false);
       })
       .catch((error) => {
         setLoading(false)
@@ -142,65 +142,50 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
       })
   }, [start])
   const handlePaginationBTN = (value: any) => {
-    setLoading(true)
-    if (value == "prev") {
-      SetCurrentStatus("prev")
-      value >= 11 ? setPageStart((prev: any) => prev - 10) : setPageStart(1)
-    }
-    else if (value == "next") {
-      SetCurrentStatus("next")
-      setPageStart((next: any) => next + 10)
-    }
-    else if (value == 1) {
-      SetCurrentStatus(value)
-      setPageStart(11)
-    }
-    else if (value == 2) {
-      SetCurrentStatus(value)
-      setPageStart(21)
-    }
-    else if (value == 3) {
-      SetCurrentStatus(value)
-      setPageStart(31)
+    setisLoadingBody(true);
+    SettotalFilterData(value)
+    setPageStart((value * 10) + 1)
+  }
+  // search functinality here  
+  // debouncing 
+  function debouncing(this: any, argument: any) {
+    let timer: any
+    let constest: any = this
+    return function (...args: any) {
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(function () {
+        timer = null
+        argument.apply(constest, args)
+      }, 1000)
     }
 
+
+
   }
-  const handleSearch = (e: any) => {
-    setSearchValue(e.target.value)
-  
-    const params = new URLSearchParams()
-    params.append('search[value]', e.target.value)
-    params.append('search[regex]', 'false')
-    params.append('columns[6][data]', 'name')
-    params.append('columns[6][name]', '')
-    params.append('columns[6][searchable]', 'true')
-    params.append('columns[6][orderable]', 'true')
-    params.append('columns[6][search][value]', '')
-    params.append('columns[6][search][regex]', 'false')
-    params.append('columns[0][data]', 'id')
-    params.append('columns[0][name]', '')
-    params.append('columns[0][searchable]', 'true')
-    params.append('columns[0][orderable]', 'true')
-    params.append('columns[0][search][value]', '')
-    params.append('columns[0][search][regex]', 'false')
-    params.append('columns[19][data]', 'email')
-    params.append('columns[19][name]', '')
-    params.append('columns[19][searchable]', 'true')
-    params.append('columns[19][orderable]', 'true')
-    params.append('columns[19][search][value]', '')
-    params.append('columns[19][search][regex]', 'false')
-    params.append('draw', '3')
-    setTimeout(() => {
-      axios
-        .get(`${API}?start=${0}&length=${pageSize}`, { params })
-        .then((response) => {
-          setCustomerStats(response.data.data)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }, 1000)
+  // search function
+  const handleRatingSearch = async (value: any) => {
+    setisLoadingBody(true)
+    async function getSearchData() {
+      axios.get(`${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/allactivesubscriptionswithpaymentDatatablepagination?search=${value}&start=${0}&length=${10}&columns=id&orders=desc`).then((res) => {
+        setCustomerStats(res.data.data)
+        setRecordsFiltered(res?.data?.recordsFiltered)
+        setRecordsTotal(res?.data?.recordsTotal)
+        setisLoadingBody(false)
+      }).catch((error) => {
+        console.log('error', error.message)
+        setisLoadingBody(false)
+      })
+    }
+    getSearchData()
   }
+  // to hnadle input value
+  const handleChangeInput = (e: any) => {
+    const { value } = e.target
+    setSearchValue(value)
+    handleRatingSearch(value)
+  }
+  // to memoized
+  const deb = useCallback(debouncing(handleChangeInput), [])
   if (isLoading) {
     return (
       <div className='d-flex align-items-center justify-content-center h-75 flex-column'>
@@ -218,8 +203,7 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
             data-kt-user-table-filter='search'
             className='form-control form-control-solid'
             placeholder='Search'
-            value={searchValue}
-            onChange={handleSearch}
+            onChange={deb}
           />
         </div>
         <div className='d-flex align-items-center justify-content-center my-2'>
@@ -276,44 +260,58 @@ const ActiveStatsComponent: FC<Props> = (props: Props) => {
           </select>
         </div>
       </div>
-      <div className='table-responsive px-4'>
-        <table
-          id='kt_table_users'
-          className='table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer'
-          {...getTableProps()}
-        >
-          <thead>
-            <tr className='text-start text-muted fw-bolder fs-7 text-uppercase gs-0'>
-              {headers.map((column: ColumnInstance<User>) => (
-                <CustomHeaderColumn key={column.id} column={column} />
-              ))}
-            </tr>
-          </thead>
-          <tbody className='text-gray-600 fw-bold' {...getTableBodyProps()}>
-            {rows?.length > 0 ? (
-              rows?.map((row: Row<User>, i) => {
-                prepareRow(row)
-                return <CustomRow row={row} key={`row-${i}-${row?.id}`} />
-              })
-            ) : (
-              <tr>
-                <td colSpan={7}>
-                  <div className='d-flex text-center w-100 align-content-center justify-content-center'>
-                    No matching records found
-                  </div>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-      <div className='d-flex justify-content-end my-3'>
+      {
+        isLoadingBody ? <div className='d-flex align-items-center justify-content-center h-75 flex-column'>
+          <div className='spinner-border mr-15' role='status'></div>
+          <h4 className='fw-bold'>Loading...</h4>
+        </div>
+          :
+          <>
+            <div className='table-responsive px-4'>
+              <table
+                id='kt_table_users'
+                className='table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer'
+                {...getTableProps()}
+              >
+                <thead>
+                  <tr className='text-start text-muted fw-bolder fs-7 text-uppercase gs-0'>
+                    {headers.map((column: ColumnInstance<User>) => (
+                      <CustomHeaderColumn key={column.id} column={column} />
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className='text-gray-600 fw-bold' {...getTableBodyProps()}>
+                  {rows?.length > 0 ? (
+                    rows?.map((row: Row<User>, i) => {
+                      prepareRow(row)
+                      return <AciveCustomRow row={row} key={`row-${i}-${row?.id}`} />
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan={7}>
+                        <div className='d-flex text-center w-100 align-content-center justify-content-center'>
+                          No matching records found
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+          </>
+      }
+      <br />
+      {
+        <div className='d-flex justify-content-between'>
         
-        <Paginations handlePaginationBTN={handlePaginationBTN} CurrentStatus={CurrentStatus}></Paginations>
-      </div>
-      <UsersListPagination />
-      {isLoading && <UsersListLoading />}
+        <Typography>Showing {((totalFilterData -1) * 10) + " to " + (((totalFilterData ) * 10)+1) + " out of " +( RecordsTotal?.length)}</Typography>
+          <Paginations handlePaginationBTN={handlePaginationBTN} RecordsTotal={RecordsTotal}></Paginations>
+        </div>
+      }
+
     </KTCardBody>
+
   )
 }
 export default ActiveStatsComponent

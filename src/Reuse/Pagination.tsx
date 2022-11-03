@@ -7,7 +7,7 @@ type Props = {
 
 
 export  const Paginations = ({ handlePaginationBTN, RecordsTotal}: Props) => {
-
+   
     const [page, setPage] = React.useState(1);
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
    

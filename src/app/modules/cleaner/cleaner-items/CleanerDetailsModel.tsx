@@ -2,41 +2,67 @@ import axios from 'axios'
 import moment from 'moment'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { MAIN_ADMIN_BASE_API_URL, TEST_ADMIN_BASE_API_URL } from '../../../../apiGlobally'
+import { LocalBaseURL } from '../../../../BaseURLmanagement'
 let days = [{ day: "Sunday", Value: 1 }, { day: "Monday", Value: 2 }, { day: "Tuesday", Value: 3 }, { day: "Wednesday", Value: 4 }, { day: "Friday", Value: 5 }, { day: "Saturday", Value: 6 }]
+// =========================================================----------==========================================
 const CleanerDetailsModel = (props: any) => {
+  // =========================================================----------==========================================
+  LocalBaseURL()
   const { id, data, timeSlotsfilter, referece, filteredCustomerData, handleCloseModalCleaner, CustomerDetails, subscription_order_id } = props
   console.log('filteredCustomerData', filteredCustomerData);
+  // =========================================================----------==========================================
+  // to filter current selected cleaner details 
   let FilteredCleanerData = data.filter((item: any) => item?.cleaner_details.id === id)
   console.log('FilteredCleanerData', FilteredCleanerData[0]);
+  // this is to remve the default time dublicate in select =======================================================
+  let updatedtimeSlotsfilter = timeSlotsfilter.filter((orginalSlot: any) => orginalSlot.name !== CustomerDetails?.timeslotname)
+  // console.log('updatedtimeSlotsfilter', updatedtimeSlotsfilter);
+  // =========================================================----------==========================================
+  // this is to remve the default time dublicate in select =======================================================
+  let updatedays = days.filter((days: any) => days.day !== CustomerDetails?.fulldaycleaning)
+  // console.log('updatedtimeSlotsfilter', updatedtimeSlotsfilter);
+  // =========================================================----------==========================================
+  const DefaultCustomerDayID = days.filter((day: any) => day.day === CustomerDetails?.fulldaycleaning)
+  // console.log('DefaultCustomerDayID', DefaultCustomerDayID[0]);
+  // this is to select the default id timeslote id=======================================================================
+  const DefaultCustomerTimingID = timeSlotsfilter.filter((time: any) => time.name === CustomerDetails?.timeslotname)
+  // console.log('DefaultCustomerTimingID', DefaultCustomerTimingID[0]);
+  // =========================================================----------==========================================
   const [SelectedDay, SetSelectedDay] = useState<any>()
   const [SelectedTiming, SetSelectedTiming] = useState<any>("")
-  const [SelectedDate, setSelectedDate] = useState<any>("")
+  const [SelectedDate, setSelectedDate] = useState<any>(CustomerDetails?.startdate || moment().format("YYYY-MM-DD"))
+  // =========================================================----------==========================================
+  const localKeyCheck = JSON.parse(localStorage.getItem("API") || "0")
+  const ChangedAPI = `${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/assigncleanertoneworder`
+
   const handleAssigNewCleanerToCustomer = () => {
     const payload = {
       "startdate": moment(SelectedDate).format("YYYY-MM-DD"),
       "orderid": +filteredCustomerData.id,
-      "newordercleanerid": +FilteredCleanerData[0].cleaner_details.id,
-      "fullcleaningday": +SelectedDay,
+      "newordercleanerid": +FilteredCleanerData[0]?.cleaner_details?.id,
+      "fullcleaningday": +SelectedDay || DefaultCustomerDayID[0]?.Value,
       "frequencyid": +filteredCustomerData.frequencyid,
-      "timeslotid": +SelectedTiming,
+      "timeslotid": +SelectedTiming || DefaultCustomerTimingID[0].id,
       "jobsiteid": +filteredCustomerData.jobsiteid,
     }
     if (SelectedDay == "" && SelectedDate == "" && SelectedTiming == "") {
       toast.error("Haven't Selected any field")
     }
     else if (referece == "NotAssignCleaner") {
-      axios.post("https://testadminapi.carselonadaily.com/api/admin/assigncleanertoneworder", payload).then((assin) => {
+      axios.post(`${ChangedAPI}/admin/assigncleanertoneworder`, payload).then((assin) => {
         console.log('new Cleaner assined to not job customer', assin);
         toast.success("Successful Assign cleaner")
       })
     }
     else {
-      axios.post("https://testadminapi.carselonadaily.com/api/admin/assigncleanertoneworder", payload).then((assin) => {
+      axios.post(`${ChangedAPI}/admin/assigncleanertoneworder`, payload).then((assin) => {
         console.log('new Cleaner assined to not job customer', assin);
         toast.success("Successful Assign cleaner")
       })
     }
   }
+  // =========================================================----------==========================================
   return (
     <div className='p-10 card' style={{ width: '600px' }}                                                                                                                                                                                                                                        >
       <div className='modal-content ' >
@@ -121,7 +147,7 @@ const CleanerDetailsModel = (props: any) => {
               value={SelectedDay}
             >
               <option >{CustomerDetails?.fulldaycleaning}</option>
-              {days?.map((item: any, index: number) => {
+              {updatedays?.map((item: any, index: number) => {
                 return (
                   <option value={item.Value} key={index}>
                     {item.day}
@@ -146,7 +172,7 @@ const CleanerDetailsModel = (props: any) => {
               value={SelectedTiming}
             >
               <option value=''>{CustomerDetails?.timeslotname}</option>
-              {timeSlotsfilter?.map((item: any, index: number) => {
+              {updatedtimeSlotsfilter?.map((item: any, index: number) => {
                 return (
                   <option value={item.id} key={index}>
                     {item.name}

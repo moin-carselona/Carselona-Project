@@ -13,14 +13,14 @@ export const LocalBaseURL = () => {
 
     } else {
         if (window.location.origin.includes("3011")) {
-            console.log('window.location.origin', window.location.origin);
+            // console.log('window.location.origin', window.location.origin);
             localStorage.setItem("API", JSON.stringify(false))
             const stats = JSON.parse(localStorage.getItem("API") || "0")
             console.log('false', stats);
         }
         else {
             localStorage.setItem("API", JSON.stringify(true))
-            console.log('window.location.origin', window.location.origin);
+            // console.log('window.location.origin', window.location.origin);
             const stats = JSON.parse(localStorage.getItem("API") || "0")
             console.log('true', stats);
         }

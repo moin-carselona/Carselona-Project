@@ -72,7 +72,7 @@ const notAssignedColumns: ReadonlyArray<Column<User>> = [
     Header: (props) => (
       <UserCustomHeader tableProps={props} title='Frequency'  />
     ),
-    accessor: 'frequencyname',
+    accessor: 'masterFrequency.name',
   },
   {
     Header: (props) => (
@@ -98,17 +98,17 @@ const notAssignedColumns: ReadonlyArray<Column<User>> = [
     ),
     accessor: 'cityname',
   },
-  {
-    Header: (props) => (
-      <UserCustomHeader tableProps={props} title='Address' className='min-w-500px' />
-    ),
-    accessor: 'address',
-  },
-  {
-    Header: (props) => (
-      <UserCustomHeader tableProps={props} title='Flat No.' className='min-w-500px'  />
-    ),
-    accessor: 'flatno',
-  },
+  // {
+  //   Header: (props) => (
+  //     <UserCustomHeader tableProps={props} title='Address' className='min-w-500px' />
+  //   ),
+  //   accessor: 'address',
+  // },
+  // {
+  //   Header: (props) => (
+  //     <UserCustomHeader tableProps={props} title='Flat No.' className='min-w-500px'  />
+  //   ),
+  //   accessor: 'flatno',
+  // },
 ]
 export { notAssignedColumns }

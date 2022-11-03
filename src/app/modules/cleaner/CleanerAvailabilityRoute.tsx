@@ -22,9 +22,13 @@ const CleanerAvailabilityRoute = (props: {
   const { subscriptionId, distenceRadius, iscleanerpage } = props
   const { state }: any = useLocation()
   const { filteredData = {}, referece } = state || {}
+  
   console.log('referece', referece);
   // console.log('filteredData', filteredData);
   const [cleanerStats, setCleanerStats] = React.useState<any>([])
+  const [SubscriptionData, setsubscriptionData] = React.useState<any>([])
+  
+
   // console.log('cleanerStats', cleanerStats);
   const [distenceRadeus, setDistenceRadeus] = React.useState<any>(3)
   const [dates, setDates] = React.useState<any>([])
@@ -85,10 +89,10 @@ const CleanerAvailabilityRoute = (props: {
     axios
       .post(`${AminBaseURL}/admin/getAvalabilitybySubscription`, payloads)
       .then((response) => {
-        // console.log('response', response);
         setDates(response.data.dates)
         settimeSlotsfilter(response.data.timeslots)
         setCleanerStats(response.data.data)
+        setsubscriptionData(response.data.subscriptionData)
         setCountData(response.data.countData)
         setLoading(false)
       })
@@ -120,10 +124,7 @@ const CleanerAvailabilityRoute = (props: {
         console.error('ERROR', error)
       })
   }, [])
-  // const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({
-  //   columns,
-  //   data,
-  // })
+
   const handleFromDateChange = (e: any) => {
     setloading2(true)
 
@@ -143,7 +144,6 @@ const CleanerAvailabilityRoute = (props: {
   const handleClick = () => {
     console.log('SelectedTimingMultiSelect', SelectedTimingMultiSelect);
 
-    // console.log('subscription_order_id clicked', subscription_order_id, timeSlotsfilter.length);
 
     if (!trackStatus && timeSlotsfilter.length != 0) {
       toast.error("Already Ckecked Plz Select field")
@@ -156,7 +156,6 @@ const CleanerAvailabilityRoute = (props: {
         }
         arr.push(payload)
       }
-      // console.log('arr', arr);
       setTimeSlots(arr)
       setloading2(true)
       const payloads = {
@@ -169,7 +168,6 @@ const CleanerAvailabilityRoute = (props: {
       axios
         .post(`${AminBaseURL}/admin/getAvalabilitybySubscription`, payloads)
         .then((response) => {
-          // console.log('onlcick', response);
           setDates(response.data.dates)
           settimeSlotsfilter(response.data.timeslots)
           setCleanerStats(response.data.data)
@@ -182,7 +180,6 @@ const CleanerAvailabilityRoute = (props: {
     }
   }
   const handleCleanerChange = (e: any) => {
-    setTrackStatus(true)
     setloading2(true)
     setCleaner(e.target.value)
     const payload = {
@@ -238,41 +235,23 @@ const CleanerAvailabilityRoute = (props: {
       {!iscleanerpage && cleanerStats && (
         <div className='card mb-3 d-flex flex-row  justify-content-between position-sticky' style={{ top: "117px", zIndex: 99 }}>
           <div className='my-2'>
-            {/* <div className='me-1 my-2'>
-              <span className='fw-bolder fs-5 me-1'>
-                {filteredData?.frequencyname}
-              </span>
-            </div> */}
+         
             <div className='d-flex'>
               <span className='fw-bolder fs-5 me-1'>{'Frequency :'}</span>
-              <span className='text-muted fs-5'>{filteredData?.frequencyname} </span>
+              <span className='text-muted fs-5'>{SubscriptionData?.masterFrequency?.name} </span>
             </div>
             <div className='d-flex'>
               <span className='fw-bolder fs-5 me-1'>{'Subscription Date :'}</span>
               <span className='text-muted fs-5'>{filteredData?.startdate} to {filteredData?.enddate}  </span>
             </div>
-            {/* <div className='d-flex'>
-              <span className='text-muted fs-6 me-1 fw-bolder'>{filteredData?.startdate}</span>
-              <span className='text-muted fs-6 me-1 fw-bolder'>To</span>
-              <span className='text-muted fs-6 fw-bolder'>{filteredData?.enddate}</span>
-            </div> */}
-            {/* <div className='d-flex'>
-              <span className='fw-bolder fs-5 me-1'>{'Payment Date:'}</span>
-              <span className='text-muted fs-5'>{filteredData?.paymentdate}</span>
-            </div>
             <div className='d-flex'>
-              <span className='fw-bolder fs-5 me-1'>{'Price:'}</span>
-              <span className='text-muted fs-5'>{filteredData?.cleanerprice}</span>
+              <span className='fw-bolder fs-5 me-1'>{'Address  :'}</span>
+              <span className='text-muted fs-5'>{filteredData?.address}  </span>
             </div>
-            <div className='d-flex'>
-              <span className='fw-bolder fs-5 me-1'>{'Payment Method:'}</span>
-              <span className='text-muted fs-5'>{filteredData?.payment_mode}</span>
-            </div> */}
+      
           </div>
           <div className='my-2'>
-            {/* <div className='me-1 my-2'>
-              <span className='bg-secondary fw-bolder fs-3 rounded p-1'>Cleaner</span>
-            </div> */}
+       
 
             <div className='d-flex'>
               <span className='fw-bolder fs-5 me-1'>{'Customer Name:'}</span>
@@ -284,9 +263,7 @@ const CleanerAvailabilityRoute = (props: {
             </div>
           </div>
           <div className='my-2'>
-            {/* <div className='me-1 my-2'>
-              <span className='bg-secondary fw-bolder fs-3 rounded p-1'>TimeSlot</span>
-            </div> */}
+      
             <div className='d-flex'>
               <span className='fw-bolder fs-5 me-1'>{'Time:'}</span>
               <span className='text-muted fs-5'>{filteredData?.timeslotname}</span>
@@ -301,20 +278,7 @@ const CleanerAvailabilityRoute = (props: {
       <div className='card'>
         <div className='d-flex mb-3 justify-content-around align-items-center flex-wrap px-3'>
           <div className='col-12 col-sm-12 col-md-12 col-lg-5 d-flex align-items-center mt-3'>
-            {/* <select
-              className='form-select form-select-solid me-2'
-              onChange={handleSelectedTimeslot}
-              // value={selectedSupervisor}
-            >
-              <option value=''>Filter By Time</option>
-              {timeSlotsfilter?.map((item: any) => {
-                return (
-                  <option value={item.id} key={item.id}>
-                    {item.name}
-                  </option>
-                )
-              })}
-            </select> */}
+           
             <span className='me-2' >
               <MultiSelect setSelectedTimingMultiSelect={setSelectedTimingMultiSelect} setTrackStatus={setTrackStatus} setTimingslots={setTimingslots} timeSlotsfilter={timeSlotsfilter}></MultiSelect>
             </span>
@@ -385,8 +349,8 @@ const CleanerAvailabilityRoute = (props: {
                   {dates?.map((item: any) => (
                     <th key={item}>
                       <div
-                        className='bg-secondary text-success py-2 me-1 text-center fw-bolder rounded'
-                        style={{ maxWidth: '230px', width: '140px' }}
+                        className='bg-secondary text-success py-2  gy-5  text-center fw-bolder rounded'
+                        style={{ maxWidth: '120px', width: '100px' }}
                       >
                         {item}
                       </div>

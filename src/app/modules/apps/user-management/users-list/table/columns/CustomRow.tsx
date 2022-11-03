@@ -16,14 +16,7 @@ const CustomRow: FC<Props> = ({ row }) => (
       // console.log('cell', cell);
       return (
         <td>
-          {cell.column.id == "is_autopay" && cell.row.original.is_autopay == 1  ? <><ChipCardActive></ChipCardActive></> 
-
-          : cell.column.id == "is_autopay" && cell.row.original.is_autopay == 0 ? <><ChipCardInactive></ChipCardInactive></> 
-
-          : cell.column.id == "razorpay_status" && cell.row.original.is_autopay == 1  &&  cell.row.original.razorpay_token && !cell.row.original.razorpay_status && !cell.row.original.transactionid  ? <><ChipDeductNow></ChipDeductNow></> 
-          
-          : cell.column.id == "razorpay_status" && cell.row.original.razorpay_status == "failed" ? <><ChipDebitFailed></ChipDebitFailed></> 
-          : cell.render('Cell') } 
+          { cell.render('Cell') } 
         </td>
       )
       // &&  cell.row.original.razorpay_token && !cell.row.original.razorpay_status && !cell.row.original.transactionid 

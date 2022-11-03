@@ -12,6 +12,7 @@ import SendNotificationTemplate from '../modules/Notification/SendNotificationTe
 import AllTicketesList from '../modules/Tickets/AllTicketesList'
 import { PageTitle } from '../../_metronic/layout/core'
 import AllRatingsParents from '../modules/allRatings/AllRatingsParents'
+import ReactTables from '../modules/REACT-DATA-TABLES/ReactTables'
 
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -164,6 +165,18 @@ const PrivateRoutes = () => {
               <PageTitle >All Tickets</PageTitle>
 
                 <AllTicketesList />
+              </SuspensedView>
+            }
+            />
+            {/* All Tickets Routes  */}
+          {/* All react tables  Routes  */}
+          <Route
+            path='/all/tables*'
+            element={
+              <SuspensedView>
+              <PageTitle >All React Tables</PageTitle>
+
+                <ReactTables />
               </SuspensedView>
             }
             />

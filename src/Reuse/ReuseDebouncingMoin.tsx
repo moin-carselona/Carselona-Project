@@ -5,7 +5,7 @@ import axios from "axios"
 const [SearchTickets, setSearchTickets] = React.useState("")
 // to fetch data url  
 export function SearchTicketsAPI(SearchTickets: any) {
-    return axios.get(`${"BaseURL_Tickets"}/admin/servergetticketallticketAdminNewPagination?search=${SearchTickets}&start=${0}&length=${10}&columns=id&orders=desc`)
+    return axios.get(`${"BaseURL_Tickets"}/admin/servergetticketallticketAdminNewPagination?search=${SearchTickets}&start=${0}&length=${10}&columns=id&orders=desc`).catch((error) => console.log('error', error.message))
 }
 
 // debouncing 
