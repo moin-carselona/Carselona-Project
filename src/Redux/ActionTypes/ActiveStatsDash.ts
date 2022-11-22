@@ -1,0 +1,1 @@
+export const ACTIVE_STATE = "ACTIVE_STATE"

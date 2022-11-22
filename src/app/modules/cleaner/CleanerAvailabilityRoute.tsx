@@ -1,7 +1,6 @@
 import { Dialog } from '@mui/material'
 import axios from 'axios'
 import React, { useMemo } from 'react'
-
 import moment from "moment";
 import { toast } from 'react-toastify'
 import { useLocation } from 'react-router'
@@ -29,10 +28,8 @@ const CleanerAvailabilityRoute = (props: {
   // console.log('filteredData', filteredData);
   const [cleanerStats, setCleanerStats] = React.useState<any>([])
   const [SubscriptionData, setsubscriptionData] = React.useState<any>([])
-  
-
   // console.log('cleanerStats', cleanerStats);
-  const [distenceRadeus, setDistenceRadeus] = React.useState<any>(3)
+  const [distenceRadeus, setDistenceRadeus] = React.useState<any>(1)
   const [dates, setDates] = React.useState<any>([])
   // console.log('dates', dates);
   const [empty] = React.useState<any>([])
@@ -46,14 +43,15 @@ const CleanerAvailabilityRoute = (props: {
   const [selectedCleaner, setCleaner] = React.useState('0')
   // const [selectedSupervisor, setSelectedTiming] = React.useState('')
   const [id, setId] = React.useState('')
+  const [jobDetailsTimeSlot, setjobDetailsTimeSlot] = React.useState('')
+  const [jobsiteid, setjobsiteid] = React.useState(0)
   const [isModalOpen, setModalOpen] = React.useState(false)
   const [isCleanerModelOpen, setCleanerModelOpen] = React.useState(false)
   const [isLoading, setLoading] = React.useState(false)
   const [countData, setCountData] = React.useState<any>(Object)
   const today = new Date();
-
-  let firstDay = new Date(today.setDate(today.getDate() - today.getDay())).toString();
-  let lastDay = new Date(today.setDate(today.getDate() - today.getDay() + 6)).toString();
+  let firstDay = new Date(today.setDate(today.getDate() - today.getDay()+1)).toString();
+  let lastDay = new Date(today.setDate(today.getDate() - today.getDay() + 7)).toString();
   // console.log('lastDay', lastDay);
   let FirstDate :any =  MonthString.indexOf(firstDay.split(" ")[1])
   let lastDate :any =  MonthString.indexOf(lastDay.split(" ")[1])
@@ -70,26 +68,19 @@ const CleanerAvailabilityRoute = (props: {
   const columns = useMemo(() => cleanerJobColumns, [cleanerJobColumns])
   const reference = useMemo(() => referece, [referece])
   const localKeyCheck = JSON.parse(localStorage.getItem("API") || "0")
-
   console.log('reference', reference);
   const AminBaseURL = adminBaseCleanerAvailibilityURL  // base url present in api.tsx file inside cleaner folder
   const subscription_order_id = useSelector((store: any) => store.ActivePaidSubscriptionReducer.Assign_cleaner_id)
   // console.log('subscription_order_id', subscription_order_id);
-
   React.useEffect(() => {
-
     setLoading(true)
-
     const payloads = {
       fromDate: attendencedatefrom,
       toDate: attendencedateto,
       subscriptionID: filteredData?.id,
-      timeslots: empty,
+      timeslots:  SelectedTimingMultiSelect,
       distenceRadius: distenceRadeus
     }
-
-
-
     axios
       .post(`${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getAvalabilitybySubscription`, payloads)
       .then((response) => {
@@ -128,27 +119,20 @@ const CleanerAvailabilityRoute = (props: {
         console.error('ERROR', error)
       })
   }, [])
-
   const handleFromDateChange = (e: any) => {
     setloading2(true)
-
     setTrackStatus(true)
     setAttendencedatefrom(e.target.value)
     setloading2(false)
-
   }
   const handleToDateChange = (e: any) => {
     setloading2(true)
-
     setTrackStatus(true)
     setAttendencedateto(e.target.value)
     setloading2(false)
-
   }
   const handleClick = () => {
     console.log('SelectedTimingMultiSelect', SelectedTimingMultiSelect);
-
-
     if (!trackStatus && timeSlotsfilter.length != 0) {
       toast.error("Already Ckecked Plz Select field")
     }
@@ -166,7 +150,7 @@ const CleanerAvailabilityRoute = (props: {
         fromDate: attendencedatefrom,
         toDate: attendencedateto,
         subscriptionID: filteredData?.id,
-        timeslots: empty || SelectedTimingMultiSelect,
+        timeslots:  SelectedTimingMultiSelect,
         distenceRadius: distenceRadeus
       }
       axios
@@ -189,13 +173,10 @@ const CleanerAvailabilityRoute = (props: {
     const payload = {
       cleanerid: +e.target.value,
       fromData: attendencedatefrom,
-      timeslots: empty || SelectedTimingMultiSelect,
-
+      timeslots:  SelectedTimingMultiSelect,
       toDate: attendencedateto,
       subscriptionID: filteredData?.id,
       distenceRadius: distenceRadeus
-
-
     }
     axios
       .post(`${AminBaseURL}/admin/getAvalabilitybySubscription`, payload)
@@ -212,8 +193,13 @@ const CleanerAvailabilityRoute = (props: {
     setTrackStatus(true)
     setDistenceRadeus(e.target.value)
   }
-  const handleJobDetailSubmit = (id: any) => {
+  const handleJobDetailSubmit = (id: any,timeslotSelected :any, jobsiteid:number) => {
+    console.log('handleJobDetailSubmit', id);
+    console.log('timeslotSelected handleJobDetailSubmit', timeslotSelected);
+    console.log('jobsiteid handleJobDetailSubmit', jobsiteid);
     setId(id)
+    setjobDetailsTimeSlot(timeslotSelected)
+    setjobsiteid(jobsiteid)
     setModalOpen(true)
   }
   const handleCleanerDetailsSubmit = (id: any) => {
@@ -239,7 +225,6 @@ const CleanerAvailabilityRoute = (props: {
       {!iscleanerpage && cleanerStats && (
         <div className='card mb-3 d-flex flex-row  justify-content-between position-sticky' style={{ top: "117px", zIndex: 99 }}>
           <div className='my-2'>
-         
             <div className='d-flex'>
               <span className='fw-bolder fs-5 me-1'>{'Frequency :'}</span>
               <span className='text-muted fs-5'>{SubscriptionData?.masterFrequency?.name} </span>
@@ -250,13 +235,10 @@ const CleanerAvailabilityRoute = (props: {
             </div>
             <div className='d-flex'>
               <span className='fw-bolder fs-5 me-1'>{'Address  :'}</span>
-              <span className='text-muted fs-5'>{filteredData?.address}  </span>
+              <span className='text-muted fs-5'>{filteredData?.jobsitename ? filteredData?.jobsitename : "Individual"}  </span>
             </div>
-      
           </div>
           <div className='my-2'>
-       
-
             <div className='d-flex'>
               <span className='fw-bolder fs-5 me-1'>{'Customer Name:'}</span>
               <span className='text-muted fs-5'>{filteredData?.name}</span>
@@ -267,7 +249,6 @@ const CleanerAvailabilityRoute = (props: {
             </div>
           </div>
           <div className='my-2'>
-      
             <div className='d-flex'>
               <span className='fw-bolder fs-5 me-1'>{'Time:'}</span>
               <span className='text-muted fs-5'>{filteredData?.timeslotname}</span>
@@ -282,7 +263,6 @@ const CleanerAvailabilityRoute = (props: {
       <div className='card'>
         <div className='d-flex mb-3 justify-content-around align-items-center flex-wrap px-3'>
           <div className='col-12 col-sm-12 col-md-12 col-lg-5 d-flex align-items-center mt-3'>
-           
             <span className='me-2' >
               <MultiSelect setSelectedTimingMultiSelect={setSelectedTimingMultiSelect} setTrackStatus={setTrackStatus} setTimingslots={setTimingslots} timeSlotsfilter={timeSlotsfilter}></MultiSelect>
             </span>
@@ -357,6 +337,8 @@ const CleanerAvailabilityRoute = (props: {
                         style={{ maxWidth: '120px', width: '100px' }}
                       >
                         {item}
+                        <br />  
+                        {moment(item).format('dddd')}
                       </div>
                     </th>
                   ))}
@@ -379,7 +361,7 @@ const CleanerAvailabilityRoute = (props: {
             aria-labelledby='alert-dialog-title'
             aria-describedby='alert-dialog-description'
           >
-            <JobDetailsModal id={id} data={data} handleCloseModal={handleCloseModal} />
+            <JobDetailsModal id={id} jobsiteid={jobsiteid} jobDetailsTimeSlot ={jobDetailsTimeSlot} data={data} handleCloseModal={handleCloseModal} />
           </Dialog>
         )}
         {isCleanerModelOpen && (

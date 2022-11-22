@@ -1,6 +1,6 @@
 import React from 'react'
 import Select from "react-select"
-import { colourStyles } from '../../Css';
+import { colourStyles } from '../../../../../Css';
 const Multiselect = () => {
     const [ShowUser, setShowUSer] = React.useState<any>([])
     const [SelectedUser, setSelectedUser] = React.useState<any>([])

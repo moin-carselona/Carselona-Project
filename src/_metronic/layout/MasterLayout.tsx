@@ -15,11 +15,13 @@ import {
   InviteUsers,
   UpgradePlan,
   ThemeModeProvider,
+  ListDrawer,
 } from '../partials'
 import {MenuComponent} from '../assets/ts/components'
 
 const MasterLayout = () => {
   const location = useLocation()
+  console.log('location', location);
   useEffect(() => {
     setTimeout(() => {
       MenuComponent.reinitialization()
@@ -54,6 +56,7 @@ const MasterLayout = () => {
 
         {/* begin:: Drawers */}
         <ActivityDrawer />
+        <ListDrawer />
         <RightToolbar />
         <DrawerMessenger />
         {/* end:: Drawers */}

@@ -59,7 +59,6 @@ const MixedWidget2: React.FC<Props> = ({className, chartColor, chartHeight, stro
             <KTSVG path='/media/icons/duotune/general/gen024.svg' className='svg-icon-2' />
           </button>
           <Dropdown1 />
-          {/* end::Menu */}
         </div>
       </div>
       {/* end::Header */}

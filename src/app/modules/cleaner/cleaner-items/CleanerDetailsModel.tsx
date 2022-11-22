@@ -52,13 +52,17 @@ const CleanerDetailsModel = (props: any) => {
     else if (referece == "NotAssignCleaner") {
       axios.post(`${ChangedAPI}`, payload).then((assin) => {
          console.log('ChangedAPI ==================== >>>>>>>>> success', ChangedAPI);
+         
         toast.success("Successful Assign cleaner")
+        handleCloseModalCleaner()
+        
       })
     }
     else {
       axios.post(`${ChangedAPI}`, payload).then((assin) => {
          console.log('ChangedAPI ==================== >>>>>>>>> success', ChangedAPI);
-        toast.success("Successful Assign cleaner")
+         toast.success("Successful Assign cleaner")
+         handleCloseModalCleaner()
       })
     }
   }

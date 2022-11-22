@@ -2,6 +2,7 @@
 import React, {FC, useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {useMutation, useQueryClient} from 'react-query'
+import "../../../styles.css"
 import {
   Dialog,
   // Modal,
@@ -31,6 +32,7 @@ import CleanerAvailability from '../cleaner/cleaner-items/CleanerAvailability'
 import UpdateSubscriptionComponent from '../stats/StatsItems/UpdateSubscriptionComponent'
 import ChangeCleanerComponent from '../stats/StatsItems/ChangeCleanerComponent'
 import ChangTimeSlotComponent from '../stats/StatsItems/ChangeTimeSlotComponent'
+import CleaningDayAcivePaidFormPopUp from '../../PopForms/CleaningDayAcivePaidFormPopUp'
 
 type Props = {
   id: ID
@@ -39,6 +41,7 @@ type Props = {
 }
 
 const ActiveActionsCell: FC<Props> = ({referece, id, data}) => {
+  console.log('id active cell id ===>', id);
   const dispatch = useDispatch()
   // console.log('userACtion id', id);
   const {setItemIdForUpdate} = useListView()
@@ -49,6 +52,7 @@ const ActiveActionsCell: FC<Props> = ({referece, id, data}) => {
   const [open, setModalOpen] = useState(false)
 
   const [isStatusOpen, setStatusOpen] = useState(false)
+  const [isCleaningDayOpen, setisCleaningDayOpen] = useState(false)
   const [assignCleanerOpen, setAssignCleanerOpen] = useState(false)
   const [timeSlotOpen, setTimeSlotOpen] = useState(false)
 
@@ -105,8 +109,7 @@ const ActiveActionsCell: FC<Props> = ({referece, id, data}) => {
   }
 
   const handleAssignCleanerOpen = (id: any) => {
-    console.log('id moin assign', id);
-    console.log("assigned moin ")
+    console.log('Active Assign', id);
     setAssignCleanerOpen(true)
     setId(id)
   }
@@ -115,6 +118,7 @@ const ActiveActionsCell: FC<Props> = ({referece, id, data}) => {
     setStatusOpen(true)
     setId(id)
   }
+ 
 
   const handleTimeSlotOpen = (id: any) => {
     setTimeSlotOpen(true)
@@ -126,8 +130,14 @@ const ActiveActionsCell: FC<Props> = ({referece, id, data}) => {
     setStatusOpen(false)
     setAssignCleanerOpen(false)
     setTimeSlotOpen(false)
-  }
+    setisCleaningDayOpen(false)
 
+  }
+  const handlecleaningDayOpen = (id: any) => {
+    console.log('id', id);
+    setisCleaningDayOpen(true)
+    setId(id)
+  }
   return (
     <>
       <button
@@ -140,9 +150,11 @@ const ActiveActionsCell: FC<Props> = ({referece, id, data}) => {
       </button>
       {/* begin::Menu */}
       <div
-        className='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4'
+        className='menu menu-sub DropdownContainerwidth menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4'
         data-kt-menu='true'
         style={{
+  
+          
           zIndex: '105',
           position: 'fixed',
           inset: '0px 0px auto auto',
@@ -175,7 +187,7 @@ const ActiveActionsCell: FC<Props> = ({referece, id, data}) => {
             data-kt-users-table-filter='delete_row'
             onClick={() => handleEditModal(id)}
           >
-            Assign Cleaner Active
+            Assign Cleaner
           </a>
         </div>
 
@@ -218,9 +230,22 @@ const ActiveActionsCell: FC<Props> = ({referece, id, data}) => {
             change cleaned vehicle image status
           </a>
         </div>
+        <div className='menu-item px-3'>
+          <a
+            className='menu-link  px-3  text-capitalize'
+            data-kt-users-table-filter='delete_row'
+            onClick={async () => handlecleaningDayOpen(id)}
+          >
+            change full cleaning day
+          </a>
+        </div>
         {/* end::Menu item */}
       </div>
       {/* end::Menu */}
+
+
+
+
 
       {open && (
         <Dialog
@@ -248,6 +273,17 @@ const ActiveActionsCell: FC<Props> = ({referece, id, data}) => {
           aria-describedby='alert-dialog-description'
         >
           <UpdateSubscriptionComponent selectedId={selectedId} />
+        </Dialog>
+      )}
+      {isCleaningDayOpen && (
+        <Dialog
+          open={true}
+          maxWidth={'xl'}
+          onClose={handleCloseModal}
+          aria-labelledby='alert-dialog-title'
+          aria-describedby='alert-dialog-description'
+        >
+          <CleaningDayAcivePaidFormPopUp selectedId={selectedId} />
         </Dialog>
       )}
 

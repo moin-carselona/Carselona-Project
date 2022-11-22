@@ -20,6 +20,7 @@ import UpdateSubscriptionComponent from './StatsItems/UpdateSubscriptionComponen
 
 const SubscriptionsPage = () => {
   const [data] = React.useState(Object)
+  console.log('data   subcrition   ', data);
   const [isLoading, setLoading] = React.useState(false)
 
   if (isLoading) {

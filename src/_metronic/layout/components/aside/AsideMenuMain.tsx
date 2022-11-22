@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React from 'react'
-import { useIntl } from 'react-intl'
-import { KTSVG } from '../../../helpers'
-import { AsideMenuItemWithSub } from './AsideMenuItemWithSub'
-import { AsideMenuItem } from './AsideMenuItem'
+import {useIntl} from 'react-intl'
+import {KTSVG} from '../../../helpers'
+import {AsideMenuItemWithSub} from './AsideMenuItemWithSub'
+import {AsideMenuItem} from './AsideMenuItem'
 export function AsideMenuMain() {
   const intl = useIntl()
   return (
@@ -11,7 +11,7 @@ export function AsideMenuMain() {
       <AsideMenuItem
         to='/dashboard'
         icon='/media/icons/duotune/art/art002.svg'
-        title={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
+        title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
         fontIcon='bi-app-indicator'
       />
       {/* <AsideMenuItem
@@ -53,7 +53,7 @@ export function AsideMenuMain() {
       </AsideMenuItemWithSub>
 
       {/* tickets ========================================================= */}
-      <AsideMenuItemWithSub
+      {/* <AsideMenuItemWithSub
         to='/crafted/pages'
         title='Tickets'
         fontIcon='bi-archive'
@@ -61,11 +61,13 @@ export function AsideMenuMain() {
       >
         <AsideMenuItemWithSub to='/crafted/pages/tickets' title='All Tickets' hasBullet={true}>
           <AsideMenuItem to='/crafted/pages/tickets/Address' title='Address' hasBullet={true} />
-          <AsideMenuItem to='/crafted/pages/tickets/subscription' title='subscription' hasBullet={true} />
-  
+          <AsideMenuItem
+            to='/crafted/pages/tickets/subscription'
+            title='subscription'
+            hasBullet={true}
+          />
         </AsideMenuItemWithSub>
-  
-      </AsideMenuItemWithSub>
+      </AsideMenuItemWithSub> */}
 
       {/* tickets =========================================================== */}
       {/* <AsideMenuItemWithSub
@@ -104,6 +106,9 @@ export function AsideMenuMain() {
           <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Apps</span>
         </div>
       </div>
+
+
+
       <AsideMenuItemWithSub
         to='/apps/statistics/same-day'
         title='Subscriptions'
@@ -113,14 +118,48 @@ export function AsideMenuMain() {
         <AsideMenuItem to='/apps/statistics/same-day' title='Active Paid' hasBullet={true} />
         <AsideMenuItem to='/apps/statistics/inactive' title='On Demand' hasBullet={true} />
         <AsideMenuItem to='/apps/statistics/paused' title='Renewal' hasBullet={true} />
-        <AsideMenuItem to='/apps/statistics/upcoming' title='Not Assigned' hasBullet={true} />
-        <AsideMenuItem to='/apps/statistics/vehicles/new' title='Kit Subscriptions' hasBullet={true} />
+        {/* <AsideMenuItem to='/apps/statistics/upcoming' title='Not Assigned' hasBullet={true} /> */}
+        <AsideMenuItem
+          to='/apps/statistics/vehicles/new'
+          title='Kit Subscriptions'
+          hasBullet={true}
+        />
         <AsideMenuItem to='/apps/statistics/renewed' title='Inactive' hasBullet={true} />
         <AsideMenuItem to='/apps/statistics/reactivated' title='Server Inactive' hasBullet={true} />
         <AsideMenuItem to='/apps/statistics/future-pause' title='Renewal List' hasBullet={true} />
-        <AsideMenuItem to='/apps/statistics/monthly-onboard' title='Date wise Onboarding' hasBullet={true} />
-        <AsideMenuItem to='/apps/statistics/pending-onboard' title='Onboarding Subscriptions' hasBullet={true} />
+        <AsideMenuItem
+          to='/apps/statistics/monthly-onboard'
+          title='Date wise Onboarding'
+          hasBullet={true}
+        />
+        <AsideMenuItem
+          to='/apps/statistics/pending-onboard'
+          title='Onboarding Subscriptions'
+          hasBullet={true}
+        />
       </AsideMenuItemWithSub>
+
+
+      {/* schedule here start ===================================================== */}
+      <AsideMenuItemWithSub
+        to='/schedule/cleaner'
+        title='Schedules'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/schedule/cleaner/not-assigned' title='Not Assinged' hasBullet={true} />
+        <AsideMenuItem to='/schedule/cleaner/old-job' title='Old Job List' hasBullet={true} />
+        <AsideMenuItem to='/schedule/cleaner/area-wise-cleaner' title='Area Wise cleaner List' hasBullet={true} />
+        <AsideMenuItem to='/schedule/cleaner/champ-permanent-replacement' title='Champ Permanent Replacement' hasBullet={true} />
+        <AsideMenuItem to='/schedule/cleaner/cleanerlist' title='Cleaner List' hasBullet={true} />
+        
+    
+      </AsideMenuItemWithSub>
+
+      {/* schedule here start ===================================================== */}
+
+
+
       <AsideMenuItemWithSub
         to='/apps/admin/stats'
         title='Statistics'
@@ -137,12 +176,28 @@ export function AsideMenuMain() {
       >
         <AsideMenuItem to='/apps/cleaner/cleanerjobs' title='New Job List' hasBullet={true} />
         <AsideMenuItem to='/apps/cleaner/cleaners' title='Active' hasBullet={true} />
-        <AsideMenuItem to='/apps/cleaner/availabilities' title='Cleaner Availability' hasBullet={true} />
-        <AsideMenuItem to='/apps/cleaner/onboardingpendingcleanerlist' title='Onboarding Pending' hasBullet={true} />
-        <AsideMenuItem to='/apps/cleaner/deactivatedcleanerlist' title='Deactivated' hasBullet={true} />
+        <AsideMenuItem
+          to='/apps/cleaner/availabilities'
+          title='Cleaner Availability'
+          hasBullet={true}
+        />
+        <AsideMenuItem
+          to='/apps/cleaner/onboardingpendingcleanerlist'
+          title='Onboarding Pending'
+          hasBullet={true}
+        />
+        <AsideMenuItem
+          to='/apps/cleaner/deactivatedcleanerlist'
+          title='Deactivated'
+          hasBullet={true}
+        />
         <AsideMenuItem to='/apps/cleaner/cleanerattendance' title='Attendance' hasBullet={true} />
         <AsideMenuItem to='/apps/cleaner/cleanerjobs_old' title='Old Jobs List' hasBullet={true} />
-        <AsideMenuItem to='/apps/cleaner/weeklysummery' title='Weekly Payout Report' hasBullet={true} />
+        <AsideMenuItem
+          to='/apps/cleaner/weeklysummery'
+          title='Weekly Payout Report'
+          hasBullet={true}
+        />
         <AsideMenuItem to='/apps/cleaner/cleanersemergencyleaves' title='Leaves' hasBullet={true} />
         <AsideMenuItem to='/apps/cleaner/leads' title='Leads' hasBullet={true} />
         <AsideMenuItem to='/apps/cleaner/leagues' title='League' hasBullet={true} />
@@ -194,9 +249,13 @@ export function AsideMenuMain() {
         icon='/media/icons/duotune/communication/com012.svg'
       >
         <AsideMenuItem to='/notification/template' title='Template' hasBullet={true} />
-        <AsideMenuItem to='/notification/send-notification' title='Send Notification' hasBullet={true} />
+        <AsideMenuItem
+          to='/notification/send-notification'
+          title='Send Notification'
+          hasBullet={true}
+        />
       </AsideMenuItemWithSub>
-    {/* all rating side menu   */}
+      {/* all rating side menu   */}
       <AsideMenuItemWithSub
         to='/ratings'
         title='All Ratings'
@@ -205,7 +264,7 @@ export function AsideMenuMain() {
       >
         <AsideMenuItem to='/all/ratings' title='Ratings' hasBullet={true} />
       </AsideMenuItemWithSub>
-    {/* all tickets side menu   */}
+      {/* all tickets side menu   */}
       <AsideMenuItemWithSub
         to='/Tickets'
         title='All Tickets'
@@ -214,17 +273,63 @@ export function AsideMenuMain() {
       >
         <AsideMenuItem to='/all/tickets' title='Tickets' hasBullet={true} />
       </AsideMenuItemWithSub>
-    {/* react-table side menu   */}
+      {/* react-table side menu   */}
       <AsideMenuItemWithSub
-        to='/Tables'
-        title='React-table'
+        to='/Society'
+        title='Add Society'
         fontIcon='bi-chat-left'
         icon='/media/icons/duotune/communication/com012.svg'
       >
-        <AsideMenuItem to='/all/tables' title='React Tables' hasBullet={true} />
+        <AsideMenuItem to='/all/Societies' title='All Society' hasBullet={true} />
       </AsideMenuItemWithSub>
-    {/* react-table side menu   */}
+      {/* react-table side menu   */}
+      {/* react-table side menu   */}
+      <AsideMenuItemWithSub
+        to='/absentCleanerList'
+        title='Absent Cleaner List'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/absent/cleanerList' title='Absent cleaner List' hasBullet={true} />
+      </AsideMenuItemWithSub>
+      {/* react-table side menu   */}
+      <AsideMenuItemWithSub
+        to='/DailyJob'
+        title='Daily Job Assign'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/daily/job/assign' title='Daily Job Assign' hasBullet={true} />
+      </AsideMenuItemWithSub>
+      {/* react-table side menu   */}
+      {/* Old Cleaner Job List side menu   */}
+      {/* <AsideMenuItemWithSub
+        to='/OldJobList'
+        title='Old Job List'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/old/jobList' title='Old Job List' hasBullet={true} />
+      </AsideMenuItemWithSub> */}
+      {/* Old Cleaner Job List side menu   */}
+      {/* <AsideMenuItemWithSub
+        to='/dashboardss'
+        title='Dashboard'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/dashboardss' title='dashboardss' hasBullet={true} />
+      </AsideMenuItemWithSub> */}
 
+      {/* <AsideMenuItemWithSub
+        to='/activecleaners'
+        title='All Cleaner'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/activecleaners' title='All Cleaner List' hasBullet={true} />
+      </AsideMenuItemWithSub> */}
+      {/* Old Cleaner Job List side menu   */}
     </>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { getViewMedia } from '../../auth/core/_requests'
-import { ContainerCss, PopCloseFormNotification, PopCloseFormNotificationPtag, HeaderCss } from "../Css"
+import { ContainerCss, PopCloseFormNotification, PopCloseFormNotificationPtag, HeaderCss } from "../../../../Css"
 import ImageMediaTemplate from './Views/ImageMediaTemplate'
 import VideoMediaTemplate from './Views/VideoMediaTemplate'
 import {useMemo} from "react"

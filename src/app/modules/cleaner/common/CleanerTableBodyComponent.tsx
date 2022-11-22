@@ -8,6 +8,8 @@ const CleanerTableBodyComponent = (props: any) => {
   console.log('cleanerStats table', cleanerStats);
 
 
+  const udpatedCleanerStats = cleanerStats.sort((a: any, b: any)=> a.cleaner_details.distanceinnumber - b.cleaner_details.distanceinnumber)
+
   const obj = {
     timeslot_name: '',
     date_changed_from: '',
@@ -20,14 +22,16 @@ const CleanerTableBodyComponent = (props: any) => {
     'badge badge-light-danger fw-bolder mb-2 rounded d-flex justify-content-center'
   const noJobClassName =
     'badge badge-light-info fw-bolder mb-2 rounded d-flex justify-content-center'
+  const dateChangeClassName =
+    'badge badge-light-warning fw-bolder mb-2 rounded d-flex justify-content-center'
 
-  if (!cleanerStats) {
+  if (!udpatedCleanerStats) {
     return (
       <>Loading</>
     )
   }
 
-  return cleanerStats?.map((cleanerStat: any) => (
+  return udpatedCleanerStats?.map((cleanerStat: any) => (
     <tbody>
       {timeSlots?.map((timeslots: any) => {
         return (
@@ -48,7 +52,7 @@ const CleanerTableBodyComponent = (props: any) => {
                 onClick={() => handleCleanerDetailsSubmit(cleanerStat?.cleaner_details?.id)}
               >
 
-                {cleanerStat?.cleaner_details?.first_name} {cleanerStat?.cleaner_details?.last_name}  {cleanerStat?.cleaner_details?.distance +" Away"} 
+                {cleanerStat?.cleaner_details?.first_name} {cleanerStat?.cleaner_details?.last_name}  {cleanerStat?.cleaner_details?.distance + " Away"}
               </div>
               {/* </div> */}
             </td>
@@ -69,7 +73,7 @@ const CleanerTableBodyComponent = (props: any) => {
                     style={{ maxWidth: '150px', width: '100px' }}
                   >
                     {attendance && (
-                      <Body attendance={attendance} timeslots={timeslots} noJobClassName={noJobClassName} servicetype2ClassName={servicetype2ClassName} cleanerStat={cleanerStat} handleJobDetailSubmit={handleJobDetailSubmit} servicetype1ClassName={servicetype1ClassName}></Body>
+                      <Body attendance={attendance} timeslots={timeslots} noJobClassName={noJobClassName} servicetype2ClassName={servicetype2ClassName} cleanerStat={cleanerStat} handleJobDetailSubmit={handleJobDetailSubmit} dateChangeClassName={dateChangeClassName} servicetype1ClassName={servicetype1ClassName}></Body>
                     )}
                     {attendance?.timeslot_data[timeslots.name]?.length <= 0 && (
                       <>

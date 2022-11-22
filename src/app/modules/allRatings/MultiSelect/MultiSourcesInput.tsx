@@ -1,6 +1,6 @@
 import React from 'react'
 import Select from "react-select"
-import { colourStyles2 } from '../../Notification/Css';
+import { colourStyles2 } from '../../../../Css';
 const MultiSourcesInput = ({ setSelectedFilterSourceID, SelectedFilterSourceData }: any) => {
     const [showSelectedSourcesData, setshowSelectedSourcesData] = React.useState<any>([])
     React.useEffect(() => {

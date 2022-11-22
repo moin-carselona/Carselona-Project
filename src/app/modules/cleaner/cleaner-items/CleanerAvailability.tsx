@@ -350,7 +350,7 @@ const CleanerAvailability = (props: {
               aria-labelledby='alert-dialog-title'
               aria-describedby='alert-dialog-description'
             >
-              <JobDetailsModal id={id} data={data} handleCloseModal={handleCloseModal}/>
+              <JobDetailsModal id={id}  data={data} handleCloseModal={handleCloseModal}/>
             </Dialog>
           )}
         </div>

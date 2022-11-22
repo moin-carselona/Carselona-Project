@@ -47,7 +47,7 @@ const Topbar: FC = () => {
         {/* begin::Menu- wrapper */}
         <div
           className={clsx(
-            'btn btn-icon btn-active-light-primary btn-custom',
+            'btn btn-icon btn-active-light-primar btn-custom',
             toolbarButtonHeightClass
           )}
           data-kt-menu-trigger='click'

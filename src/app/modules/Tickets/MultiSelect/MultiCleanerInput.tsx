@@ -1,6 +1,6 @@
 import React from 'react'
 import Select from "react-select"
-import { colourStyles2 } from '../../Notification/Css';
+import { colourStyles2 } from '../../../../Css';
 const MultiCleanerInput = ({ setSelectedFilterCleanerID, CleanerfilterData }: any) => {
     const [showSelectedCleaner, setshowSelectedCleaner] = React.useState<any>([])
     React.useEffect(() => {

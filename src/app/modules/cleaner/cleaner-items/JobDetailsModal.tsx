@@ -1,34 +1,41 @@
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
 import {toast} from 'react-toastify'
 
 const JobDetailsModal = (props: any) => {
-  const {id, data, handleCloseModal} = props
-  // console.log('data', data);
-
+  const dispatch =  useDispatch()
+  const {id, data, jobDetailsTimeSlot,jobsiteid,  handleCloseModal} = props
+  console.log('jobsiteid', jobsiteid);
+ 
   let arr: any[] = []
   data.map((item: any) => {
     item.attendence_data.map((data: any) => {
-      data.timeslot_data["06AM-07AM"].filter((inner: any) => {
+      data.timeslot_data[jobDetailsTimeSlot].filter((inner: any) => {
         arr.push(inner)
       })
     })
   })
-
+  
   
   let filteredData = arr.filter((item: any) => item.cleanerid === id)[0]
 
 
-  const handleChangeDate = () => {
-    const formData = new FormData()
-    formData.append('attendenceid', id)
-    axios
-      .post('https://adminapi.carselonadaily.com/api/admin/cleanerattendencebyid', formData)
-      .then((response) => {
-        toast.success('Date changed successfully')
-      })
-      .catch((error) => {
-        toast.error('Something went wrong')
-      })
+
+
+  const handleChangeDate = ( drawerRefs :any) => {
+    handleCloseModal()
+    dispatch({ type: "LISTDRAWER", payload: drawerRefs })
+    dispatch({ type: "JOBDETAILS", payload:  jobsiteid})
+    // const formData = new FormData()
+    // formData.append('attendenceid', id)
+    // axios
+    //   .post('https://adminapi.carselonadaily.com/api/admin/cleanerattendencebyid', formData)
+    //   .then((response) => {
+    //     toast.success('Date changed successfully')
+    //   })
+    //   .catch((error) => {
+    //     toast.error('Something went wrong')
+    //   })
   }
 
   return (
@@ -77,11 +84,11 @@ const JobDetailsModal = (props: any) => {
             </div>
            <div className="col-5">
            <h5>Job Site</h5>
-                <p>{filteredData?.customer_data?.society_details.name || 'No Job Site'}</p>
+                <p>{filteredData?.customer_data?.societyid == 0 ? "Individual" :filteredData?.customer_data?.society_details?.name}</p>
             </div>
             <div className="col-5">
                 <h5>Customer Name</h5>
-                <p>{filteredData?.customer_data?.first_name || 'No Found'} {filteredData?.customer_data?.last_name || 'Name'}</p>
+                <p>{filteredData?.customer_data?.first_name || 'No '} {filteredData?.customer_data?.last_name || 'Name'}</p>
             </div>
              <div className="col-5">
                  <h5>Vehicle Number</h5>
@@ -92,7 +99,7 @@ const JobDetailsModal = (props: any) => {
           {/* <button type='button' className='btn btn-secondary' data-bs-dismiss='modal' onClick={handleCloseModal}>
             Close
           </button> */}
-          <button type='button' className='btn btn-primary ms-2' onClick={handleChangeDate}>
+          <button type='button' className='btn btn-primary ms-2' onClick={()=>handleChangeDate("JobDetails")} id="kt_activities2_toggle2">
           Change Date
           </button>
         </div>

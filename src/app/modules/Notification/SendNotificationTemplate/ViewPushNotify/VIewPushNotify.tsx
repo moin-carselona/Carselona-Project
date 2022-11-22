@@ -1,6 +1,6 @@
 import React from 'react'
 import { getViewMedia } from '../../../auth/core/_requests'
-import { ContainerCss, HeaderCss, PopCloseFormNotification, PopCloseFormNotificationPtag } from '../../Css'
+import { ContainerCss, HeaderCss, PopCloseFormNotification, PopCloseFormNotificationPtag } from '../../../../../Css'
 import { CardCustomContext } from '../../SendNotificationTemplate'
 import ImageMediaTemplate from '../../Templates/Views/ImageMediaTemplate'
 import VideoMediaTemplate from '../../Templates/Views/VideoMediaTemplate'

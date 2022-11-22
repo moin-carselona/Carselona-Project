@@ -23,6 +23,7 @@ const AsideMenuItem: FC<Props & WithChildren> = ({
 }) => {
   const {pathname} = useLocation()
   const isActive = checkIsActive(pathname, to)
+  console.log('to===============================', to);
   const {config} = useLayout()
   const {aside} = config
 
