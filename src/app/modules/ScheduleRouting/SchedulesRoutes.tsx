@@ -5,12 +5,12 @@ import { ListViewProvider } from '../apps/user-management/users-list/core/ListVi
 // import CleanerAvailabilityRoute from '../cleaner/CleanerAvailabilityRoute'
 import ActiveStatsComponent from '../ActiveAssignedCleaner/ActiveStatsComponent'
 import CleanerAvailabilityRoute from '../cleaner/CleanerAvailabilityRoute'
-import Pagessssssssssss from './Pagessssssssssss'
 import PausedStatsComponent from '../stats/StatsItems/PausedStatsComponent'
 import Old_JobList from '../Old_JobList/Old_JobList'
 import ChampAvailabilityRoute from '../ChampPermanentReplacements/ChampAvailabilityRoute'
 import ActiveCleanerRoute from '../ActiveCleaner/ActiveCleanerRoute'
 import AreaWiseAvailabilityRoute from '../AreaCleanerAvailibiltybyAddress/AreaWiseAvailabilityRoute'
+import UpcomingStatsComponent from '../NotAssignedCleaner/UpcomingStatsComponent.'
 // import AssignerCleanerComponent from './StatsItems/AssignerCleanerComponent'
 // import FutureChatComponent from './StatsItems/FutureChatComponent'
 // import FuturePauseComponent from './StatsItems/FuturePauseComponent'
@@ -61,10 +61,12 @@ const SchedulesRoutes = () => {
                         path={`/not-assigned`}
                         element={
                             <>
-                                <PageTitle>Not Paid Subscriptions</PageTitle>
-                                <PausedStatsComponent
-                                    isLoading={isLoading}
-                                    pauseSubscriptions={data.pauseSubscriptions ? data.pauseSubscriptions : []}
+                                <PageTitle>Cleaner Not Subscriptions</PageTitle>
+                                <UpcomingStatsComponent
+                                  isLoading={isLoading}
+                                  upcomingSubscriptions={
+                                    data.upcomingSubscriptions ? data.upcomingSubscriptions : []
+                                  }
                                 />
                             </>
                         }

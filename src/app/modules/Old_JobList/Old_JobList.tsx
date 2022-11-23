@@ -12,6 +12,7 @@ import SecondHeader from './Components/InputBox/SecondHeader'
 import DetailsHeader from './Components/InputBox/DetailsHeader'
 const Old_JobList = () => {
   LocalBaseURL()
+  const [pending, setPending] = React.useState(true);
   const [CleanerAttendanceData, setCleanerAttendanceData] = useState<any>([])
   const [AllCleanerListData, setAllCleanerListData] = useState<any>([])
   const [Search, setSearch] = useState<any>('')
@@ -34,6 +35,12 @@ const Old_JobList = () => {
       const { data } = await GetAllCleanerAttendanceData(localKeyCheck, todaysDate, lastDate, cleanerid)
       setCleanerAttendanceData(data.data)
       setfilterData(data.data)
+      const timeout = setTimeout(() => {
+        setCleanerAttendanceData(data.data)
+        setfilterData(data.data)
+        setPending(false);
+      }, 3000);
+      return () => clearTimeout(timeout);
       // filterData && setLoading(false)
     }
     InvokedRendered()
@@ -45,19 +52,36 @@ const Old_JobList = () => {
     }
     InvokedRendered()
   }, [])
-  const handleAddSocietyPopUp = () => { }
+  // const handleAddSocietyPopUp = () => { }
   const handleSearchSociety = async () => {
     // setLoading(true)
-    const { data } = await GetAllCleanerAttendanceData(localKeyCheck, todaysDate, lastDate, cleanerid)
+    setPending(true);
 
-    const updatedList = data?.data?.sort((a:any, b:any)=>a?.c_id -b?.c_id)
+    const { data } = await GetAllCleanerAttendanceData(localKeyCheck, todaysDate, lastDate, cleanerid)
+    const updatedList = data?.data?.sort((a: any, b: any) => a?.c_id - b?.c_id)
     console.log('updatedList', updatedList);
-    setCleanerAttendanceData(updatedList)
-    setfilterData(updatedList)
+
+
+    const timeout = setTimeout(() => {
+      setCleanerAttendanceData(updatedList)
+      setfilterData(updatedList)
+      setPending(false);
+    }, 3000);
+
+
+    data?.data && clearTimeout(timeout);
+    data?.data && setPending(false);
+    ;
 
     // setLoading(false)
-
+    // data && setLoading(false)
   }
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setPending(false);
+    }, 2000);
+    filterData && clearTimeout(timeout);
+  }, [filterData]);
   return (
     <div>
       {isLoading ? (
@@ -85,6 +109,7 @@ const Old_JobList = () => {
           //     </button>
           //   </>
           // }
+          progressPending={pending}
           subHeader // to use input enable to work
           subHeaderComponent={
             <>

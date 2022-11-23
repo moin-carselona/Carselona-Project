@@ -121,6 +121,11 @@ const ChampAvailabilityRoute = (props: {
       .catch((error) => {
         console.error('ERROR', error)
       })
+
+      if(!filteredData?.id){
+        setLoading(false)
+
+      }
   }, [Subscriptionsid, loading2])
   // useEffect  
   React.useEffect(() => {

@@ -127,6 +127,7 @@ const AreaWiseAvailabilityRoute = (props: {
       .catch((error) => {
         console.error('ERROR', error)
       })
+      
   }, [])
   React.useEffect(() => {
     setloading2(true)
@@ -190,7 +191,7 @@ const AreaWiseAvailabilityRoute = (props: {
         distenceRadius: +distenceRadeus
       }
       axios
-        .post(`${AminBaseURL}/admin/getAvalabilitybySubscription`, payloads)
+        .post(`${AminBaseURL}/admin/getAvalabilitybyAddress`, payloads)
         .then((response) => {
           setDates(response.data.dates)
           settimeSlotsfilter(response.data.timeslots)
