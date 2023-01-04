@@ -63,4 +63,6 @@ export interface ChampsData {
     invoice_status:                     number;
     createdAt:                          number;
     updatedAt:                          number;
+    jobsitename:                          string;
+
 }

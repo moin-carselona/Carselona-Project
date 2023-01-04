@@ -1,37 +1,58 @@
 import { Dialog } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useMemo } from 'react'
-import { useLocation } from 'react-router'
+import { useLocation, useParams } from 'react-router'
 import DailyJobAssignmentTableBody from '../DailyJobAssignment/DailyJobAssignmentTableBody'
-// import { useSelector } from 'react-redux'
 import { LocalBaseURL } from '../../../BaseURLmanagement'
 import { MAIN_ADMIN_BASE_API_URL, TEST_ADMIN_BASE_API_URL } from '../../../apiGlobally'
-// import { MonthNumber, MonthString } from '../cleaner/Months'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
+import JobDetails from './JobDetails'
+import JobDetailsModal from '../cleaner/cleaner-items/JobDetailsModal'
+import TagPopUp from '../../consts/PopUp/TagPopUp'
+import SweetDIalogDailyJOb from '../../consts/SweetAlert/SweetDIalogDailyJOb'
 const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: boolean }) => {
   const { cleanerid, iscleanerpage } = props
-  const { state }: any = useLocation()
-  const { cleaneridSingle = 0 } = state || 0
-  console.log('cleaneridSingle form daily job assignments', cleaneridSingle);
+  // const { state }: any = useLocation()
+  const paramsIDS: any = useParams()
   const ReAssignmentDaily = useSelector((store: any) => store?.DailyReAssignments?.DailyReAssign)
-  console.log('ReAssignmentDaily', ReAssignmentDaily);
   LocalBaseURL()
   const [Max, setMax] = React.useState<any>([])
   const [cleanerStats, setCleanerStats] = React.useState<any>([])
-  const [cleanerData, setcleanerData] = React.useState<any>([])
   // console.log('cleanerStats', cleanerStats);
-  const [distenceRadeus, setDistenceRadeus] = React.useState<any>(1)
+  const [cleanerData, setcleanerData] = React.useState<any>([])
+  const [distenceRadeus, setDistenceRadeus] = React.useState<any>(2)
   const [empty] = React.useState<any>([])
   const [timingSlots, setTimingslots] = React.useState<any>([])
-  const [id, setId] = React.useState('')
-  // const [isModalOpen, setModalOpen] = React.useState(false)
+  // const [id, setId] = React.useState('')
   const [isCleanerModelOpen, setCleanerModelOpen] = React.useState(false)
+  const [isModelOpenss, setModalOpen] = React.useState(false)
+  const [JobDetailsCustomer, setJobDetailsCustomer] = React.useState<any>({})
   const [isLoading, setLoading] = React.useState(false)
-  // const today = new Date()
   const [attendencedatefrom, setAttendencedatefrom] = React.useState<any>(moment().format('YYYY-MM-DD'))
   const [loading2, setloading2] = React.useState(false)
   const localKeyCheck = JSON.parse(localStorage.getItem('API') || '0')
+  const [isCsutomerModelOpen, setCsutomerModelOpen] = React.useState(false)
+  const [isInfoTagOpen, setisInfoTagOpen] = React.useState(false)
+  const [DynamicHeaderinfos, SetDynamicHeaderinfo] = React.useState<any>("")
+  const [InfoTagData, SetInfoTagData] = React.useState("")
+  const [CustomerJobData, setCustomerJobData] = React.useState(false)
+  const handlesCutomerDetailsSubmit = (jobData: any) => {
+    // console.log('jobData', jobData);
+    setCustomerJobData(jobData)
+    setCsutomerModelOpen(!isCleanerModelOpen)
+  }
+  const hadleInfoTagshowBTN = (infoTagData: any, DynamicHeaderinfo : string | null | [] | {}) => {
+    // console.log('infoTagData', infoTagData);
+    SetInfoTagData(infoTagData)
+    SetDynamicHeaderinfo(DynamicHeaderinfo)
+    setisInfoTagOpen(!isCleanerModelOpen)
+  }
+
+  const handleCloseModal = () => {
+    setisInfoTagOpen(false)
+    setCsutomerModelOpen(false)
+  }
   React.useEffect(() => {
     setloading2(true)
     let max = 0
@@ -56,14 +77,9 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
     setLoading(true)
     const payloads = {
       fromDate: attendencedatefrom,
-      cleanerid: cleaneridSingle,
+      cleanerid: +paramsIDS.id,
       timeslots: empty,
       distenceRadius: +distenceRadeus,
-      // //static data pass  ========================>>>>>>>>>>>>>>>>>>>
-      // cleanerid: 1081,
-      // fromDate: "2022-11-05",
-      // distenceRadius: 10,
-      // timeslots: empty,
     }
     axios
       .post(
@@ -72,7 +88,6 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
         payloads
       )
       .then((response) => {
-        console.log('response', response);
         setCleanerStats(response?.data?.data)
         setTimingslots(response?.data?.data)
         setcleanerData(response?.data?.cleanerData[0])
@@ -81,7 +96,7 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
       .catch((error) => {
         setLoading(false)
       })
-  }, [ReAssignmentDaily])
+  }, [ReAssignmentDaily, paramsIDS.id])
   const handleFromDateChange = (e: any) => {
     setloading2(true)
     setAttendencedatefrom(e.target.value)
@@ -91,7 +106,7 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
     setLoading(true)
     const payloads = {
       fromDate: attendencedatefrom,
-      cleanerid: cleaneridSingle,
+      cleanerid: +paramsIDS.id,
       timeslots: empty,
       distenceRadius: +distenceRadeus,
     }
@@ -108,11 +123,16 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
   const handleDistanceFormData = (e: any) => {
     setDistenceRadeus(e.target.value)
   }
-  const handleJobDetailSubmit = (id: any) => {
-    setId(id)
+  const handleJobDetailSubmit = (timeslot: any) => {
+    // console.log('timeslot', timeslot);
+    setJobDetailsCustomer(timeslot)
+    setModalOpen(!isModelOpenss)
+  }
+  const handleCloseModalss = () => {
+    setModalOpen(false)
   }
   const handleCleanerDetailsSubmit = (id: any) => {
-    setId(id)
+    // setId(id)
     setCleanerModelOpen(!isCleanerModelOpen)
   }
   if (isLoading) {
@@ -126,38 +146,61 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
   return (
     <>
       {!iscleanerpage && cleanerStats && (
-        <div
-          className='card mb-3 ml-6 p-3 d-flex flex-row  justify-content-between position-sticky'
-          style={{ top: '117px', zIndex: 99 }}
-        >
-          <div className='my-3 ml-3'>
+       
+        <div className='card  d-flex flex-row mb-1 p-3 align-items-center    justify-content-between position-sticky' style={{ top: "69px", zIndex: 99, height: "80px" }}>
+          <div className='my-2'>
             <div className='d-flex'>
-              <span className='fw-bolder fs-5 me-1'>{'Name of Absent Champ :'}</span>
-              <span className='text-muted fs-5'>{cleanerData?.first_name} </span>
+              <span className='fw-bolder fs-5 me-1'>{'Absent Champ Name :'}</span>
+              <span className='text-muted fs-5'>{cleanerData?.first_name} {cleanerData?.last_name} </span>
             </div>
             <div className='d-flex'>
-              <span className='fw-bolder fs-5 me-1'>{'Super Visor Name :'}</span>
+              <span className='fw-bolder fs-5 me-1'>{'Supervisor Name :'}</span>
               <span className='text-muted fs-5'>
                 {cleanerData?.supervisors ? cleanerData?.supervisors[0]?.supervisorcleaner?.first_name + " " + cleanerData?.supervisors[0]?.supervisorcleaner?.last_name : "No Name"}
               </span>
             </div>
-            <div className='d-flex'>
-              <span className='fw-bolder fs-5 me-1'>{'Date of absent :'}</span>
+            <div className='d-flex mb-2'>
+              <span className='fw-bolder fs-5 me-1'>{'Absent Date :'}</span>
               <span className='text-muted fs-5'>
                 {attendencedatefrom}
               </span>
             </div>
           </div>
+         
         </div>
       )}
+      <div className='d-flex mb-3 justify-content-around align-items-center flex-wrap px-3 position-sticky' style={{ top: '160px', zIndex: 99 }}>
+        <div className='col-12 col-sm-12 col-md-12 col-lg-5 d-flex align-items-center mt-3'>
+          <span className='me-2'>
+          </span>
+        </div>
+        <div className='col-12 col-sm-12 col-md-12 col-lg-6 d-flex align-items-center mt-3'>
+          <input
+            type='number'
+            className='form-control bg-secondary me-2 border'
+            placeholder='0/km'
+            onChange={handleDistanceFormData}
+            value={distenceRadeus}
+          />
+          <input
+            type='date'
+            className='form-select form-select-solid me-2'
+            onChange={handleFromDateChange}
+            value={attendencedatefrom}
+            data-format="yyyy-mm-dd"
+          />
+          <div>
+            <button className='btn btn-sm btn-warning' onClick={handleClick}>
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+      <br />
       <div className='card'>
-        <div className='d-flex mb-3 justify-content-around align-items-center flex-wrap px-3'>
+        {/* <div className='d-flex mb-3 justify-content-around align-items-center flex-wrap px-3'>
           <div className='col-12 col-sm-12 col-md-12 col-lg-5 d-flex align-items-center mt-3'>
             <span className='me-2'>
-              {/* <MultiSelect
-                setSelectedData={setSelectedTimingMultiSelect}
-                allDatafilter={timingSlots}
-              ></MultiSelect> */}
             </span>
           </div>
           <div className='col-12 col-sm-12 col-md-12 col-lg-6 d-flex align-items-center mt-3'>
@@ -181,7 +224,7 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
         {loading2 ? (
           <div className='d-flex align-items-center justify-content-center h-75 flex-column'>
             <div className='spinner-border mr-15' role='status'></div>
@@ -227,8 +270,38 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
                   Max={Max}
                   handleJobDetailSubmit={handleJobDetailSubmit}
                   handleCleanerDetailsSubmit={handleCleanerDetailsSubmit}
+                  handlesCutomerDetailsSubmit={handlesCutomerDetailsSubmit}
+                  hadleInfoTagshowBTN={hadleInfoTagshowBTN}
                 />
               )}
+              {/* pop up  details  */}
+              {isCsutomerModelOpen && (
+                <Dialog
+                  open={true}
+                  onClose={handleCloseModal}
+                  aria-labelledby='alert-dialog-title'
+                  aria-describedby='alert-dialog-description'
+                >
+                  <JobDetails dalilyjob={"dalilyjob"} CustomerJobData={CustomerJobData} handleCloseModal={handleCloseModal} />
+                </Dialog>)}
+              {isInfoTagOpen && (
+                <Dialog
+                  open={true}
+                  onClose={handleCloseModal}
+                  aria-labelledby='alert-dialog-title'
+                  aria-describedby='alert-dialog-description'
+                >
+                  <TagPopUp  infoData={InfoTagData} DynamicHeaderinfo={DynamicHeaderinfos} handleCloseModal={handleCloseModal} reference={"SweetDIalogDailyJobTag"} />
+                </Dialog>)}
+              {isModelOpenss && (
+                <Dialog
+                  open={true}
+                  onClose={handleCloseModalss}
+                  aria-labelledby='alert-dialog-title'
+                  aria-describedby='alert-dialog-description'
+                >
+                  <JobDetailsModal filteredData={JobDetailsCustomer} handleCloseModalss={handleCloseModalss} />
+                </Dialog>)}
             </table>
           </div>
         )}

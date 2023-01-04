@@ -2,19 +2,7 @@ import StatisticsDashboard from "./components/StatisticsDashboard"
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { FC, useEffect, useState } from 'react'
 import { useIntl } from 'react-intl'
-// import {
-//     MixedWidget2,
-//     MixedWidget10,
-//     MixedWidget11,
-//     ListsWidget2,
-//     ListsWidget3,
-//     ListsWidget4,
-//     ListsWidget5,
-//     ListsWidget6,
-//     TablesWidget5,
-//     TablesWidget10,
-//     MixedWidget8,
-// } from "../_metronic/partials/widgets"
+
 import { PageTitle } from "../_metronic/layout/core"
 import { GetAllCustomerStats } from "./components/Api"
 import { LocalBaseURL } from "../BaseURLmanagement"

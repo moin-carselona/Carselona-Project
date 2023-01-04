@@ -23,7 +23,7 @@ const ReactDataTable = () => {
   }, [Search])
   const handleAddSocietyPopUp = () => {
     setPopUpPostFormOpen(!PopUpPostFormOpen)
-    console.log('PopUpPostFormOpen', PopUpPostFormOpen);
+    // console.log('PopUpPostFormOpen', PopUpPostFormOpen);
   }
   useEffect(() => {
     setLoading(true)

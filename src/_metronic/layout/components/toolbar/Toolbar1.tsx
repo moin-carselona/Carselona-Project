@@ -2,21 +2,19 @@
 import clsx from 'clsx'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { KTSVG } from '../../../helpers'
+// import { KTSVG } from '../../../helpers'
 import { CreateAppModal } from '../../../partials'
 import { useLayout } from '../../core'
 import { DefaultTitle } from '../header/page-title/DefaultTitle'
 import React from "react"
+import GoogleAutocompleteAddress from '../../../../app/modules/AreaCleanerAvailibiltybyAddress/GoogleAutocompleteAddress/GoogleAutocompleteAddress'
 const Toolbar1 = () => {
-  React.useEffect(()=>{
+  React.useEffect(() => {
     const onclickeBaseURLChange = JSON.parse(localStorage.getItem("ischecked") || "0")
-    if(!onclickeBaseURLChange){
-      console.log("checking when is chkekd not inlocal")
-    localStorage.setItem("ischecked", JSON.stringify(false))
-
+    if (!onclickeBaseURLChange) {
+      localStorage.setItem("ischecked", JSON.stringify(false))
     }
-
-  },[])
+  }, [])
   const CardTemplate = useSelector<any>((state) => state?.NotificationActionReducer.CreatTemplate)
   const { classes } = useLayout()
   const [showCreateAppModal, setShowCreateAppModal] = useState<boolean>(false)
@@ -24,109 +22,86 @@ const Toolbar1 = () => {
   const handleCreateTemplatesPop = () => {
     setCreateTemplatesPopOpen(!createTemplatesPop)
   }
-  const onclickeBaseURLChange =  JSON.parse(localStorage.getItem("ischecked") || "0") ? JSON.parse(localStorage.getItem("ischecked") || "0") : false
-  // console.log('onclickeBaseURLChange toolbar', onclickeBaseURLChange);
-
-  const [localKey, setlocalKey] = useState<boolean>(onclickeBaseURLChange||false)
-  // console.log('localKey toolbar', localKey);
+  const onclickeBaseURLChange = JSON.parse(localStorage.getItem("ischecked") || "0") ? JSON.parse(localStorage.getItem("ischecked") || "0") : false
+  const [localKey, setlocalKey] = useState<boolean>(onclickeBaseURLChange || false)
   const changeStatusApi = () => {
-    // // console.log('localKey btn', localKey);
-    // localStorage.setItem("API", JSON.stringify(!localKey))
     localStorage.setItem("ischecked", JSON.stringify(!localKey))
     const onclickeBaseURLChange = JSON.parse(localStorage.getItem("ischecked") || "0")
-    // console.log('onclickeBaseURLChange', onclickeBaseURLChange);
     setlocalKey(onclickeBaseURLChange)
-    
   }
   React.useEffect(() => {
-    // console.log(3,localKey)\
-    // console.log('=>>>>>> window.location .origin', window.location.origin, '>>>>>>>>>>>>>', window.location.origin.includes("3011"))
-
-
-
-
-   // console.log("main url ", window.location.origin)
-   if(localKey){
-    localStorage.setItem("API", JSON.stringify(true))
-    
-  }else{
-    if (window.location.origin.includes("3011")) {
-      // console.log('window.location.origin', window.location.origin);
-      localStorage.setItem("API", JSON.stringify(false))
-      const stats = JSON.parse(localStorage.getItem("API") || "0")
-      console.log('false', stats);
-    }
-    else {
+    if (localKey) {
       localStorage.setItem("API", JSON.stringify(true))
-      // console.log('window.location.origin', window.location.origin);
-      const stats = JSON.parse(localStorage.getItem("API") || "0")
-      console.log('true', stats);
+    } else {
+      if (window.location.origin.includes("3011")) {
+        localStorage.setItem("API", JSON.stringify(false))
+        const stats = JSON.parse(localStorage.getItem("API") || "0")
+      }
+      else {
+        localStorage.setItem("API", JSON.stringify(true))
+        const stats = JSON.parse(localStorage.getItem("API") || "0")
+        // console.log('true', stats);
+      }
     }
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
   }, [localKey])
+  const urlEndPoint = window.location.pathname.split("/")
+  {
+    urlEndPoint[urlEndPoint.length - 1] === "area-wise-cleaner" &&
+    <div className='me-4'>
+      <GoogleAutocompleteAddress></GoogleAutocompleteAddress>
+    </div>
+  }
+  // console.log('urlEndPoint', urlEndPoint[urlEndPoint.length - 1]);
+  // console.log('===========================================global menu ', "moin-moin-moin-moin-moin-moin-moin-moin-moin-");
   return (
     <>
       <div className='toolbar' id='kt_toolbar'>
-        {/* begin::Container */}
         <div
           id='kt_toolbar_container'
           className={clsx(classes.toolbarContainer.join(' '), 'd-flex flex-stack')}
         >
           <DefaultTitle />
-          {/* begin::Actions */}
           <div className='d-flex align-items-center py-1'>
-            {/* begin::Wrapper */}
-            <div className='me-4'>
-              {/* begin::Menu */}
-              <a
-                href='#'
-                className='btn btn-sm btn-flex btn-light btn-active-primary fw-bolder'
-                data-kt-menu-trigger='click'
-                data-kt-menu-placement='bottom-end'
-                data-kt-menu-flip='top-end'
-              >
-                <KTSVG
-                  path='/media/icons/duotune/general/gen031.svg'
-                  className='svg-icon-5 svg-icon-gray-500 me-1'
-                />
-                Filter
-              </a>
-              {/* end::Menu */}
-            </div>
-            <div className='me-4'>
-              {/* begin::Menu */}
-              <a
-                href='#'
-                className='btn btn-sm btn-flex btn-light btn-active-primary fw-bolder'
-                data-kt-menu-trigger='click'
-                data-kt-menu-placement='bottom-end'
-                data-kt-menu-flip='top-end'
-                onClick={changeStatusApi}
-              >
-                <KTSVG
-                  path='/media/icons/duotune/general/gen031.svg'
-                  className='svg-icon-5 svg-icon-gray-500 me-1'
-                />
-                {localKey ? "AdminApi" : "TestAdminApi"}
-              </a>
-              {/* end::Menu */}
-            </div>
-            {/* end::Wrapper */}
-            {/* begin::Button */}
+            {/* area-wise-cleaner cleaner list seacrh box ======================================================  */}
             {
+              urlEndPoint[urlEndPoint.length - 1] === "area-wise-cleaner" &&
+              <div className='me-4'>
+                <GoogleAutocompleteAddress></GoogleAutocompleteAddress>
+              </div>
+            }
+            {/* area-wise-cleaner cleaner list seacrh box ========================================================= */}
+            {/* to toggle running api into test admin or live admin==============================================   */}
+            <div className='me-2'>
+              {/* begin::Menu */}
+              {
+                !window.location.origin.includes("3011") ? <></> : <a
+                  // href='#'
+                  className={`btn btn-sm btn-flex btn-light btn-${localKey ? "danger" : "primary"} fw-bolder`}
+                  data-kt-menu-trigger='click'
+                  data-kt-menu-placement='bottom-end'
+                  data-kt-menu-flip='top-end'
+                  onClick={changeStatusApi}
+                >
+                  <i className="bi bi-globe"></i>
+                  {localKey ? "ADMIN-API-RUNNING" : "TEST-ADMIN-API-RUNNING"}
+                </a>
+              }
+            </div>
+            {/* to toggle running api into test admin or live admin ==================================================  */}
+            {/* Notification template form page ===================================================================  */}
+            {
+              CardTemplate == "create_notify_template" ?
+                <a
+                  className='btn btn-sm btn-primary cursor-pointer'
+                  id='kt_toolbar_primary_button'
+                  data-bs-toggle='modal'
+                  data-bs-target='#kt_modal_create_app'
+                  onClick={() => handleCreateTemplatesPop()}
+                >
+                  Create Templates
+                </a> : ""
+            }
+            {/* {
               CardTemplate == "create_notify_template" ?
                 <a
                   className='btn btn-sm btn-primary cursor-pointer'
@@ -146,7 +121,7 @@ const Toolbar1 = () => {
                 >
                   Create
                 </a>
-            }
+            } */}
             {/* end::Button */}
           </div>
           {/* end::Actions */}
@@ -154,7 +129,6 @@ const Toolbar1 = () => {
         {/* end::Container */}
       </div>
       <CreateAppModal show={showCreateAppModal} handleClose={() => setShowCreateAppModal(false)} CardTemplate={CardTemplate} handleCreateTemplatesPop={handleCreateTemplatesPop} createTemplatesPop={createTemplatesPop} />
-      {/* {createTemplatesPop && <DialogBox handleCreateTemplatesPop={handleCreateTemplatesPop} />} */}
     </>
   )
 }

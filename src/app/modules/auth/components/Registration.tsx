@@ -283,7 +283,6 @@ export function Registration() {
         )}
       </div>
       {/* end::Form group */}
-
       {/* begin::Form group */}
       <div className='fv-row mb-10'>
         <div className='form-check form-check-custom form-check-solid'>

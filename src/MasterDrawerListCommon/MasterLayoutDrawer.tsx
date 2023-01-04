@@ -13,8 +13,11 @@ import { PageDataProvider } from '../_metronic/layout/core'
 import {  InviteUsers, ListDrawer, ThemeModeProvider, UpgradePlan } from '../_metronic/partials'
 
 const MasterLayoutDrawer = () => {
+  const urlEndPoint = window.location.pathname.split("/")
+  // console.log('urlEndPoint toolbar ', urlEndPoint);
+  // urlEndPoint[urlEndPoint.length - 1] === "area-wise-cleaner"
   const location = useLocation()
-  console.log('location', location);
+  // console.log('location', location);
   useEffect(() => {
     setTimeout(() => {
       MenuComponent.reinitialization()
@@ -33,7 +36,7 @@ const MasterLayoutDrawer = () => {
           <div className='wrapper d-flex flex-column flex-row-fluid' id='kt_wrapper'>
             <HeaderWrapper />
             <div id='kt_content' className='content d-flex flex-column flex-column-fluid'>
-              <Toolbar />
+           { urlEndPoint[urlEndPoint.length - 1] === "area-wise-cleaner" && <Toolbar />}   
               <div className='post d-flex flex-column-fluid' id='kt_post'>
                 <Content>
                   <Outlet />
@@ -43,10 +46,11 @@ const MasterLayoutDrawer = () => {
             <Footer />
           </div>
         </div>
-        <ListDrawer />
-        <InviteUsers />
+        {/* <ListDrawer /> */}
+        {/* <InviteUsers /> */}
         <UpgradePlan />
         {/* end:: Modals */}
+        {/* <MessengerChatBoxDrawer></MessengerChatBoxDrawer> */}
         <ScrollTop />
       </ThemeModeProvider>
     </PageDataProvider>

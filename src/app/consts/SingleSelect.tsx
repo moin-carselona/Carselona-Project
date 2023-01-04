@@ -1,10 +1,9 @@
 import React from 'react'
 import Select from 'react-select'
-
-import {colourStyles2} from '../../Css'
-const SingleSelect = ({setSelectedData, allDatafilter, refrence}: any) => {
-  const [showData, setShowData] = React.useState([])
-
+import { colourStyles2 } from '../../Css'
+const SingleSelect = ({ handleChangeInputData, name, setSelectedData, allDatafilter, refrence, reference2 }: any) => {
+  
+  const [showData, setShowData] = React.useState<any>("")
   React.useEffect(() => {
     const updatedData = allDatafilter?.map((ele: any, i: number) => {
       if (ele.first_name) {
@@ -14,25 +13,50 @@ const SingleSelect = ({setSelectedData, allDatafilter, refrence}: any) => {
         }
         return newData
       }
-
-      if (ele.name) {
+      else if (ele.attendencedate) {
+        let ans = ele.servicetype == 1 ? "Alternate Days" : ele.servicetype == 2 ? "Full Cleaninig Day" : "NO Decided"
+        const newData = {
+          label: ele.attendencedate + ' | ' + ele.job_detail.name + ' | ' + ans,
+          value: ele.id,
+        }
+        return newData
+      }
+      else if (ele.name) {
         const newData = {
           label: ele.name,
           value: ele.id,
         }
         return newData
       }
+      else if (ele.category_name) {
+        const newData = {
+          label: ele.category_name,
+          value: ele.id,
+        }
+        return newData
+      }
+      else if (ele.subcategory_name) {
+        const newData = {
+          label: ele.subcategory_name,
+          value: ele.id,
+        }
+        return newData
+      }
     })
-    setShowData(updatedData)
-  }, [allDatafilter])
-  const HandleSearch = (event: any) => {
-    console.log(event)
-    if (event) {
-      setSelectedData(event.value || 0)
-    } else {
-      setSelectedData(0)
+    if (reference2 === "timeslotids") {
+      const newUpdatedData = updatedData?.filter((ele: any, i: number) => {
+        if (ele?.label !== "06AM-07AM") {
+          return ele
+        }
+      })
+      // console.log('newUpdatedData', newUpdatedData);
+      // console.log('updatedData', updatedData);
+      setShowData(newUpdatedData)
     }
-  }
+    else {
+      setShowData(updatedData)
+    }
+  }, [allDatafilter])
   return (
     <div>
       <Select
@@ -41,8 +65,11 @@ const SingleSelect = ({setSelectedData, allDatafilter, refrence}: any) => {
         isClearable
         isSearchable
         options={showData}
-        onChange={HandleSearch}
-        defaultValue={showData}
+        onChange={(event) => handleChangeInputData(event, name)}
+        defaultValue={reference2 !== null ? [{
+          label: "06AM-07AM",
+          value: "2",
+        }] : showData}
         styles={colourStyles2}
       />
     </div>

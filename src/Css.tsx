@@ -17,6 +17,7 @@ export const IdCss: CSS.Properties = {marginLeft: '-345px'}
 export const ID_inputCss: CSS.Properties = {marginLeft: '-220px', width: '205px'}
 export const Create_BtnCss: CSS.Properties = {width: '30%', marginLeft: '75%'}
 
+
 export const Desc_InputCss: CSS.Properties = {width: '205px'}
 export const ContainerCss: CSS.Properties = {width: '600px'}
 // export const ContainerCssAss: CSS.Properties = {width: '100%'}
@@ -50,6 +51,7 @@ export const colourStyles = {
       backgroundColor: isFocused ? '#519ff7' : null,
       color: '#333333',
       width: '100%',
+      tabindex:1
     }
   },
   control: (styles: any, {isFocused, isSelected}: any) => {
@@ -58,6 +60,7 @@ export const colourStyles = {
       color: '#333333',
       width: '100%',
       border: '0.2px solid #519ff7',
+      tabindex:1
       // boxShadow: isFocused ? "0px 0px 6px #ff8b67" : "none",
     }
   },
@@ -65,6 +68,7 @@ export const colourStyles = {
     return {
       ...styles,
       width: '200px',
+      tabindex:1
     }
   },
 }
@@ -75,6 +79,7 @@ export const colourStyles2 = {
       backgroundColor: isFocused ? '#519ff7' : null,
       color: '#333333',
       width: '100%',
+      tabindex: 1
     }
   },
   control: (styles: any, {isFocused, isSelected}: any) => {
@@ -84,12 +89,14 @@ export const colourStyles2 = {
       width: '100%',
       border: '0.2px solid whitesmoke',
       // boxShadow: isFocused ? "0px 0px 6px #ff8b67" : "none",
+      tabindex:1
     }
   },
   input: (styles: any) => {
     return {
       ...styles,
       width: '200px',
+      tabindex:1
     }
   },
 }

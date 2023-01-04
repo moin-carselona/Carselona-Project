@@ -1,15 +1,12 @@
 import Body from "./Body";
 import { memo, useState } from "react";
 import React from "react"
-
 const CleanerTableBodyComponent = (props: any) => {
   const { timeSlots, cleanerStats, handleJobDetailSubmit, handleCleanerDetailsSubmit } = props
+  // console.log('cleanerStats', cleanerStats);
   // console.log('timeSlots table', timeSlots);
-  console.log('cleanerStats table', cleanerStats);
-
-
-  const udpatedCleanerStats = cleanerStats.sort((a: any, b: any)=> a.cleaner_details.distanceinnumber - b.cleaner_details.distanceinnumber)
-
+  // console.log('cleanerStats table', cleanerStats);
+  const udpatedCleanerStats = cleanerStats.sort((a: any, b: any) => a.cleaner_details.distanceinnumber - b.cleaner_details.distanceinnumber)
   const obj = {
     timeslot_name: '',
     date_changed_from: '',
@@ -24,18 +21,16 @@ const CleanerTableBodyComponent = (props: any) => {
     'badge badge-light-info fw-bolder mb-2 rounded d-flex justify-content-center'
   const dateChangeClassName =
     'badge badge-light-warning fw-bolder mb-2 rounded d-flex justify-content-center'
-
   if (!udpatedCleanerStats) {
     return (
       <>Loading</>
     )
   }
-
   return udpatedCleanerStats?.map((cleanerStat: any) => (
-    <tbody>
+    <tbody  >
       {timeSlots?.map((timeslots: any) => {
         return (
-          <tr>
+          <tr  >
             <td
               style={{ maxWidth: '230px', width: '130px', cursor: 'pointer' }}
               data-bs-toggle='tooltip'
@@ -44,14 +39,12 @@ const CleanerTableBodyComponent = (props: any) => {
               // title={`<span>Phone</span><span>${cleanerStat.cleaner_details.phone}</span>`}
               title="And here's some amazing <span class='label label-inline font-weight-bold label-light-primary'>HTML</span> content. It's very <code>engaging</code>. Right?"
             >
-
               <div
                 className='bg-secondary p-2 text-center rounded text-black-50'
                 style={{ whiteSpace: 'pre-wrap' }
                 }
                 onClick={() => handleCleanerDetailsSubmit(cleanerStat?.cleaner_details?.id)}
               >
-
                 {cleanerStat?.cleaner_details?.first_name} {cleanerStat?.cleaner_details?.last_name}  {cleanerStat?.cleaner_details?.distance + " Away"}
               </div>
               {/* </div> */}
@@ -64,49 +57,50 @@ const CleanerTableBodyComponent = (props: any) => {
                 {timeslots?.name}
               </div>
             </td>
-            {cleanerStat?.attendence_data?.map((attendance: any) => (
-              <>
-
+            {cleanerStat?.attendence_data?.map((attendance: any) => {
+              // console.log('attendance?.timeslot_data[timeslots.name]', attendance?.timeslot_data[timeslots.name]);
+              return (<>
                 <td>
                   <div
                     className='p-3 d-flex flex-column'
                     style={{ maxWidth: '150px', width: '100px' }}
                   >
-                    {attendance && (
+                    {  attendance && (
                       <Body attendance={attendance} timeslots={timeslots} noJobClassName={noJobClassName} servicetype2ClassName={servicetype2ClassName} cleanerStat={cleanerStat} handleJobDetailSubmit={handleJobDetailSubmit} dateChangeClassName={dateChangeClassName} servicetype1ClassName={servicetype1ClassName}></Body>
                     )}
                     {attendance?.timeslot_data[timeslots.name]?.length <= 0 && (
                       <>
                         {
                           <div className={noJobClassName} style={{ cursor: ' not-allowed' }}>
-                            NJ - 0
+                            NJ
                           </div>
                         }
                         {
                           <div className={noJobClassName} style={{ cursor: ' not-allowed' }}>
-                            NJ - 0
+                            NJ
                           </div>
                         }
                         {
                           <div className={noJobClassName} style={{ cursor: ' not-allowed' }}>
-                            NJ - 0
+                            NJ
                           </div>
                         }
                         {
                           <div className={noJobClassName} style={{ cursor: ' not-allowed' }}>
-                            NJ - 0
+                            NJ
                           </div>
                         }
                       </>
                     )}
                   </div>
                 </td>
-              </>
-            ))}
+              </>)
+            }
+            )}
           </tr>
         )
       })}
     </tbody>
   ))
 }
-export default memo(CleanerTableBodyComponent)
+export default CleanerTableBodyComponent

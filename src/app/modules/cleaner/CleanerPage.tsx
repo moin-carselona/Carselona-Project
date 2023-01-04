@@ -42,12 +42,11 @@ const CleanerPage = () => {
           path={`/availabilities`}
           element={
             <>
-              <PageTitle>Cleaner Availability</PageTitle>
+              <PageTitle>Assign Champ</PageTitle>
               {/* <CleanerPageAvailability subscriptionId={12} distenceRadius={'10'}  /> */}
               {/* <CleanerPageAvailability /> */}
               <CleanerAvailabilityRoute
-                subscriptionId={11721}
-                distenceRadius={'10'}
+             
                 iscleanerpage={true}
               />
             </>

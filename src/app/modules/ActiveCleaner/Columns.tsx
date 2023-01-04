@@ -1,20 +1,13 @@
-import DataTable, {TableColumn} from 'react-data-table-component'
+import DataTable, { TableColumn } from 'react-data-table-component'
 import HandleDropDown from './DropBox/HandleDropDown'
 import { Root } from './interfaces'
-
-
 export const columns: TableColumn<Root>[] = [
   {
     name: 'ID',
-    selector: (row: {id: any}) => row.id,
+    selector: (row: { id: any }) => row.id,
     sortable: true,
     id: 'ID',
   },
-  // {
-  //   name: 'ACTION',
-  //   selector: (row: {id: any}) => row.id,
-  //   sortable: true,
-  // },
 
   {
     name: 'ACTION',
@@ -25,13 +18,12 @@ export const columns: TableColumn<Root>[] = [
   {
     name: 'NAME',
     selector: (row) => row.first_name + ' ' + row.last_name,
-    
     sortable: true,
     id: 'css',
   },
   {
     name: 'PHONE',
-    selector: (row: {phone: any}) => row.phone,
+    selector: (row: { phone: any }) => row.phone,
     sortable: true,
   },
   {
@@ -65,17 +57,17 @@ export const columns: TableColumn<Root>[] = [
   },
   {
     name: 'EMAIL',
-    selector: (row: {email: any}) => row.email,
+    selector: (row: { email: any }) => row.email,
     sortable: true,
   },
   {
     name: 'ADDRESS',
-    selector: (row: {address: any}) => row.address,
+    selector: (row: { address: any }) => row.address,
     sortable: true,
   },
   {
     name: 'PINCODE',
-    selector: (row: {pincode: any}) => row.pincode,
+    selector: (row: { pincode: any }) => row.pincode,
     sortable: true,
   },
   {
@@ -86,7 +78,6 @@ export const columns: TableColumn<Root>[] = [
     sortable: true,
   },
 ]
-
 const supervisorSpan = (row: any) => {
   // console.log('row', row)
   if (row.cleanerSupervisor.length > 0) {

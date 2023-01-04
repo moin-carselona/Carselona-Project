@@ -1,20 +1,16 @@
 import Body from "./Body";
 import { memo, useState } from "react";
 import React from "react"
-
+import PermanentChampAssignSweetAlert from "../../../consts/SweetAlert/PermanentChampAssignSweetAlert";
 const CleanerTableBodyComponent = (props: any) => {
-  const { timeSlots, cleanerStats, handleJobDetailSubmit, handleCleanerDetailsSubmit } = props
-  // console.log('timeSlots table', timeSlots);
-  // console.log('cleanerStats table', cleanerStats);
-
-
-  const udpatedCleanerStats = cleanerStats.sort((a: any, b: any)=> a.cleaner_details.distanceinnumber - b.cleaner_details.distanceinnumber)
-
-  const obj = {
-    timeslot_name: '',
-    date_changed_from: '',
-    subscriptiondetails: { name: '' },
-    customer_data: { society_details: { name: '\n' } },
+  const { timeSlots, cleanerStats, handleJobDetailSubmit, handleCleanerDetailsSubmit, subscriptionid } = props
+  const udpatedCleanerStats = cleanerStats.sort((a: any, b: any) => a.cleaner_details.distanceinnumber - b.cleaner_details.distanceinnumber)
+  const localKey = JSON.parse(localStorage.getItem("API") || "0")
+  const [cleanerid, setID] = React.useState(0)
+  const [subscriptionStatus, setsubscriptionStatus] = React.useState(0)
+  const handleChampPermanentReplacement = (cleanerid: number, subscriptionStatus: number) => {
+    setsubscriptionStatus(subscriptionStatus)
+    setID(cleanerid)
   }
   const servicetype1ClassName =
     'badge badge-light-success fw-bolder mb-2 rounded d-flex justify-content-center'
@@ -22,13 +18,11 @@ const CleanerTableBodyComponent = (props: any) => {
     'badge badge-light-danger fw-bolder mb-2 rounded d-flex justify-content-center'
   const noJobClassName =
     'badge badge-light-info fw-bolder mb-2 rounded d-flex justify-content-center'
-
   if (!udpatedCleanerStats) {
     return (
       <>Loading</>
     )
   }
-
   return udpatedCleanerStats?.map((cleanerStat: any) => (
     <tbody>
       {timeSlots?.map((timeslots: any) => {
@@ -42,15 +36,15 @@ const CleanerTableBodyComponent = (props: any) => {
               // title={`<span>Phone</span><span>${cleanerStat.cleaner_details.phone}</span>`}
               title="And here's some amazing <span class='label label-inline font-weight-bold label-light-primary'>HTML</span> content. It's very <code>engaging</code>. Right?"
             >
-
               <div
                 className='bg-secondary p-2 text-center rounded text-black-50'
                 style={{ whiteSpace: 'pre-wrap' }
                 }
-                onClick={() => handleCleanerDetailsSubmit(cleanerStat?.cleaner_details?.id)}
+                onClick={() => handleChampPermanentReplacement(cleanerStat?.cleaner_details?.id, Math.random())}
               >
-
-                {cleanerStat?.cleaner_details?.first_name} {cleanerStat?.cleaner_details?.last_name}  {cleanerStat?.cleaner_details?.distance + " Away"}
+                <PermanentChampAssignSweetAlert confirm="Yes" cancel="No" localKey={localKey} subscriptionStatus={subscriptionStatus} cleanerid={cleanerid} subscriptionid={subscriptionid} ></PermanentChampAssignSweetAlert>
+                
+                {cleanerStat?.cleaner_details?.first_name}  {cleanerStat?.cleaner_details?.last_name}  {cleanerStat?.cleaner_details?.distance + " Away"}
               </div>
               {/* </div> */}
             </td>
@@ -64,7 +58,6 @@ const CleanerTableBodyComponent = (props: any) => {
             </td>
             {cleanerStat?.attendence_data?.map((attendance: any) => (
               <>
-
                 <td>
                   <div
                     className='p-3 d-flex flex-column'
@@ -77,22 +70,22 @@ const CleanerTableBodyComponent = (props: any) => {
                       <>
                         {
                           <div className={noJobClassName} style={{ cursor: ' not-allowed' }}>
-                            NJ - 0
+                            NJ 
                           </div>
                         }
                         {
                           <div className={noJobClassName} style={{ cursor: ' not-allowed' }}>
-                            NJ - 0
+                            NJ 
                           </div>
                         }
                         {
                           <div className={noJobClassName} style={{ cursor: ' not-allowed' }}>
-                            NJ - 0
+                            NJ 
                           </div>
                         }
                         {
                           <div className={noJobClassName} style={{ cursor: ' not-allowed' }}>
-                            NJ - 0
+                            NJ 
                           </div>
                         }
                       </>

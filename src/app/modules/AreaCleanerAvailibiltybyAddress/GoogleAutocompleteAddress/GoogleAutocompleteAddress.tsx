@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, memo } from 'react'
+import { useDispatch } from 'react-redux';
 // import './App.css'
 // import { Search,  } from "@material-ui/icons"
 const apiKey = "AIzaSyB1TLe_5fP2B85oU9mvzNnJbN6QuHjdjHE";
@@ -51,7 +52,8 @@ const extractAddress = (place: any) => {
     });
     return address;
 }
-function GoogleAutocompleteAddress({ SetLatitude, SetLongitude, SetAddress }: any) {
+function GoogleAutocompleteAddress({ SetLatitude, SetLongitude }: any) {
+    const distpatch = useDispatch()
     const searchInput = useRef<any>(null);
     const [address, setAddress] = useState<any>({});
     console.log('address', address);
@@ -71,10 +73,11 @@ function GoogleAutocompleteAddress({ SetLatitude, SetLongitude, SetAddress }: an
         // console.log(place.geometry.location.lat())
         // setLatitude(place.geometry.location.lat() )
         // setLongitude(place.geometry.location.lng())
-        SetLatitude(place.geometry.location.lat())
-        SetLongitude(place.geometry.location.lng())
-        SetAddress(extractAddress(place))
-        setAddress(extractAddress(place));
+        distpatch({ type: "GOOGLEATUOCOMPLETEAREAWISE", payload: { ltd: place.geometry.location.lat(), lng: place.geometry.location.lng() } })
+        // SetLatitude(place.geometry.location.lat())
+        // SetLongitude(place.geometry.location.lng())
+        // SetAddress(extractAddress(place))
+        // setAddress(extractAddress(place));
     }
     // init autocomplete
     const initAutocomplete = () => {
@@ -114,11 +117,12 @@ function GoogleAutocompleteAddress({ SetLatitude, SetLongitude, SetAddress }: an
     return (
         <>
             <input
-                placeholder='Address Here...'
+                placeholder='Search Address Availibilty Here...'
                 name='address'
                 type='text'
                 className='form-control form-control-solid mb-5 mb-lg-0'
                 autoComplete='off'
+                style={{height:"38px", width:"600px"}}
                 ref={searchInput}
                 onChange={(e) => console.log(e.target.value)}
             />

@@ -51,7 +51,7 @@ const extractAddress = (place: any) => {
     });
     return address;
 }
-function GoogleAutocompleteAddress({SetLatitude, SetLongitude,SetAddress}:any) {
+function GoogleAutocompleteAddress({SetAddress, SetLatitude, SetLongitude,}:any) {
     const searchInput = useRef<any>(null);
     const [address, setAddress] = useState<any>({});
 
@@ -67,13 +67,15 @@ function GoogleAutocompleteAddress({SetLatitude, SetLongitude,SetAddress}:any) {
     // do something on address change
     const onChangeAddress = (autocomplete: any) => {
         const place = autocomplete.getPlace();
-        console.log('place', place);
+        // console.log('place', place);
         // console.log(place.geometry.location.lat())
         // setLatitude(place.geometry.location.lat() )
         // setLongitude(place.geometry.location.lng())
         SetLatitude(place.geometry.location.lat())
         SetLongitude(place.geometry.location.lng())
-        SetAddress(extractAddress(place))
+        // SetAddress(extractAddress(place))
+        SetAddress(searchInput?.current?.value)
+
         setAddress(extractAddress(place));
     }
     // init autocomplete
@@ -114,7 +116,7 @@ function GoogleAutocompleteAddress({SetLatitude, SetLongitude,SetAddress}:any) {
     return (
    
 
-        <div className="col-6  mb-3">
+        <div className="col-12  mb-3">
             <h5>Address</h5>
             <input
                 placeholder='Address Here...'
@@ -124,7 +126,7 @@ function GoogleAutocompleteAddress({SetLatitude, SetLongitude,SetAddress}:any) {
                 autoComplete='off'
             
                 ref={searchInput}
-                onChange={(e)=>console.log(e.target.value)}
+                // onChange={(e)=>console.log(e.target.value)}
             />
 
 

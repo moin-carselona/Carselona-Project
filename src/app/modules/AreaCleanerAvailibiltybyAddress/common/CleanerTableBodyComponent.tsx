@@ -4,8 +4,7 @@ import React from "react"
 
 const CleanerTableBodyComponent = (props: any) => {
   const { timeSlots, cleanerStats, handleJobDetailSubmit, handleCleanerDetailsSubmit } = props
-  // console.log('timeSlots table', timeSlots);
-  // console.log('cleanerStats table', cleanerStats);
+ 
 
 
   const udpatedCleanerStats = cleanerStats.sort((a: any, b: any)=> a.cleaner_details.distanceinnumber - b.cleaner_details.distanceinnumber)
@@ -39,7 +38,6 @@ const CleanerTableBodyComponent = (props: any) => {
               data-bs-toggle='tooltip'
               data-bs-placement='bottom'
               data-bs-html="true"
-              // title={`<span>Phone</span><span>${cleanerStat.cleaner_details.phone}</span>`}
               title="And here's some amazing <span class='label label-inline font-weight-bold label-light-primary'>HTML</span> content. It's very <code>engaging</code>. Right?"
             >
 
@@ -77,22 +75,22 @@ const CleanerTableBodyComponent = (props: any) => {
                       <>
                         {
                           <div className={noJobClassName} style={{ cursor: ' not-allowed' }}>
-                            NJ - 0
+                            NJ 
                           </div>
                         }
                         {
                           <div className={noJobClassName} style={{ cursor: ' not-allowed' }}>
-                            NJ - 0
+                            NJ 
                           </div>
                         }
                         {
                           <div className={noJobClassName} style={{ cursor: ' not-allowed' }}>
-                            NJ - 0
+                            NJ 
                           </div>
                         }
                         {
                           <div className={noJobClassName} style={{ cursor: ' not-allowed' }}>
-                            NJ - 0
+                            NJ 
                           </div>
                         }
                       </>

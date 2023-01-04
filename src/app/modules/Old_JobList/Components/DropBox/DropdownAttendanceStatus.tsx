@@ -1,66 +1,82 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { ID, KTSVG } from '../../../../../_metronic/helpers'
 import "../../../../../styles.css"
 import { MenuComponent } from '../../../../../_metronic/assets/ts/components'
+import DialogBox from '../DialogBox/DialogBox'
 type Props = {
   cleaneridSingle: ID
-  data: any
+  jobID: ID
+  subscriptionid: ID
+  filteredData: any
   referece: string
+  cleanerid: number
+  attendencedate: string
+  siteid: number
+  servicetype: number
+  attendanceStatusData: any
 }
-export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle, data }) => {
-  console.log('data dropdown', data);
-  const dispatch = useDispatch()
+export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleanerid, jobID,
+  subscriptionid, cleaneridSingle, filteredData, attendencedate, siteid, servicetype, attendanceStatusData }) => {
+  // console.log('filteredData', filteredData);
+  const userids = JSON.parse(localStorage.getItem("user") || "0")
+  const [PopupUpdateStatusOpenClose, setPopupUpdateStatusOpenClose] = useState(false)
+  const [AttendanceID, setAttendanceID] = useState<any>(0)
+  const [attendancestatusList, setattendancestatusList] = useState<any>({})
+  const [destination, setDestination] = useState("")
   const navigate = useNavigate()
-
-
   useEffect(() => {
     MenuComponent.reinitialization()
   }, [])
-
-
-  // const handleDataHere = (id: any) => {
-  //   let filteredData = data.filter((item: any) => item.id === id)[0]
-  //   console.log('Assign cleaner Details', filteredData);
-  //   navigate('assign-cleaner-view', {
-  //     state: {
-  //       filteredData,
-  //       referece
-  //     }
-  //   })
-  // }
-
-
   const handleReAssign = (cleaneridSingle: any) => {
-    navigate('/daily/job/assign', {
-      state: {
-        cleaneridSingle
-      }
-    })
-
-
+    navigate(`/daily/job/assign/oldjob/${cleaneridSingle}`)
   }
   const handleEditAttendance = (id: any) => {
+    setAttendanceID(jobID)
+    setDestination("editAttendance")
+    setPopupUpdateStatusOpenClose(!PopupUpdateStatusOpenClose)
   }
   const handleChangeDate = (id: any) => {
+    navigate(`/datechange/${siteid}/${servicetype}/${attendencedate}/${jobID}/${cleanerid}/${subscriptionid}`)
   }
-  const handleUpdateStatus = (id: any) => {
+  const handleUpdateStatus = (cleanerid: any, jobID: any, filteredData: any, attendanceStatusData: any) => {
+    if (attendanceStatusData === null) {
+      let attendancestatus = {
+        attendence_id: jobID,
+        customerid: filteredData?.customerids,
+        user_id: userids,
+        job_status_id: 0,
+        job_action_id: 1,
+        field_type_id: 1,
+      }
+      setattendancestatusList(attendancestatus)
+    }
+    else {
+      let attendancestatus = {
+        user_id: userids,
+        attendence_id: jobID,
+        customerid: filteredData?.customerids,
+        job_status_id: 0,
+        job_action_id: 1,
+        field_type_id: 1,
+      }
+      setattendancestatusList(attendancestatus)
+    }
+    setDestination("updateStatus")
+    setPopupUpdateStatusOpenClose(!PopupUpdateStatusOpenClose)
   }
   const handleReportAttendance = (id: any) => {
   }
-
-  
   return (
     <>
       <button
-        className='btn btn-light btn-active-light-primary btn-sm '
+        className='btn btn-sm btn-light btn-active-primary  fs-8 '
         data-kt-menu-trigger='click'
         data-kt-menu-placement='bottom-end'
       >
-        Actions
-        <KTSVG path='/media/icons/duotune/arrows/arr072.svg' className='svg-icon-5 m-0' />
+        <i className="bi bi-chevron-bar-contract"></i>
+        {/* <KTSVG path='/media/icons/duotune/arrows/arr072.svg' className='svg-icon-5 m-0' /> */}
       </button>
       <div
         className='menu DropdownContainerwidth menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4'
@@ -75,7 +91,8 @@ export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle,
         }}
       >
         <div className='menu-item px-3'>
-        <a
+          <a
+            href={`/daily/job/assign/oldjob/${cleaneridSingle}`}
             className='menu-link  px-3'
             data-kt-users-table-filter='delete_row'
             onClick={() => handleReAssign(cleaneridSingle)}
@@ -83,7 +100,6 @@ export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle,
             Re-Assign
           </a>
         </div>
-     
         <div className='menu-item px-3'>
           <a
             // href='_blank'
@@ -96,6 +112,7 @@ export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle,
         </div>
         <div className='menu-item px-3'>
           <a
+            href={`/datechange/${siteid}/${servicetype}/${attendencedate}/${jobID}/${cleanerid}/${subscriptionid}`}
             className='menu-link  px-3'
             data-kt-users-table-filter='delete_row'
             onClick={() => handleChangeDate(cleaneridSingle)}
@@ -107,7 +124,7 @@ export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle,
           <a
             className='menu-link  px-3'
             data-kt-users-table-filter='delete_row'
-            onClick={() => handleUpdateStatus(cleaneridSingle)}
+            onClick={() => handleUpdateStatus(cleaneridSingle, jobID, filteredData, attendanceStatusData)}
           >
             Update Status
           </a>
@@ -122,6 +139,7 @@ export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle,
           </a>
         </div>
       </div>
+      {PopupUpdateStatusOpenClose && <DialogBox AttendanceID={AttendanceID} destination={destination} handleDiloagboxform={handleUpdateStatus} PopupUpdateStatusOpenClose={PopupUpdateStatusOpenClose} attendancestatusList={attendancestatusList} />}
     </>
   )
 }

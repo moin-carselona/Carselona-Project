@@ -271,11 +271,22 @@ const SubscriptionsPage = () => {
 
         <Route element={<Outlet />}>
           <Route
-            path={`/same-day/assign-cleaner-view`}
+            path={`/same-day/assign-cleaner-view/active_assigned/:id`}
             element={
               <>
-                <PageTitle>Cleaner Availability</PageTitle>
-                <CleanerAvailabilityRoute subscriptionId={11721} distenceRadius={'10'} />
+                {/* <PageTitle>Assign Champ</PageTitle> */}
+                <CleanerAvailabilityRoute  />
+              </>
+            }
+          />
+        </Route>
+        <Route element={<Outlet />}>
+          <Route
+            path={`/same-day/assign-cleaner-view/not_assigned/:id`}
+            element={
+              <>
+                {/* <PageTitle>Assign Champ</PageTitle> */}
+                <CleanerAvailabilityRoute  />
               </>
             }
           />

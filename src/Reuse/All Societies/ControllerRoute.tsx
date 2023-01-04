@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { KTCardBody } from '../../_metronic/helpers'
 // import ReactDataTable from '../../../Reuse/All Societies/societyController'
-import SocietyParent  from './SocietyParent'
+// import SocietyParent  from './SocietyParent'
 const ControllerRoute: FC = () => {
    const [isLoading, setIsloading] = useState(false)
     if (isLoading) {
@@ -15,7 +15,7 @@ const ControllerRoute: FC = () => {
     return (
         <KTCardBody className='card py-4'>
             {/* <societyController></societyController> */}
-            <SocietyParent></SocietyParent>
+            {/* <SocietyParent></SocietyParent> */}
         </KTCardBody>
     )
 }

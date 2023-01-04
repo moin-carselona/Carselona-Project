@@ -1,12 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { FC, useState } from 'react'
 import clsx from 'clsx'
-import axios from 'axios'
-import { toast } from 'react-toastify'
+
 import { useSelector } from 'react-redux'
 import React from "react"
 import { GetChatGeneralApiReplies, PostPublicChatAPI, PostPrivateChatAPI } from './ApisURL'
-import DialogBox from './DialogBox/DialogBox'
 type Props = {
     isDrawer?: boolean
     ticketreplies?: any
@@ -15,18 +13,19 @@ type Props = {
 }
 // 4566
 const ChatBox: FC<Props> = (props, { isDrawer = false }) => {
+  const localKeyCheck = JSON.parse(localStorage.getItem("API") || "0")
+
     const [ticketreplies, setTicketReplies] = useState<any>([])
     const [message, setMessage] = useState<string>('')
     const [isLoading, setLoading] = useState<boolean>(false);
     const [localUserid, setlocalUserid] = useState<any>(JSON.parse(localStorage.getItem("user") || ""));
-    // console.log('localUserid', localUserid, typeof(localUserid));
     const [statusOptions] = useState([
         { id: "3", label: "Closed" },
         { id: "4", label: "Feedback Received" },
         { id: "5", label: "Unanswered" },
         { id: "6", label: "Follow Up" },
     ])
-    const ticketid = useSelector((store: any) => store.ChatReducers.ChatTicket_ID)
+    const ticketData = useSelector((store: any) => store.ChatReducers.TicketData)
     // const [chatUpdateFlag, toggleChatUpdateFlat] = useState<boolean>(false)
     // const [messages, setMessages] = useState<MessageModel[]>(bufferMessages)
     // const [userInfos] = useState<UserInfoModel[]>(defaultUserInfos)
@@ -54,19 +53,19 @@ const ChatBox: FC<Props> = (props, { isDrawer = false }) => {
     //   }
     // }
     async function TicketReplies() {
-        const response = await GetChatGeneralApiReplies({ "ticketid": ticketid })
+        const response = await GetChatGeneralApiReplies({ "ticketid": ticketData.id }, localKeyCheck)
         setTicketReplies(response.data)
     }
     React.useEffect(() => {
-        ticketid &&   TicketReplies()
-    }, [ticketid,isLoading])
+        ticketData.id &&   TicketReplies()
+    }, [ticketData.id,isLoading])
 
 
     const sendMessage = async (e: React.MouseEvent) => {
         const isPrivateMessage = e.currentTarget.id === 'private-message';
         console.log('isPrivateMessage', isPrivateMessage);
-        isPrivateMessage ? await PostPrivateChatAPI({ "ticketid": ticketid, "userid": localUserid, "answer": message }) : await PostPublicChatAPI({ "ticketid": ticketid, "userid": localUserid, "answer": message })
-        !isPrivateMessage && GetChatGeneralApiReplies({ "ticketid": ticketid })
+        isPrivateMessage ? await PostPrivateChatAPI({ "ticketid": ticketData.id, "userid": localUserid, "answer": message }, localKeyCheck) : await PostPublicChatAPI({ "ticketid": ticketData.id, "userid": localUserid, "answer": message }, localKeyCheck)
+        !isPrivateMessage && GetChatGeneralApiReplies({ "ticketid": ticketData.id }, localKeyCheck)
         setMessage("")
         setLoading(!isLoading)
     }
@@ -214,5 +213,5 @@ const ChatBox: FC<Props> = (props, { isDrawer = false }) => {
         </div>
     )
 }
-export { ChatBox }
+// export { ChatBox }
 

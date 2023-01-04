@@ -5,7 +5,6 @@ import { LocalBaseURL } from '../../../../../../BaseURLmanagement'
 import { customStyles } from '../../../CustomCss'
 import { getSchemeRecord } from './API'
 import { columns } from './Columns'
-
 import './styles.css'
 const AssignList = () => {
   LocalBaseURL()
@@ -16,7 +15,6 @@ const AssignList = () => {
   const [PopUpPostFormOpen, setPopUpPostFormOpen] = useState(false)
   const localKeyCheck = JSON.parse(localStorage.getItem('API') || '0')
   const cleanerid = useSelector((store: any) => store?.ActiveStatsReducer?.listDrawerids)
-
   React.useEffect(() => {
     const updatedData = AllActiveCleaner.filter((data: any) => {
       return data.cleanerPayoutScheme?.scheme_name.toLowerCase().match(Search.toLowerCase())

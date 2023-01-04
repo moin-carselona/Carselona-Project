@@ -1,19 +1,16 @@
-import React, {useEffect, useRef} from 'react'
-import {useLocation} from 'react-router-dom'
+import React, { useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import {
   ScrollTopComponent,
   DrawerComponent,
   ToggleComponent,
   StickyComponent,
 } from '../../assets/ts/components'
-import {KTSVG} from '../../helpers'
-
+import { KTSVG } from '../../helpers'
 export function ScrollTop() {
-  const {pathname} = useLocation()
-  console.log('pathname', pathname);
-  
+  const { pathname } = useLocation()
+  // console.log('pathname', pathname);
   const isFirstRun = useRef(true)
-
   const pluginsReinitialization = () => {
     setTimeout(() => {
       StickyComponent.reInitialization()
@@ -23,11 +20,9 @@ export function ScrollTop() {
       }, 70)
     }, 140)
   }
-
   const scrollTop = () => {
     ScrollTopComponent.goTop()
   }
-
   const updateHeaderSticky = () => {
     const stickyHeader = document.body.querySelectorAll(`[data-kt-sticky-name="header"]`)
     if (stickyHeader && stickyHeader.length > 0) {
@@ -37,20 +32,17 @@ export function ScrollTop() {
       }
     }
   }
-
   useEffect(() => {
     if (isFirstRun.current) {
       isFirstRun.current = false
     } else {
       pluginsReinitialization()
     }
-
     updateHeaderSticky()
     setTimeout(() => {
       scrollTop()
     }, 0)
   }, [pathname])
-
   return (
     <div id='kt_scrolltop' className='scrolltop' data-kt-scrolltop='true'>
       <KTSVG path='/media/icons/duotune/arrows/arr066.svg' />

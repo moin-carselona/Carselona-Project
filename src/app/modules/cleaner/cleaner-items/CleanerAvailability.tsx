@@ -1,21 +1,19 @@
-import {Dialog} from '@mui/material'
+import { Dialog } from '@mui/material'
 import axios from 'axios'
 import React from 'react'
-import {useMemo} from 'react'
-import {useTable} from 'react-table'
-import {ID} from '../../../../_metronic/helpers'
-import {cleanerJobColumns} from '../../apps/user-management/users-list/table/columns/_cleanerJobColumns'
+import { useMemo } from 'react'
+import { useTable } from 'react-table'
+import { ID } from '../../../../_metronic/helpers'
+import { cleanerJobColumns } from '../../apps/user-management/users-list/table/columns/_cleanerJobColumns'
 import CleanerTableBodyComponent from '../common/CleanerTableBodyComponent'
 import JobDetailsModal from './JobDetailsModal'
-
 const CleanerAvailability = (props: {
   subscriptionId?: any
   distenceRadius?: string
   handleCloseIconModal?: () => void
 }) => {
-  const {subscriptionId, distenceRadius, handleCloseIconModal} = props
+  const { subscriptionId, distenceRadius, handleCloseIconModal } = props
   // console.log('distenceRadius', distenceRadius);
-
   const [cleanerStats, setCleanerStats] = React.useState<any>([])
   const [dates, setDates] = React.useState<any>([])
   const [superVisor, setSuperVisor] = React.useState([])
@@ -26,20 +24,15 @@ const CleanerAvailability = (props: {
   const [id, setId] = React.useState('')
   const [isModalOpen, setModalOpen] = React.useState(false)
   const [isLoading, setLoading] = React.useState(false)
-
   const [countData, setCountData] = React.useState<any>(Object)
   const [attendencedatefrom, setAttendencedatefrom] = React.useState('2022-08-29')
   const [attendencedateto, setAttendencedateto] = React.useState('2022-09-03')
-
   const data = useMemo(() => cleanerStats, [cleanerStats])
   const columns = useMemo(() => cleanerJobColumns, [])
-
   // const API = "https://adminapi.carselonadaily.com/api/admin/getCleanerWeekTimeSlots"
   // const API = "https://adminapi.carselonadaily.com/api/admin/getactivecleanerbycity"
-
   const API = 'https://adminapi.carselonadaily.com/api/admin/getAvalabilitybySubscription'
   // ?start=0&length=10&attendencedatefrom=2022-08-26&attendencedateto=2022-08-26
-
   React.useEffect(() => {
     setLoading(true)
     const formData = new FormData()
@@ -52,7 +45,6 @@ const CleanerAvailability = (props: {
     distenceRadius
       ? formData.append('distenceRadius', distenceRadius)
       : formData.delete('distenceRadius')
-
     axios
       .post(`${API}`, formData)
       .then((response) => {
@@ -64,7 +56,6 @@ const CleanerAvailability = (props: {
       .catch((error) => {
         setLoading(false)
       })
-
     axios
       .get('https://adminapi.carselonadaily.com/api/admin/gettimeslots')
       .then((response) => {
@@ -73,7 +64,6 @@ const CleanerAvailability = (props: {
       .catch((error) => {
         console.log(error)
       })
-
     axios
       .get('https://adminapi.carselonadaily.com/api/admin/getsociety')
       .then((response) => {
@@ -82,7 +72,6 @@ const CleanerAvailability = (props: {
       .catch((error) => {
         console.error('ERROR', error)
       })
-
     axios
       .get('https://adminapi.carselonadaily.com/api/admin/getCleanerList')
       .then((response) => {
@@ -92,39 +81,32 @@ const CleanerAvailability = (props: {
         console.error('ERROR', error)
       })
   }, [])
-
-  const {getTableProps, getTableBodyProps, headers, rows, prepareRow} = useTable({
+  const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({
     columns,
     data,
   })
-
   const handleFromDateChange = (e: any) => {
     setAttendencedatefrom(e.target.value)
   }
-
   const handleToDateChange = (e: any) => {
     setAttendencedateto(e.target.value)
   }
-
   const handleClick = () => {
     const formData = new FormData()
     // formData.append("city", "6");
     // formData.append("cleanerid", selectedCleaner);
-
     formData.append('fromDate', attendencedatefrom)
     formData.append('toDate', attendencedateto)
     formData.append('subscriptionID', subscriptionId)
     distenceRadius
       ? formData.append('distenceRadius', distenceRadius)
       : formData.delete('distenceRadius')
-
     // const payload = {
     //     city: 6,
     //     cleanerid: selectedCleaner,
     //     fromDate: attendencedatefrom,
     //     toDate: attendencedateto
     // }
-
     setLoading(true)
     axios
       .post(`${API}`, formData)
@@ -138,7 +120,6 @@ const CleanerAvailability = (props: {
         setLoading(false)
       })
   }
-
   const handleSupervisorChange = (e: any) => {
     setLoading(true)
     // const formData = new FormData();
@@ -181,7 +162,6 @@ const CleanerAvailability = (props: {
       toDate: attendencedateto,
       societyid: selectedSupervisor,
     }
-
     axios
       .post(`${API}`, payload)
       .then((response) => {
@@ -193,16 +173,13 @@ const CleanerAvailability = (props: {
         setLoading(false)
       })
   }
-
   const handleJobDetailSubmit = (id: any) => {
     setId(id)
     setModalOpen(true)
   }
-
   const handleCloseModal = () => {
     setModalOpen(false)
   }
-
   if (isLoading) {
     return (
       <div className='d-flex align-items-center justify-content-center h-75 flex-column'>
@@ -211,17 +188,16 @@ const CleanerAvailability = (props: {
       </div>
     )
   }
-
   return (
     <div className='modal fade show d-block'>
       <div className='modal-dialog modal-dialog-centered mw-1000px'>
         <div className='modal-content m-2'>
-          <div className='modal-header' style={{height: '51px'}}>
+          <div className='modal-header' style={{ height: '51px' }}>
             <h2 className='fw-bolder ps-2'>Cleaner Availability</h2>
             <div
               className='btn btn-icon btn-sm btn-active-icon-primary'
               onClick={handleCloseIconModal}
-              style={{cursor: 'pointer'}}
+              style={{ cursor: 'pointer' }}
             >
               <span className='svg-icon svg-icon-1'>
                 <svg
@@ -275,7 +251,6 @@ const CleanerAvailability = (props: {
                 </button>
               </div>
             </div>
-
             <div className='col-12 col-sm-12 col-md-12 col-lg-5 d-flex align-items-center mt-3'>
               <select
                 className='form-select form-select-solid me-2'
@@ -307,7 +282,6 @@ const CleanerAvailability = (props: {
               </select>
             </div>
           </div>
-
           <div className='table-responsive px-3'>
             <table
               id='kt_table_users'
@@ -326,7 +300,7 @@ const CleanerAvailability = (props: {
                     </div>
                   </th>
                   {dates?.map((item: any) => (
-                    <th style={{minWidth: '100px'}} key={item}>
+                    <th style={{ minWidth: '100px' }} key={item}>
                       <div className='bg-secondary text-success py-2 me-2 text-center fw-bolder rounded'>
                         {item}
                       </div>
@@ -334,7 +308,6 @@ const CleanerAvailability = (props: {
                   ))}
                 </tr>
               </thead>
-
               <CleanerTableBodyComponent
                 cleanerStats={cleanerStats}
                 timeSlots={timeSlots}
@@ -342,7 +315,6 @@ const CleanerAvailability = (props: {
               />
             </table>
           </div>
-
           {isModalOpen && (
             <Dialog
               open={true}
@@ -350,7 +322,7 @@ const CleanerAvailability = (props: {
               aria-labelledby='alert-dialog-title'
               aria-describedby='alert-dialog-description'
             >
-              <JobDetailsModal id={id}  data={data} handleCloseModal={handleCloseModal}/>
+              <JobDetailsModal id={id} data={data} handleCloseModal={handleCloseModal} />
             </Dialog>
           )}
         </div>
@@ -358,5 +330,4 @@ const CleanerAvailability = (props: {
     </div>
   )
 }
-
 export default CleanerAvailability

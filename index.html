@@ -1,0 +1,36 @@
+<style>
+    #id {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    #calsss {
+        display: flex;
+        gap: 10px;
+        cursor: pointer;
+    }
+
+    #show {
+        font-size: 30px;
+    }
+</style>
+
+<body id="id">
+    <div id="show"></div>
+    <div id="calsss"></div>
+</body>
+<script>
+    let ans = ""
+    function calculation(ref) {
+        document.getElementById("show").innerHTML = ""
+        ref.target.innerHTML === "=" ? document.getElementById("show").append(eval(ans)) : ans = ans + ref.target.innerHTML
+        ref.target.innerHTML != "=" && document.getElementById("show").append(ans)
+    }
+    for (let i = 0; i <= 15; i++) {
+        let number = document.createElement("h2")
+        i <= 9 ? number.innerHTML = i : i == 10 ? number.innerHTML = "+" : i == 11 ? number.innerHTML = "-" : i == 12 ? number.innerHTML = "*" : i == 13 ? number.innerHTML = "/" : i == 14 ? number.innerHTML = "." : i == 15 ? number.innerHTML = "=" : ""
+        number.addEventListener("click", calculation)
+        document.getElementById("calsss").append(number)
+    }
+</script>

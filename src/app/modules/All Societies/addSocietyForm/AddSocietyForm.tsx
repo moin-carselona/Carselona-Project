@@ -3,44 +3,39 @@ import { toast } from 'react-toastify'
 import { LocalBaseURL } from '../../../../BaseURLmanagement'
 import { AddNewSocietyPostRequest, GetAllAreaData, GetAllCityData, GetAllClickapiData, GetAllPackageIDData } from '../API'
 import GoogleAutocompleteAddress from '../GoogleAutocompleteAddress/GoogleAutocompleteAddress'
-import { ContainerCss, PopCloseFormNotification, PopCloseFormNotificationPtag, HeaderCss, IdCss, ID_inputCss, Create_BtnCss, Desc_InputCss } from "./CssCom"
+import { ContainerCss, Create_BtnCss, PopCloseFormNotification, PopCloseFormNotificationPtag } from "./CssCom"
 interface Props {
     PopUpSocietyBTN: () => void
 }
-let IDS:any = "";
-
+let IDS: any = "";
 const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
     const [City, setCity] = useState<any[]>([])
     const [Area, setArea] = useState<any[]>([])
+    // console.log('Area', Area);
     const [Package, setPackage] = useState<any[]>([])
     const [ClickUpi, setClickUpi] = useState<any[]>([])
     const [address, SetAddress] = useState<any>({})
+    // console.log('address', address);
     const [SelectedCityID, SetSelectedCityID] = useState<any>('')
     const [SelectedAreaID, SetSelectedAreaID] = useState<any>('')
     const [SelectedPackageID, SetSelectedPackageID] = useState<any>('')
-    console.log('SelectedPackageID', SelectedPackageID);
     const [SelectedClickUpID, SetSelectedClickUpID] = useState<any>('')
     const [SelectedEmail, SetSelectedEmail] = useState<any>('')
     const [SelectedSocietyName, SetSelectedSocietyName] = useState<any>('')
     const [SelectedPhone, SetSelectedPhone] = useState<any>('')
     const [SelectedFlatApartment, SetSelectedFlatApartment] = useState('')
     const [SelectedPinCode, SetSelectedPinCode] = useState('')
-    // console.log('address add', address);
     const [latitude, SetLatitude] = useState<any>('')
-    // console.log('latitude add ', latitude);
     const [Longitude, SetLongitude] = useState<any>('')
-    // const 
-    // console.log('Longitude add', Longitude);
     LocalBaseURL()
     const localKeyCheck = JSON.parse(localStorage.getItem("API") || "0")
-    const { city, state, zip, country }: any = address
-    // to store society data into server      
     const handleAddSocietyCreate = async () => {
+        // console.log('handleAddSocietyCreate', "moinsssssssssssssssssssssssssssssssssssssssss");
         let payload = {
             "societyname": SelectedSocietyName,
             "societyphone": SelectedPhone,
             "societyemail": SelectedEmail,
-            "address": `${city}, ${state}, ${country}, ${zip}`,
+            "address": address,
             "societycity": +SelectedCityID,
             "societyarea": +SelectedAreaID,
             "list_id": +SelectedClickUpID,
@@ -50,71 +45,11 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
             "total_apartments": +SelectedFlatApartment,
             "pincode": +SelectedPinCode
         }
-        console.log('payload ========', payload)
-        if (!SelectedEmail.includes(".com") && !SelectedEmail.includes("@") && !SelectedEmail.includes("gmail")) {
-            toast.error("Email should be like : example@gmail.com")
-        }
-        if (SelectedPhone.length != 10) {
-            toast.error("Phone Number is Incorrect")
-        }
-        if (SelectedSocietyName && SelectedFlatApartment && SelectedPinCode && SelectedPhone && SelectedEmail && address && SelectedCityID && SelectedAreaID && SelectedClickUpID && SelectedPackageID && latitude && Longitude && SelectedEmail.includes(".com") && SelectedEmail.includes("@") && SelectedEmail.includes("gmail")) {
-            // console.log("entered")
-
-            if (SelectedPackageID >= 0 && SelectedCityID >= 0 && SelectedClickUpID >= 0 && SelectedAreaID >= 0) {
-
-
-                const response: any = await AddNewSocietyPostRequest(localKeyCheck, payload)
-                console.log('response', response);
-                if (response?.data?.msg == "Email already register.") {
-                    toast.error("Email already register")
-                }
-                if (response?.data?.data) {
-
-                    toast.success("society Register Successfull")
-                    console.log('society post request', response?.data?.data);
-                    SetSelectedCityID("")
-                    SetSelectedAreaID("")
-                    SetSelectedPackageID("")
-                    SetSelectedClickUpID("")
-                    SetSelectedSocietyName("")
-                    SetSelectedPhone("")
-                    SetLatitude("")
-                    SetLongitude("")
-                    SetAddress("")
-                    SetSelectedFlatApartment("")
-                    SetSelectedPinCode("")
-                }
-
-
-            }
-            else if (SelectedPackageID == "") {
-                toast.error(`Something Package IDis missing`)
-
-            toast.error(`Something Package IDis missing`)
-
-
-            }
-            else if (SelectedAreaID == "") {
-                toast.error(`Something Package IDis missing`)
-
-
-            }
-            else if (SelectedClickUpID == "") {
-                toast.error(`Something Package ID is missing`)
-
-
-            }
-            else if (SelectedCityID == "") {
-                toast.error(`Something Package IDis missing`)
-
-
-            }
-            else {
-                toast.error("Id is missing")
-            }
-        }
-        else {
-            toast.error(`Something ${IDS} is missing`)
+        const response: any = await AddNewSocietyPostRequest(localKeyCheck, payload)
+        if (response?.data?.msg === "Society Register Successfully...") {
+            toast.success(response?.data?.msg)
+        } else {
+            toast.error(response?.data?.msg)
         }
     }
     // to close pop up form
@@ -124,7 +59,7 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
     React.useEffect(() => {
         async function getCityInvoked() {
             const { data } = await GetAllCityData(localKeyCheck)
-            console.log('add society city ========== city =>', data);
+            // console.log('add society city ========== city =>', data);
             setCity(data.data)
         }
         getCityInvoked()
@@ -132,7 +67,7 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
     React.useEffect(() => {
         async function getClickUpiInvoked() {
             const { data } = await GetAllClickapiData(localKeyCheck)
-            console.log('add society Click data ========== Click data =>', data);
+            // console.log('add society Click data ========== Click data =>', data);
             setClickUpi(data.data.lists)
         }
         getClickUpiInvoked()
@@ -140,7 +75,7 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
     React.useEffect(() => {
         async function getPackageIDInvoked() {
             const { data } = await GetAllPackageIDData(localKeyCheck)
-            console.log('add society Package ========== Package =>', data);
+            // console.log('add society Package ========== Package =>', data);
             setPackage(data.data)
         }
         getPackageIDInvoked()
@@ -148,7 +83,6 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
     React.useEffect(() => {
         async function getAreaInvoked() {
             const { data } = await GetAllAreaData(localKeyCheck)
-            console.log('add society Area ========== Area =>', data);
             setArea(data.data)
         }
         getAreaInvoked()
@@ -165,7 +99,6 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
                             <input
                                 placeholder='Society Name Here...'
                                 name='name'
-                                id='en'
                                 type='text'
                                 value={SelectedSocietyName}
                                 className='form-control form-control-solid mb-3 mb-lg-0'
@@ -178,7 +111,6 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
                             <input
                                 placeholder='Phone Here...'
                                 name='phone'
-                                id='en'
                                 type='text'
                                 value={SelectedPhone}
                                 className='form-control form-control-solid mb-3 mb-lg-0'
@@ -190,7 +122,7 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
                     </div>
                     {/* ============================================== section ========================================================= */}
                     <div className="row mb-5">
-                        <div className="col-6  mb-3">
+                        <div className="col-12  mb-3">
                             <h5>Email</h5>
                             <input
                                 placeholder='Email Here...'
@@ -202,7 +134,13 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
                                 onChange={(e) => SetSelectedEmail(e.target.value)}
                             />
                         </div>
+                        {/* <GoogleAutocompleteAddress SetAddress={SetAddress} SetLatitude={SetLatitude} SetLongitude={SetLongitude}></GoogleAutocompleteAddress> */}
+                        {/* <hr /> */}
+                    </div>
+                    <div className="row mb-5">
+                        {/* <div className="col-12  mb-3"> */}
                         <GoogleAutocompleteAddress SetAddress={SetAddress} SetLatitude={SetLatitude} SetLongitude={SetLongitude}></GoogleAutocompleteAddress>
+                        {/* </div> */}
                         <hr />
                     </div>
                     {/* ==================================================================================================== */}
@@ -229,12 +167,12 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
                             <select
                                 className='form-select form-select-solid me-2'
                                 onChange={(e) => SetSelectedAreaID(e.target.value)}
-                                value={SelectedAreaID}
+                            // value={SelectedAreaID}
                             >
                                 <option >Select Area</option>
                                 {Area?.map((item: any, index: number) => {
                                     return (
-                                        <option value={item.cityid} key={index}>
+                                        <option value={item.id} key={index}>
                                             {item.areaname}
                                         </option>
                                     )
@@ -296,7 +234,6 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
                                 onChange={(e) => SetSelectedFlatApartment(e.target.value)}
                             />
                         </div>
-
                         <div className="col-6  mb-3">
                             <h5>Pin Code</h5>
                             <input

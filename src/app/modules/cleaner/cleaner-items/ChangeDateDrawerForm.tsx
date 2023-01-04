@@ -10,13 +10,9 @@ const ChangeDateDrawerForm = () => {
     const [jobdetailsid, setJobdetails] = React.useState(useSelector((store: any) => store?.ActiveStatsReducer?.jobdetailsid))
     const localKey = JSON.parse(localStorage.getItem("API") || "0")
     const [data, setData] = useState<any>({})
-    // console.log('data  from changedatat', data);
     const [cleanerlist, setCleanerlist] = useState([])
     const [timeslotlistdata, settimeslotlist] = useState([])
-    // console.log('timeslotlistdata', timeslotlistdata);
-    // console.log('cleanerlist from changedatat', cleanerlist);
     const [jobtypedata, setjobtypedata] = useState([])
-    // console.log('jobtypedata from changedatat', jobtypedata);
     const [loading, setloading] = useState(false)
     const [deafultCleaener, setdeafultCleaener] = useState<any>([])
     const [deafultTimeSlot, setdeafultTimeSlot] = useState<any>([])
@@ -25,7 +21,6 @@ const ChangeDateDrawerForm = () => {
     const [selectedCleaner, setselectedCleaner] = useState<any>(0)
     React.useEffect(() => {
         setloading(true)
-        // console.log('jobdetails', jobdetailsid);
         setJobdetails(jobdetailsData)
         async function invoked() {
             const response = await axios.post(`${localKey ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/cleanerattendencebyid`, {
@@ -35,7 +30,6 @@ const ChangeDateDrawerForm = () => {
             setCleanerlist(response?.data?.cleanerlist)
             settimeslotlist(response?.data?.timeslotlist)
             setjobtypedata(response?.data?.jobtype)
-            // console.log('cleanerattendencebyid change date ', response);
             setloading(false)
         }
         invoked()

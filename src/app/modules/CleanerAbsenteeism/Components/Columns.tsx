@@ -3,7 +3,6 @@ import DataTable, { TableColumn } from 'react-data-table-component'
 import { DropdownAttendanceStatus } from './DropdownAttendanceStatus'
 import Dialog from '../../../consts/SweetAlert/Dialog'
 import { LocalBaseURL } from '../../../../BaseURLmanagement'
-console.log('DropdownAttendanceStatus', DropdownAttendanceStatus)
 interface DataRow {
   id: number
   cleanerid: number
@@ -130,7 +129,6 @@ export const columns: TableColumn<DataRow>[] = [
 const handleReassign = (id: number) => {
 
   console.log('id', id)
-  // console.log('target', target.innerHTML);
 }
 
 
@@ -159,7 +157,6 @@ const localKey = JSON.parse(localStorage.getItem("API") || "0")
           return <option value={element.id} key={index}>{element.name}</option>
         })}
       </select>
-      {/* <Dialog confirm="Yes" cancel="No" id={id} attendancestatus={attendancestatus}></Dialog> */}
 
     <Dialog confirm="Yes" cancel="No" id={id} attendancestatus={attendancestatus} localKey={localKey}></Dialog>
 

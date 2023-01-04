@@ -28,10 +28,10 @@ const ProfilePage = () => (
       }
     >
       <Route
-        path='address'
+        path='tickets'
         element={
           <>
-            <PageTitle breadcrumbs={profileBreadCrumbs}>Address</PageTitle>
+            <PageTitle breadcrumbs={profileBreadCrumbs}>Tickets</PageTitle>
             <Address />
           </>
         }

@@ -11,7 +11,6 @@
             if (SelectedPackageID >= 0 && SelectedCityID >= 0 && SelectedClickUpID >= 0 && SelectedAreaID >= 0) {
                 console.log("entered")
                 const response: any = await AddNewSocietyPostRequest(localKeyCheck, payload)
-                console.log('response', response);
                 if (response?.data?.msg == "Email already register.") {
                     toast.error("Email already register")
                 }

@@ -10,7 +10,7 @@ import AssignSuperVisor from '../app/modules/ActiveCleaner/DialogBox/AssignSuper
 import ChangeDateDrawerForm from '../app/modules/cleaner/cleaner-items/ChangeDateDrawerForm'
 const ListDrawer: FC = () => {
     const drawerRefrence = useSelector((store: any) => store?.ActiveStatsReducer.listDrawer)
-    console.log('drawerRefrence', drawerRefrence);
+    // console.log('drawerRefrence', drawerRefrence);CustomerListData
     return (
         <div
             id='kt_activities2'

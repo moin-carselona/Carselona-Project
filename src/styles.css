@@ -8,3 +8,18 @@
   box-shadow : none !important;
   margin: auto !important;
 } */
+
+.header-fixed.toolbar-fixed .wrapper{
+  padding-top: 40px !important;
+}
+
+
+/* .container-fluid{
+  padding-top: 20px !important;
+} */
+
+
+
+.max{
+  max-height: "90%" !important;
+}

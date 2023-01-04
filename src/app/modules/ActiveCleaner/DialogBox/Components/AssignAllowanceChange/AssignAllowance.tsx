@@ -5,7 +5,6 @@ import { LocalBaseURL } from '../../../../../../BaseURLmanagement'
 import { customStyles } from '../../../CustomCss'
 import { getCleanerAllowance } from './API'
 import { columns } from './Columns'
-
 import './styles.css'
 const AssignAllowance = () => {
   LocalBaseURL()
@@ -15,14 +14,12 @@ const AssignAllowance = () => {
   const [isLoading, setLoading] = useState<boolean>(false)
   const localKeyCheck = JSON.parse(localStorage.getItem('API') || '0')
   const cleanerid = useSelector((store: any) => store?.ActiveStatsReducer?.listDrawerids)
-
   React.useEffect(() => {
     const updatedData = AllActiveCleaner.filter((data: any) => {
       return data.master_allowance?.name.toLowerCase().match(Search.toLowerCase())
     })
     setfilterData(updatedData)
   }, [Search])
-
   useEffect(() => {
     setLoading(true)
     async function InvokedRendered() {
@@ -74,7 +71,6 @@ const AssignAllowance = () => {
                     className='w-100 form-control me-2 align-start'
                   />
                 </div>
-                
               </div>
             </>
           }

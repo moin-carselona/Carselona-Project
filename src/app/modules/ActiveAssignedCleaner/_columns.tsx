@@ -12,7 +12,7 @@ const ActiveUserColumn: ReadonlyArray<Column<User>> = [
   {
     Header: (props) => <ActiveCustomHeader tableProps={props} title='Actions' />,
     id: 'actions',
-    Cell: ({...props}) => <ActiveActionsCell referece="AssignedCleaner" data={props.data} id={props.data[props.row.index].id} />,
+    Cell: ({...props}) => <ActiveActionsCell referece="AssignedCleaner"  data={props.data} id={props.data[props.row.index].id} />,
   },
   // {
   //   Header: (props) => <UserCustomHeader tableProps={props} title='ID' />,
@@ -40,7 +40,7 @@ const ActiveUserColumn: ReadonlyArray<Column<User>> = [
     Header: (props) => (
       <ActiveCustomHeader tableProps={props} title='Package Name' />
     ),
-    accessor: 'packagename',
+    accessor: 'packageDetail.name',
   },
   {
     Header: (props) => <ActiveCustomHeader tableProps={props} title='Name' />,

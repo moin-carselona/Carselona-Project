@@ -1,15 +1,23 @@
 import React from 'react'
-import { DataRow } from '../Interfaces'
 export interface topHeaders {
     Search: any
-    todaysDate: any
-    setDate: any
-    setLastDate: any
     setSearch: any
-    lastDate: any
-    handleSearchSociety: any
+    handleSearchJoblist: any
+    handleChangeInputData: any
+    payloads: {
+        attendencedatefrom: any,
+        attendencedateto:  any,
+        cleanerid: number | string,
+        cleanerstatus: number | string | null,
+        timeslotid: number | string | null,
+        jobstatus: number | string,
+        reportid : number | string,
+        customerid: number | string,
+        radius: number | string,
+        supervisorId: number | string,
+    }
 }
-const TopHeader: React.FC<topHeaders> = ({ Search, todaysDate, setDate, setLastDate, setSearch, lastDate , handleSearchSociety}) => {
+const TopHeader: React.FC<topHeaders> = ({ payloads, handleChangeInputData, Search, setSearch, handleSearchJoblist }) => {
     return (
         <div className='w-100 d-flex align-items-center justify-content-between mb-3  '>
             <div className='d-flex align-items-start justify-content-start '>
@@ -18,25 +26,30 @@ const TopHeader: React.FC<topHeaders> = ({ Search, todaysDate, setDate, setLastD
                     placeholder='Search Here'
                     value={Search}
                     onChange={(e: any) => setSearch(e.target.value)}
+                    // onChange={handleChangeInputData}
                     className='w-100 form-control me-2 align-start'
                 />
             </div>
             <div className='d-flex align-items-center justify-content-end '>
                 <input
                     type='date'
-                    value={todaysDate}
-                    onChange={(e: any) => setDate(e.target.value)}
+                    value={payloads.attendencedatefrom}
+                    // name="attendencedatefrom"
+                    // onChange={(e: any) => setDate(e.target.value)}
+                    onChange={(event) => handleChangeInputData(event.target, "attendencedatefrom")}
                     className='w-100  height-100 form-control me-2 align-start'
                 />
                 <h4 className=' me-2  mt-4 '>to </h4>
                 <input
                     type='date'
-                    value={lastDate}
-                    onChange={(e: any) => setLastDate(e.target.value)}
+                    // name="attendencedateto"
+                    value={payloads.attendencedateto}
+                    // onChange={(e: any) => setLastDate(e.target.value)}
+                    onChange={(event) => handleChangeInputData(event.target, "attendencedateto")}
                     className='w-100 form-control me-2 align-start'
                 />
                 {/* <button  className='w-100 form-control me-2 align-start btn-primary' >Submit</button> */}
-                <a className="btn btn-sm btn-primary  cursor-pointer" id="kt_toolbar_primary_button" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app"  onClick={handleSearchSociety}>Search</a>
+                <a className="btn btn-sm btn-primary  cursor-pointer" id="kt_toolbar_primary_button" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app" onClick={handleSearchJoblist}>Search</a>
             </div>
         </div>
     )

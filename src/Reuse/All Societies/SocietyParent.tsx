@@ -122,7 +122,7 @@ const ReactDataTable = () => {
     </div>
   )
 }
-export default ReactDataTable
+// export default ReactDataTable
 
 
 

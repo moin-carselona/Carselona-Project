@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-, "src/Dashboard/components/Old_JobList/.tsx", "src/Dashboard/components/Old_JobList/.tsx"  ]
+, "src/Dashboard/components/Old_JobList/.tsx", "src/Dashboard/components/Old_JobList/.tsx", "src/app/modules/Old_JobList/Components/OldJobPopForms/EditAttendence.tsx"  ]
 }

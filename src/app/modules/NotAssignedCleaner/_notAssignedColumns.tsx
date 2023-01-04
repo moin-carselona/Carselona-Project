@@ -23,7 +23,7 @@ const notAssignedColumns: ReadonlyArray<Column<User>> = [
     Header: (props) => (
       <UserCustomHeader tableProps={props} title='Package Name' />
     ),
-    accessor: 'packagename',
+    accessor: 'packageDetail.name',
   },
   {
     Header: (props) => (

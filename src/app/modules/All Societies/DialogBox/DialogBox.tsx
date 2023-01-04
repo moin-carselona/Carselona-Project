@@ -4,9 +4,9 @@ interface Props {
     PopUpSocietyBTN: () => void
     PopUpPostFormOpen: boolean
 }
-const DialogBox = ({ PopUpSocietyBTN, PopUpPostFormOpen }: Props) => {
+const DialogBox = ({ PopUpSocietyBTN, PopUpPostFormOpen }: any) => {
     // console.log('PopUpPostFormOpen', PopUpPostFormOpen);
-    return (
+    return (  
         <>
 
             {

@@ -98,13 +98,13 @@ const CleanerAbsenteeism = () => {
                   />
                 </div>
                 <div className='d-flex align-items-center justify-content-end '>
-                  {AllCleanerListData && (
+                  {/* {AllCleanerListData && (
                     <SingleSelect
                       refrence="Select cleaner"
                       setSelectedData={setSelectedData}
                       allDatafilter={AllCleanerListData}
                     ></SingleSelect>
-                  )}
+                  )} */}
                   <input
                     type='date'
                     value={todaysDate}

@@ -20,17 +20,11 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
     const [SelectedEmail, SetSelectedEmail] = useState<any>('')
     const [SelectedSocietyName, SetSelectedSocietyName] = useState<any>('')
     const [SelectedPhone, SetSelectedPhone] = useState<any>('')
-    // console.log('address add', address);
     const [latitude, SetLatitude] = useState<any>("")
-    // console.log('latitude add ', latitude);
     const [Longitude, SetLongitude] = useState<any>("")
-    
-    // const 
-    // console.log('Longitude add', Longitude);
     LocalBaseURL()
     const localKeyCheck = JSON.parse(localStorage.getItem("API") || "0")
     const { city, state, zip, country }: any = address
-    // to store society data into server      
     const handleAddSocietyCreate = async () => {
         let payload = {
             "societyname": SelectedSocietyName,
@@ -46,7 +40,6 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
         }
         if (SelectedSocietyName != "" && SelectedPhone != "" && SelectedEmail != "" && address != "" && SelectedCityID != "" && SelectedAreaID != "" && SelectedClickUpID != "" && SelectedPackageID != "" && latitude != "" && Longitude != "" && SelectedEmail.includes(".com") && SelectedEmail.includes("@") && SelectedEmail.includes("gmail")) {
             const response = await AddNewSocietyPostRequest(localKeyCheck, payload)
-            console.log('response', response);
             if (response?.data?.data) {
                 toast.success("society Register Successfull")
                 console.log('society post request', response?.data?.data);
@@ -65,7 +58,6 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
     React.useEffect(() => {
         async function getCityInvoked() {
             const { data } = await GetAllCityData(localKeyCheck)
-            console.log('add society city ========== city =>', data);
             setCity(data.data)
         }
         getCityInvoked()
@@ -73,7 +65,6 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
     React.useEffect(() => {
         async function getClickUpiInvoked() {
             const { data } = await GetAllClickapiData(localKeyCheck)
-            console.log('add society Click data ========== Click data =>', data);
             setClickUpi(data.data.lists)
         }
         getClickUpiInvoked()
@@ -81,7 +72,6 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
     React.useEffect(() => {
         async function getPackageIDInvoked() {
             const { data } = await GetAllPackageIDData(localKeyCheck)
-            console.log('add society Package ========== Package =>', data);
             setPackage(data.data)
         }
         getPackageIDInvoked()
@@ -89,7 +79,6 @@ const AddSocietyForm = ({ PopUpSocietyBTN }: Props) => {
     React.useEffect(() => {
         async function getAreaInvoked() {
             const { data } = await GetAllAreaData(localKeyCheck)
-            console.log('add society Area ========== Area =>', data);
             setArea(data.data)
         }
         getAreaInvoked()

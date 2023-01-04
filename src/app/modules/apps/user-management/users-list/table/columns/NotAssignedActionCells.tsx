@@ -14,40 +14,35 @@ import { Dialog } from '@mui/material'
 import AssignerCleanerComponent from '../../../../../stats/StatsItems/AssignerCleanerComponent'
 import ChangeCleanerComponent from '../../../../../stats/StatsItems/ChangeCleanerComponent'
 import { useDispatch } from 'react-redux'
-
 type Props = {
   id: ID
-  data:any
-  referece :string
+  data: any
+  referece: string
 }
+const NotAssignedActionCells: FC<Props> = ({ referece, id, data }) => {
+  let filterCleanerData = data.filter((item: any) => item.id === id)[0]
 
-const NotAssignedActionCells: FC<Props> = ({ referece, id,data }) => {
   const dispatch = useDispatch()
   const { setItemIdForUpdate } = useListView()
   const { query } = useQueryResponse()
   const queryClient = useQueryClient()
   const navigate = useNavigate();
-
   const [selectedId, setId] = React.useState("");
   const [isAssignCleanerOpen, setAssignCleanerOpen] = React.useState(false);
   const [changeCleanerOpen, setChangeCleanerOpen] = React.useState(false);
-
   useEffect(() => {
     MenuComponent.reinitialization()
   }, [])
-
   const deleteItem = useMutation(() => deleteUser(id), {
     // 💡 response of the mutation is passed to onSuccess
     onSuccess: () => {
       // ✅ update detail view directly
       queryClient.invalidateQueries([`${QUERIES.USERS_LIST}-${query}`])
-    }, 
+    },
   })
-
   const handleChangeStatus = (id: ID) => {
     const formData = new FormData();
     formData.append('orderid', String(id));
-
     if (window.confirm("Do you really want to leave?")) {
       axios.post('https://adminapi.carselonadaily.com/api/admin/markCompleteOndemandService', formData).then(response => {
         alert("Order updated successfully!");
@@ -58,53 +53,31 @@ const NotAssignedActionCells: FC<Props> = ({ referece, id,data }) => {
       })
     }
   }
-
-  // const handleEditModal = (id: any) => {
-  //   // console.log('order id from UserActonsCell', id);
-  //   dispatch({type:"ASSIGN_CLEANER_ID", payload: id})
-  //   // setModalOpen(true)
-    // let filteredData = data.filter((item: any) => item.id === id)[0]
-    // console.log('Assign cleaner Details', filteredData);
-    // // console.log('data assin clean', data);
-    // setId(id)
-    // navigate('assign-cleaner-view',{
-    //   state: {
-    //     filteredData
-    //   }
-    // })
-  // }
-  
   const handleAssignCleanerOpen = (id: any) => {
-    dispatch({type:"ASSIGN_CLEANER_ID", payload: id})
-
-    let filteredData = data.filter((item: any) => item.id === id)[0]
-    console.log('Assign cleaner Details from not assign ', filteredData);
-    // console.log('data assin clean', data);
-    setId(id)
-    navigate('/apps/statistics/same-day/assign-cleaner-view',{
-      state: {
-        filteredData, referece
-      }
-    })
-    // setId(id);
-    // setAssignCleanerOpen(true);
+    dispatch({ type: "ASSIGN_CLEANER_ID", payload: id })
+    navigate(`/apps/statistics/same-day/assign-cleaner-view/not_assigned/${id}`)
   }
+
+
+
 
   const handleChangeCleanerOpen = (id: any) => {
-    setId(id);
-    setChangeCleanerOpen(true);
+    // navigate(`/champ-permanent-replacement/permanent_not_assigned/${filterCleanerData.cleanerid}`)
+
   }
+
+
+
 
   const handleCloseModal = () => {
     setAssignCleanerOpen(false)
     setChangeCleanerOpen(false)
   }
-
   return (
     <>
       <a
         href='#'
-        className='btn btn-light btn-active-light-primary btn-sm'
+        className=' btn btn-light btn-active-light-primary btn-sm'
         data-kt-menu-trigger='click'
         data-kt-menu-placement='bottom-end'
       >
@@ -129,8 +102,9 @@ const NotAssignedActionCells: FC<Props> = ({ referece, id,data }) => {
         </div>
         <div className='menu-item px-3'>
           <a className='menu-link px-3 bg-success text-white'
+            href={`/apps/statistics/same-day/assign-cleaner-view/not_assigned/${id}`}
             onClick={() => handleAssignCleanerOpen(id)}>
-            Assign Cleaner Not Active
+            Assign Cleaner
           </a>
         </div>
         <div className='menu-item px-3'>
@@ -146,7 +120,6 @@ const NotAssignedActionCells: FC<Props> = ({ referece, id,data }) => {
           </a>
         </div>
       </div>
-
       {isAssignCleanerOpen && <Dialog
         open={true}
         onClose={handleCloseModal}
@@ -155,7 +128,6 @@ const NotAssignedActionCells: FC<Props> = ({ referece, id,data }) => {
       >
         <AssignerCleanerComponent selectedId={selectedId} />
       </Dialog>}
-
       {changeCleanerOpen && <Dialog
         open={true}
         onClose={handleCloseModal}
@@ -167,5 +139,4 @@ const NotAssignedActionCells: FC<Props> = ({ referece, id,data }) => {
     </>
   )
 }
-
 export { NotAssignedActionCells }

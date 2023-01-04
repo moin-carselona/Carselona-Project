@@ -22,8 +22,8 @@ type Props = {
   CardTemplate: unknown
 }
 const modalsRoot = document.getElementById('root-modals') || document.body
-const CreateAppModal = ({ show, handleClose, handleCreateTemplatesPop, createTemplatesPop,CardTemplate }: Props) => {
-  console.log('CardTemplate', CardTemplate);
+const CreateAppModal = ({ show, handleClose, handleCreateTemplatesPop, createTemplatesPop, CardTemplate }: Props) => {
+  // console.log('CardTemplate', CardTemplate);pathname
   const stepperRef = useRef<HTMLDivElement | null>(null)
   const stepper = useRef<StepperComponent | null>(null)
   const [data, setData] = useState<ICreateAppData>(defaultCreateAppData)

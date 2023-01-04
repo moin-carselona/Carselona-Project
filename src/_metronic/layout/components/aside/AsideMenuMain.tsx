@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React from 'react'
-import {useIntl} from 'react-intl'
-import {KTSVG} from '../../../helpers'
-import {AsideMenuItemWithSub} from './AsideMenuItemWithSub'
-import {AsideMenuItem} from './AsideMenuItem'
+import { useIntl } from 'react-intl'
+import { AsideMenuItemWithSub } from './AsideMenuItemWithSub'
+import { AsideMenuItem } from './AsideMenuItem'
 export function AsideMenuMain() {
   const intl = useIntl()
   return (
@@ -11,7 +10,7 @@ export function AsideMenuMain() {
       <AsideMenuItem
         to='/dashboard'
         icon='/media/icons/duotune/art/art002.svg'
-        title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
+        title={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
         fontIcon='bi-app-indicator'
       />
       {/* <AsideMenuItem
@@ -22,10 +21,11 @@ export function AsideMenuMain() {
       /> */}
       <div className='menu-item'>
         <div className='menu-content pt-8 pb-2'>
-          <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Crafted</span>
+          <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Daily</span>
         </div>
       </div>
-      <AsideMenuItemWithSub
+      {/* pages section   */}
+      {/* <AsideMenuItemWithSub
         to='/crafted/pages'
         title='Pages'
         fontIcon='bi-archive'
@@ -50,8 +50,8 @@ export function AsideMenuMain() {
           />
           <AsideMenuItem to='/crafted/pages/wizards/vertical' title='Vertical' hasBullet={true} />
         </AsideMenuItemWithSub>
-      </AsideMenuItemWithSub>
-
+      </AsideMenuItemWithSub> */}
+      {/* pages section   */}
       {/* tickets ========================================================= */}
       {/* <AsideMenuItemWithSub
         to='/crafted/pages'
@@ -68,8 +68,12 @@ export function AsideMenuMain() {
           />
         </AsideMenuItemWithSub>
       </AsideMenuItemWithSub> */}
-
-      {/* tickets =========================================================== */}
+      {/* <AsideMenuItemWithSub
+        to='/crafted/pages'
+        title='Tickets'
+        fontIcon='bi-archive'
+        icon='/media/icons/duotune/general/gen022.svg'
+      > */}
       {/* <AsideMenuItemWithSub
         to='/crafted/accounts'
         title='Accounts'
@@ -101,14 +105,20 @@ export function AsideMenuMain() {
         <AsideMenuItem to='/crafted/widgets/tables' title='Tables' hasBullet={true} />
         <AsideMenuItem to='/crafted/widgets/feeds' title='Feeds' hasBullet={true} />
       </AsideMenuItemWithSub> */}
+
+
+
+      {/* tickets DIRECT ROUTE =========================================================== */}
+      <AsideMenuItem to='/admin/tickets' title='Tickets' hasBullet={true} />
+      {/* tickets =========================================================== */}
+      {/* tickets DIRECT ROUTE =========================================================== */}
+      {/* <AsideMenuItem to='/admin/tickets' title='Tickets' hasBullet={true} /> */}
+      {/* tickets =========================================================== */}
       <div className='menu-item'>
         <div className='menu-content pt-8 pb-2'>
           <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Apps</span>
         </div>
       </div>
-
-
-
       <AsideMenuItemWithSub
         to='/apps/statistics/same-day'
         title='Subscriptions'
@@ -118,7 +128,6 @@ export function AsideMenuMain() {
         <AsideMenuItem to='/apps/statistics/same-day' title='Active Paid' hasBullet={true} />
         <AsideMenuItem to='/apps/statistics/inactive' title='On Demand' hasBullet={true} />
         <AsideMenuItem to='/apps/statistics/paused' title='Renewal' hasBullet={true} />
-        {/* <AsideMenuItem to='/apps/statistics/upcoming' title='Not Assigned' hasBullet={true} /> */}
         <AsideMenuItem
           to='/apps/statistics/vehicles/new'
           title='Kit Subscriptions'
@@ -138,8 +147,6 @@ export function AsideMenuMain() {
           hasBullet={true}
         />
       </AsideMenuItemWithSub>
-
-
       {/* schedule here start ===================================================== */}
       <AsideMenuItemWithSub
         to='/schedule/cleaner'
@@ -147,19 +154,89 @@ export function AsideMenuMain() {
         fontIcon='bi-chat-left'
         icon='/media/icons/duotune/communication/com012.svg'
       >
-        <AsideMenuItem to='/schedule/cleaner/not-assigned' title='Not Assinged' hasBullet={true} />
-        <AsideMenuItem to='/schedule/cleaner/old-job' title='Old Job List' hasBullet={true} />
-        <AsideMenuItem to='/schedule/cleaner/area-wise-cleaner' title='Area Wise cleaner List' hasBullet={true} />
-        <AsideMenuItem to='/schedule/cleaner/champ-permanent-replacement' title='Champ Permanent Replacement' hasBullet={true} />
-        <AsideMenuItem to='/schedule/cleaner/cleanerlist' title='Cleaner List' hasBullet={true} />
-        
-    
+        <AsideMenuItem to='/schedule/cleaner/not-assigned' title='Un-Assigned' hasBullet={true} />
+        <AsideMenuItem to='/schedule/cleaner/job-list' title='Job List' hasBullet={true} />
+        <AsideMenuItem to='/schedule/cleaner/area-wise-cleaner' title='Search Availibility' hasBullet={true} />
+        {/* <AsideMenuItem to='/schedule/cleaner/champ-permanent-replacement' title='Champ Permanent Replacement' hasBullet={true} /> */}
+        <AsideMenuItem to='/schedule/cleaner/cleanerlist' title='Champs List' hasBullet={true} />
       </AsideMenuItemWithSub>
-
       {/* schedule here start ===================================================== */}
-
-
-
+      {/* Master  here start ===================================================== */}
+      <AsideMenuItemWithSub
+        to='/master'
+        title='Masters'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/master/service-price' title='Service Prices' hasBullet={true} />
+        <AsideMenuItem to='/master/services' title='Services' hasBullet={true} />
+        <AsideMenuItem to='/master/products' title='Products' hasBullet={true} />
+        <AsideMenuItem to='/master/packages' title='Packages' hasBullet={true} />
+        <AsideMenuItem to='/master/fueltype' title='Fuel Type' hasBullet={true} />
+        <AsideMenuItem to='/master/vehicle-type' title='Vehicle Type' hasBullet={true} />
+        <AsideMenuItem to='/master/vehicle-category' title='Vehicle Category' hasBullet={true} />
+        <AsideMenuItem to='/master/vehicle-brand' title='Vehicle Brand' hasBullet={true} />
+        <AsideMenuItem to='/master/vehicle-model' title='Vehicle Model' hasBullet={true} />
+        <AsideMenuItem to='/master/problem' title='Problem' hasBullet={true} />
+        <AsideMenuItem to='/master/sub-problem' title='Sub Problem' hasBullet={true} />
+        <AsideMenuItem to='/master/t-shirt' title='T-Shirt ' hasBullet={true} />
+        <AsideMenuItem to='/master/training-topics' title='Training Topics' hasBullet={true} />
+        <AsideMenuItem to='/master/job-sites' title='Job Sites' hasBullet={true} />
+        <AsideMenuItem to='/master/job-type' title='Job Type' hasBullet={true} />
+        <AsideMenuItem to='/master/user-type' title='User Type' hasBullet={true} />
+        <AsideMenuItem to='/master/points-table' title='Point-Table' hasBullet={true} />
+        <AsideMenuItem to='/master/credit-reasons' title='Credit Reasons' hasBullet={true} />
+        <AsideMenuItem to='/master/job-status' title='Job Status' hasBullet={true} />
+        <AsideMenuItem to='/master/master-reasons' title='Master Reasons' hasBullet={true} />
+        <AsideMenuItem to='/master/master-ticket-category' title='Master Tickets Category ' hasBullet={true} />
+        <AsideMenuItem to='/master/master-resources' title='Master Resources' hasBullet={true} />
+        <AsideMenuItem to='/master/master-offers' title='Master Offers' hasBullet={true} />
+      </AsideMenuItemWithSub>
+      {/* Master here start ===================================================== */}
+      {/* Address here start ===================================================== */}
+      <AsideMenuItemWithSub
+        to='/address'
+        title='Address'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/address/areas' title='Areas' hasBullet={true} />
+        <AsideMenuItem to='/address/country' title='Country' hasBullet={true} />
+        <AsideMenuItem to='/address/state' title='State' hasBullet={true} />
+        <AsideMenuItem to='/address/city' title='City' hasBullet={true} />
+        <AsideMenuItem to='/address/pincode' title='Pincode' hasBullet={true} />
+      </AsideMenuItemWithSub>
+      {/* Address here start ===================================================== */}
+      {/* Campaign sections here start ===================================================== */}
+      <AsideMenuItemWithSub
+        to='/campaigns'
+        title='Campaign'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/campaigns/dashboard' title='Dashboard' hasBullet={true} />
+        <AsideMenuItem to='/campaigns/create-campaign' title='Create Campaign' hasBullet={true} />
+        <AsideMenuItem to='/campaigns/all-campaign' title='All Campaigns' hasBullet={true} />
+        <AsideMenuItem to='/campaigns/reward' title='Rewards' hasBullet={true} />
+        <AsideMenuItem to='/campaigns/redeemtions' title='Redeemtions' hasBullet={true} />
+      </AsideMenuItemWithSub>
+      {/* Campaign sections here start ===================================================== */}
+      {/* MAPs sections here start ===================================================== */}
+      <AsideMenuItemWithSub
+        to='/maps'
+        title='MAPs'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/maps/cleaner-route-map' title='Cleaner Routes MAPs' hasBullet={true} />
+        <AsideMenuItem to='/maps/society-map' title='Society MAPs' hasBullet={true} />
+        <AsideMenuItem to='/maps/cleaner-map' title='Cleaner MAPs' hasBullet={true} />
+        <AsideMenuItem to='/maps/comapany-cleaner-map' title='Company Cleaner MAPs' hasBullet={true} />
+        <AsideMenuItem to='/maps/customer-cleaner' title='Customer Cleaner MAPs' hasBullet={true} />
+        <AsideMenuItem to='/maps/pincode-marker-map' title='Pincode Marker MAPs' hasBullet={true} />
+        <AsideMenuItem to='/maps/all-customer-cleaner-map' title='All Customer Cleaner MAPs' hasBullet={true} />
+      </AsideMenuItemWithSub>
+      {/* MAPs sections here start ===================================================== */}
       <AsideMenuItemWithSub
         to='/apps/admin/stats'
         title='Statistics'
@@ -303,33 +380,50 @@ export function AsideMenuMain() {
       </AsideMenuItemWithSub>
       {/* react-table side menu   */}
       {/* Old Cleaner Job List side menu   */}
-      {/* <AsideMenuItemWithSub
-        to='/OldJobList'
-        title='Old Job List'
+      <AsideMenuItemWithSub
+        to='/datechange'
+        title='Date Change'
         fontIcon='bi-chat-left'
         icon='/media/icons/duotune/communication/com012.svg'
       >
-        <AsideMenuItem to='/old/jobList' title='Old Job List' hasBullet={true} />
-      </AsideMenuItemWithSub> */}
-      {/* Old Cleaner Job List side menu   */}
-      {/* <AsideMenuItemWithSub
-        to='/dashboardss'
-        title='Dashboard'
+        <AsideMenuItem to='/datechange' title='Date Change' hasBullet={true} />
+      </AsideMenuItemWithSub>
+      {/* services-price  */}
+      <AsideMenuItemWithSub
+        to='/services-price'
+        title='Services Price'
         fontIcon='bi-chat-left'
         icon='/media/icons/duotune/communication/com012.svg'
       >
-        <AsideMenuItem to='/dashboardss' title='dashboardss' hasBullet={true} />
-      </AsideMenuItemWithSub> */}
-
-      {/* <AsideMenuItemWithSub
-        to='/activecleaners'
-        title='All Cleaner'
+        <AsideMenuItem to='/services-price' title='Services Price' hasBullet={true} />
+      </AsideMenuItemWithSub>
+      {/* role modules  */}
+      <AsideMenuItemWithSub
+        to='/role-module'
+        title='Role Modules'
         fontIcon='bi-chat-left'
         icon='/media/icons/duotune/communication/com012.svg'
       >
-        <AsideMenuItem to='/activecleaners' title='All Cleaner List' hasBullet={true} />
-      </AsideMenuItemWithSub> */}
-      {/* Old Cleaner Job List side menu   */}
+        <AsideMenuItem to='/role-module' title='Role Modules' hasBullet={true} />
+      </AsideMenuItemWithSub>
+      {/* role modules  */}
+      <AsideMenuItemWithSub
+        to='/active-customer'
+        title='Active customer'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/active-customer' title='Active Customer' hasBullet={true} />
+      </AsideMenuItemWithSub>
+      {/* role modules  */}
+      <AsideMenuItemWithSub
+        to='/visitors'
+        title='Visitors'
+        fontIcon='bi-chat-left'
+        icon='/media/icons/duotune/communication/com012.svg'
+      >
+        <AsideMenuItem to='/visitors' title='Visitors' hasBullet={true} />
+      </AsideMenuItemWithSub>
     </>
   )
 }

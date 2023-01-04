@@ -16,27 +16,25 @@ type Props = {
 export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle, filteredData }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  console.log('cleaneridSingle=>>>> ActiveCleaner =>>>>>>>>>>>>>>>>', cleaneridSingle);
+  // console.log('cleaneridSingle=>>>> ActiveCleaner =>>>>>>>>>>>>>>>>', cleaneridSingle);
   useEffect(() => {
     MenuComponent.reinitialization()
   }, [])
-  // const handleDataHere = (id: any) => {
-  //   let filteredData = data.filter((item: any) => item.id === id)[0]
-  //   console.log('Assign cleaner Details', filteredData);
-  //   navigate('assign-cleaner-view', {
-  //     state: {
-  //       filteredData,
-  //       referece
-  //     }
-  //   })
-  // }
   const handleReAssign = (cleaneridSingle: any) => {
-    navigate('/champ-permanent-replacement', {
-      state: {
-        filteredData
-      }
-    })
-    // console.log('id', id);
+    navigate(`/champ-permanent-replacement/active_cleaner_champ/${cleaneridSingle}`)
+    const state = {
+      filteredData,
+      cleaneridSingle,
+      referece: "cleaner"
+    }
+  }
+  const handleReAssignTemporay = (cleaneridSingle: any) => {
+    // navigate('/champ-permanent-replacement', {
+    //   state: {
+    //     filteredData
+    //   }
+    // })
+    navigate(`/daily/job/assign/oldjob/${cleaneridSingle}`)
   }
   const ViewProfileCleaner = (cleaneridSingle: any) => {
   }
@@ -47,12 +45,10 @@ export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle,
   const AsignChangeSlab = (cleaneridSingle: any, drawerRefs: any) => {
     dispatch({ type: "LISTDRAWER", payload: drawerRefs })
     dispatch({ type: "LISTDRAWERIDS", payload: cleaneridSingle })
-    
   }
   const AssignUpdateAlowance = (cleaneridSingle: any, drawerRefs: any) => {
     dispatch({ type: "LISTDRAWER", payload: drawerRefs })
     dispatch({ type: "LISTDRAWERIDS", payload: cleaneridSingle })
-    
   }
   const GiveRewards = (cleaneridSingle: any, drawerRefs: any) => {
     dispatch({ type: "LISTDRAWER", payload: drawerRefs })
@@ -62,7 +58,7 @@ export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle,
     dispatch({ type: "LISTDRAWER", payload: drawerRefs })
     dispatch({ type: "LISTDRAWERIDS", payload: cleaneridSingle })
   }
-  const AssignSuperVisor = (cleaneridSingle: any,drawerRefs:any ) => {
+  const AssignSuperVisor = (cleaneridSingle: any, drawerRefs: any) => {
     dispatch({ type: "LISTDRAWER", payload: drawerRefs })
     dispatch({ type: "LISTDRAWERIDS", payload: cleaneridSingle })
   }
@@ -90,11 +86,24 @@ export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle,
       >
         <div className='menu-item px-3'>
           <a
+            href={`/champ-permanent-replacement/active_cleaner_champ/${cleaneridSingle}`}
             className='menu-link  px-3'
             data-kt-users-table-filter='delete_row'
+            // target="_blank"
             onClick={() => handleReAssign(cleaneridSingle)}
           >
-            Re-Assign
+            Re-Assign/Permanent
+          </a>
+        </div>
+        <div className='menu-item px-3'>
+          <a
+            href={`/daily/job/assign/oldjob/${cleaneridSingle}`}
+            className='menu-link  px-3'
+            data-kt-users-table-filter='delete_row'
+            // target="_blank"
+            onClick={() => handleReAssignTemporay(cleaneridSingle)}
+          >
+            Re-Assign/Temporary
           </a>
         </div>
         <div className='menu-item px-3' >
@@ -142,7 +151,6 @@ export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle,
             Assign / Change Slab
           </a>
         </div>
-      
         <div className='menu-item px-3' id="kt_activities2_toggle2">
           <a
             className='menu-link  px-3'
@@ -170,7 +178,7 @@ export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle,
             View Loans
           </a>
         </div>
-        <div className='menu-item px-3'  id="kt_activities2_toggle2">
+        <div className='menu-item px-3' id="kt_activities2_toggle2">
           <a
             className='menu-link  px-3'
             data-kt-users-table-filter='delete_row'

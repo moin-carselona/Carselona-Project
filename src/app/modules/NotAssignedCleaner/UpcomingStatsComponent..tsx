@@ -12,26 +12,31 @@ import { MAIN_ADMIN_BASE_API_URL, TEST_ADMIN_BASE_API_URL } from "../../../apiGl
 import { Paginations } from "./Paginations";
 import { LocalBaseURL } from "../../../BaseURLmanagement";
 import { NotCustomeRow } from "./NotCustomeRow";
+import { Typography } from "@mui/material";
+// import { useNavigate, useLocation } from "react-router";
 type Props = {
     upcomingSubscriptions: any,
     isLoading: boolean
 }
 const UpcomingStatsComponent: FC<Props> = (props: Props) => {
+    // const histroy: any = useLocation()
+    // console.log('histroy', histroy);
     LocalBaseURL()
     const localKeyCheck = JSON.parse(localStorage.getItem("API") || "0")
     const [Searchs, setSearch] = React.useState("")
-    const [packageList, setPackageList] = React.useState([]);
+    const [packageList, setPackageList] = React.useState<any>([]);
     const [isLoading, setLoading] = React.useState(false);
     const [isLoadingBody, setisLoadingBody] = React.useState(false);
     const [customerStats, setCustomerStats] = React.useState<any>([]);
     const [RecordsTotal, setRecordsTotal] = React.useState<any>([]);
-    console.log('RecordsTotal', RecordsTotal);
+    // console.log('RecordsTotal', RecordsTotal);
+    const [totalFilterData, SettotalFilterData] = React.useState(1)
     const [RecordsFiltered, setRecordsFiltered] = React.useState<any>([]);
-    const [start, setPageStart] = React.useState<any>([]);
+    const [start, setPageStart] = React.useState<any>(0);
+    const [endPage, setEndPage] = React.useState<any>(10);
     const data = useMemo(() => customerStats, [customerStats]);
     const columns = useMemo(() => notAssignedColumns, [])
-    const [pageSize, setPageSize] = React.useState(2);
-    const [query, setQuery] = React.useState("");
+    const packageids = JSON.parse(sessionStorage.getItem("not_assigened_filtered_data") || "0") || {}
     const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({
         columns,
         data,
@@ -40,14 +45,14 @@ const UpcomingStatsComponent: FC<Props> = (props: Props) => {
     // console.log('BaseURL ============================ baseURL', API);
     React.useEffect(() => {
         setLoading(true);
-        console.log('BaseURL ============================ baseURL', API);
-        axios.get(`${API}?start=0&length=10&orders=desc&columns=id`).then((response) => {
-            setCustomerStats(response?.data?.data);
-            setRecordsTotal(response?.data?.recordsTotal)
-            setRecordsFiltered(response?.data?.recordsFiltered)
-        }).catch(error => {
-            console.log("ERROR", error);
-        });
+        // console.log('BaseURL ============================ baseURL', API);
+        // axios.get(`${API}?start=0&length=10&orders=desc&columns=id`).then((response) => {
+        //     setCustomerStats(response?.data?.data);
+        //     setRecordsTotal(response?.data?.recordsTotal)
+        //     setRecordsFiltered(response?.data?.recordsFiltered)
+        // }).catch(error => {
+        //     console.log("ERROR", error);
+        // });
         axios.get(`${localKeyCheck ? MAIN_ADMIN_BASE_API_URL : TEST_ADMIN_BASE_API_URL}/admin/getActivePackageDetails`).then((response) => {
             setPackageList(response?.data?.data);
             setRecordsTotal(response?.data?.recordsTotal)
@@ -57,44 +62,94 @@ const UpcomingStatsComponent: FC<Props> = (props: Props) => {
             console.error("ERROR", error);
             setLoading(false);
         });
-    }, [])
-    const handleChangePageSize = (e: any) => {
-        setLoading(true);
-        setPageSize(e.target.value);
-        axios.get(`${API}?start=0&length=${e.target.value}&orders=desc&columns=id`).then((response) => {
-            setLoading(false);
-            setCustomerStats(response?.data?.data);
-            setRecordsTotal(response?.data?.recordsTotal)
-            setRecordsFiltered(response?.data?.recordsFiltered)
-        }).catch(error => {
-            setLoading(false);
-            console.log("ERROR", error);
-        });
-    }
+    }, [localKeyCheck])
+    // React.useEffect(() => {
+    //     axios.get(`${API}?start=${start}&length=10&orders=desc&columns=id`).then((response) => {
+    //         setCustomerStats(response?.data?.data);
+    //         setRecordsTotal(response?.data?.recordsTotal)
+    //         setRecordsFiltered(response?.data?.recordsFiltered)
+    //         setisLoadingBody(false);
+    //     })
+    // }, [start])
     React.useEffect(() => {
-        axios.get(`${API}?start=${start}&length=10&orders=desc&columns=id`).then((response) => {
-            setCustomerStats(response?.data?.data);
-            setRecordsTotal(response?.data?.recordsTotal)
-            setRecordsFiltered(response?.data?.recordsFiltered)
-            setisLoadingBody(false);
-        })
-    }, [start])
-    const handlePaginationBTN = (value: any) => {
         setisLoadingBody(true);
-        setPageStart((value * 10) + 1)
+        !packageids?.id && axios
+            .get(`${API}?start=${start}&length=${10}&orders=asc&columns=startdate`)
+            .then((response) => {
+                setCustomerStats(response?.data?.data);
+                setRecordsTotal(response?.data?.recordsTotal)
+                setRecordsFiltered(response?.data?.recordsFiltered)
+                setisLoadingBody(false);
+            })
+            .catch((error) => {
+                setisLoadingBody(false)
+                console.log('ERROR', error)
+            })
+        packageids?.id && start > 0 && axios.get(`${API}?start=${start}&length=${10}&orders=asc&columns=startdate&packageId=${packageids.id}`)
+            .then((response) => {
+                // console.log('response', response);
+                setisLoadingBody(false)
+                setCustomerStats(response.data.data)
+                setRecordsTotal(response?.data?.recordsTotal)
+                setRecordsFiltered(response?.data?.recordsFiltered)
+            })
+            .catch((error) => {
+                setisLoadingBody(false)
+                console.log('ERROR', error)
+            })
+        packageids?.id && start == 0 && axios.get(`${API}?start=${start}&length=${10}&orders=asc&columns=startdate&packageId=${packageids.id}`)
+            .then((response) => {
+                // console.log('response', response);
+                setisLoadingBody(false)
+                setCustomerStats(response.data.data)
+                setRecordsTotal(response?.data?.recordsTotal)
+                setRecordsFiltered(response?.data?.recordsFiltered)
+            })
+            .catch((error) => {
+                setisLoadingBody(false)
+                console.log('ERROR', error)
+            })
+    }, [packageids?.id, start])
+    const handlePaginationBTN = (value: any) => {
+        SettotalFilterData(value)
+        let endVAle = (value * 10)-10
+
+        // let startValue = endVAle - 10
+        // console.log("start", startValue, "End", endVAle);
+        // setEndPage(endVAle)
+        // setPageStart(endVAle)
+    setPageStart(endVAle)
+
+        setisLoadingBody(true);
     }
     const handleChange = (event: any) => {
-        setLoading(true);
-        setQuery(`?supervisor=${event.currentTarget.value}`);
-        axios.get(`${API}?start=0&length=10&${event.currentTarget.id}=${event.currentTarget.value}`).then((response) => {
-            setLoading(false);
-            setCustomerStats(response?.data?.data);
-            setRecordsTotal(response?.data?.recordsTotal)
-            setRecordsFiltered(response?.data?.recordsFiltered)
-        }).catch(error => {
-            setLoading(false);
-            console.log("ERROR", error);
-        });
+        if (event.target.value !== "default") {
+            setisLoadingBody(true)
+            axios.get(`${API}?start=0&length=10&orders=asc&columns=startdate&packageId=${event.target.value}`).then((response) => {
+                setCustomerStats(response?.data?.data);
+                setRecordsTotal(response?.data?.recordsTotal)
+                setRecordsFiltered(response?.data?.recordsFiltered)
+                setisLoadingBody(false)
+            }).catch(error => {
+                setisLoadingBody(false)
+                console.log("ERROR", error);
+            });
+            const filteredPackages: any = packageList?.filter((packagess: any) => +packagess.id == +event.target.value)[0]
+            sessionStorage.setItem('not_assigened_filtered_data', JSON.stringify(filteredPackages))
+        }
+        else {
+            sessionStorage.removeItem("not_assigened_filtered_data")
+            setisLoadingBody(true)
+            axios.get(`${API}?start=0&length=10&orders=asc&columns=startdate`).then((response) => {
+                setCustomerStats(response?.data?.data);
+                setRecordsTotal(response?.data?.recordsTotal)
+                setRecordsFiltered(response?.data?.recordsFiltered)
+                setisLoadingBody(false)
+            }).catch(error => {
+                setisLoadingBody(false)
+                console.log("ERROR", error);
+            });
+        }
     };
     function debouncing(this: any, argument: any) {
         let timer: any
@@ -115,7 +170,7 @@ const UpcomingStatsComponent: FC<Props> = (props: Props) => {
                 setCustomerStats(response?.data?.data);
                 setRecordsTotal(response?.data?.recordsTotal)
                 setRecordsFiltered(response?.data?.recordsFiltered)
-        setisLoadingBody(false)
+                setisLoadingBody(false)
             }).catch(error => {
                 console.log("ERROR", error);
             });
@@ -127,6 +182,8 @@ const UpcomingStatsComponent: FC<Props> = (props: Props) => {
         const { value } = e.target
         setSearch(value)
         handleSearchs(value)
+    }
+    const defaultSelectData = (e: any) => {
     }
     // to memoized
     const deb = useCallback(debouncing(handleChangeSearch), [])
@@ -161,10 +218,16 @@ const UpcomingStatsComponent: FC<Props> = (props: Props) => {
                         id="packageId"
                         onChange={handleChange}
                     >
-                        <option>Select Package</option>
-                        {packageList?.map((item: any) => {
-                            return <option value={item.id}
-                                key={item.id}>{item.name}</option>
+                        <option >{packageids?.name ? packageids?.name : "Select Packages"}</option>
+                        {packageList?.map((item: any, index: number) => {
+                            if (index == 0) {
+                                return <option value={"default"}
+                                    key={item.id}>{"Select Dafault"}</option>
+                            }
+                            else {
+                                return <option value={item.id}
+                                    key={item.id}>{item.name}</option>
+                            }
                         })}
                     </select>
                 </div>
@@ -208,7 +271,8 @@ const UpcomingStatsComponent: FC<Props> = (props: Props) => {
                         </table>
                     </div>
             }
-            <div className='d-flex justify-content-end my-3'>
+            <div className='d-flex justify-content-between'>
+                <Typography>Showing {((totalFilterData - 1) * 10) + " to " + (((totalFilterData) * 10)) + " out of " + (RecordsTotal?.length)}</Typography>
                 <Paginations handlePaginationBTN={handlePaginationBTN} RecordsTotal={RecordsTotal} ></Paginations>
             </div>
         </KTCardBody>
