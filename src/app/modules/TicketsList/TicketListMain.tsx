@@ -8,7 +8,6 @@ import { customStyles } from './CustomCss';
 import DialogBox from './DialogBox/DialogBox';
 import DateSearchBOX from './InputBoxes/DateSearchBOX';
 import Filteration from './InputBoxes/Filteration';
-import SingleSelectInput from './MultiSelect/SingleSelectInput';
 import { AdminListDataApi, cleanerDataApi, CustomerDataApi, inputEventChanger, payloadsInterfaces, SuperVisorDataApi, ticektInterfaces, TicektSourcesDataApi, TicektSubCategoryDataApi, ticketCategoryDataApi } from './TicketInterface';
 const TicketListMain = () => {
   LocalBaseURL()
@@ -131,7 +130,6 @@ const TicketListMain = () => {
           subHeaderComponent={
             <>
               <Filteration
-                SingleSelectInput={SingleSelectInput}
                 handleChangeInput={handleChangeInput}
                 CleanerfilterData={CleanerfilterData}
                 CustomerfilterData={CustomerfilterData}

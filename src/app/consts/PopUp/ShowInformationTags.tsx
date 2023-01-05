@@ -14,7 +14,7 @@ const ShowInformationTags = ({ handleCloseModal, HeaderTitle, SelectedData }: an
                 }
               >
                 {
-                  SelectedData?.private_tag === "" ? <span className='me-1 badge badge-light-danger fs-8 fw-bold'> No Tags Are Available </span> : SelectedData?.private_tag.split(",").map((ele: any, index: number) => {
+                  SelectedData=== "" ? <span className='me-1 badge badge-light-danger fs-8 fw-bold'> No Tags Are Available </span> : SelectedData?.split(",").map((ele: any, index: number) => {
                     return (
                       <span className='me-1 badge badge-light-danger fs-8 fw-bold'> {ele} </span>
                     )
@@ -23,24 +23,7 @@ const ShowInformationTags = ({ handleCloseModal, HeaderTitle, SelectedData }: an
               </div >
             </div>
           </div>
-          {/* <div className="col-5">
-            <h4 className="text-center text-success">{"Public Tags"}</h4>
-            <div className='modal-content'>
-              < div
-                className={servicetype1ClassTag}
-                style={{ whiteSpace: 'pre-wrap', cursor: "pointer" }
-                }
-              >
-                {
-                  SelectedData?.public_tag === "" ? <span className='me-1 badge badge-light-danger fs-8 fw-bold'> No Tags Are Available </span> : SelectedData?.public_tag.split(",").map((ele: any, index: number) => {
-                    return (
-                      <span className='me-1 badge badge-light-danger fs-8 fw-bold'> {ele} </span>
-                    )
-                  })
-                }
-              </div >
-            </div>
-          </div> */}
+        
         </div>
       </div>
     </div>

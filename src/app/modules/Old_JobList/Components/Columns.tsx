@@ -6,7 +6,6 @@ import DialogBox from './DialogBox/DialogBox'
 import SentenceShorter from './SentenceShorter'
 import GS_Chips from '../../../consts/GS_Chips'
 export const columns: TableColumn<DataRow>[] = [
-
   {
     name: 'ACTION',
     cell: (row) => (

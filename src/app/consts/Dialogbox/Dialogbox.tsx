@@ -2,7 +2,7 @@ import { Dialog } from "@mui/material";
 import AddNewAccountForm from "../../modules/ActiveCleaner/AddAccountTable/Components/AddNewAccountForm";
 import AddNewTags from "../../modules/ActiveCleaner/Forms/AddNewTags";
 import { AddNewTagsInterfaces } from "../Inerfaces4az/AddNewTagsInterfaces";
-import ShowInformation from "../PopUp/ShowInformation";
+import ShowInformationTags from "../PopUp/ShowInformationTags";
 interface Props {
     handleCloseForm: () => void
     PopUpPostFormOpen: boolean
@@ -21,7 +21,7 @@ const Dialogbox = ({ handleCloseForm, PopUpPostFormOpen, ParentData, reference }
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    {reference === "ActiveCleanerDropDownAddNewTag" ? <AddNewTags handleCloseForm={handleCloseForm} ParentData={ParentData} /> : reference === "ActiveCleanerTagShow" ? <ShowInformation handleCloseModal={handleCloseForm} HeaderTitle={"TAGS"} SelectedData={ParentData} /> : reference === "AddBankAccount" ? <AddNewAccountForm ParentData={ParentData} DynamicHeaderinfo={"AddBankAccount"} handleCloseModal={handleCloseForm} reference={reference} /> : ""}
+                    {reference === "ActiveCleanerDropDownAddNewTag" ? <AddNewTags handleCloseForm={handleCloseForm} ParentData={ParentData} /> : reference === "ActiveCleanerTagShow" ? <ShowInformationTags handleCloseModal={handleCloseForm} HeaderTitle={"TAGS"} SelectedData={ParentData} /> : reference === "AddBankAccount" ? <AddNewAccountForm ParentData={ParentData} DynamicHeaderinfo={"AddBankAccount"} handleCloseModal={handleCloseForm} reference={reference} /> : ""}
                 </Dialog>
             }
         </>

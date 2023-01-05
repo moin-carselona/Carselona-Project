@@ -8,6 +8,7 @@ import { getUserByToken, handleLogin, login } from '../core/_requests'
 import { toAbsoluteUrl } from '../../../../_metronic/helpers'
 import { useAuth } from '../core/Auth'
 import Constants from '../../../consts/Consts'
+
 const loginSchema = Yup.object().shape({
   email: Yup.string()
     .email('Wrong email format')
@@ -19,20 +20,24 @@ const loginSchema = Yup.object().shape({
     .max(50, 'Maximum 50 symbols')
     .required('Password is required'),
 })
+
 const initialValues = {
   email: 'pritesh@carselonadaily.in',
   password: '123456',
 }
+
 /*
   Formik+YUP+Typescript:
   https://jaredpalmer.com/formik/docs/tutorial#getfieldprops
   https://medium.com/@maurice.de.beijer/yup-validation-and-typescript-and-formik-6c342578a20e
 */
+
 export function Login() {
   const Navigate = useNavigate()
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const { saveAuth, setCurrentUser } = useAuth()
+
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
@@ -48,17 +53,18 @@ export function Login() {
           password: values.password,
         }
         const response = await handleLogin(payload);
-        setLoggedIn(true);
-        window.location.href = '/dashboard';
         if (response.status === 200) {
           localStorage.setItem(Constants.token, response.authToken);
           localStorage.setItem(Constants.user, JSON.stringify(response.data.id));
           // localStorage.setItem("userData", JSON.stringify(response.data.id));
+
           setLoggedIn(true);
           window.location.href = '/dashboard';
-          // if(isLoggedIn){
-          //   Navigate("/dashboard")
-          // }
+// if(isLoggedIn){
+//   Navigate("/dashboard")
+
+// }
+
         }
       } catch (error) {
         console.error(error)
@@ -69,6 +75,7 @@ export function Login() {
       }
     },
   })
+
   return (
     <form
       className='form w-100'
@@ -87,6 +94,7 @@ export function Login() {
         </div>
       </div>
       {/* begin::Heading */}
+
       {formik.status ? (
         <div className='mb-lg-15 alert alert-danger'>
           <div className='alert-text font-weight-bold'>{formik.status}</div>
@@ -100,6 +108,7 @@ export function Login() {
         //   </div>
         // </div>
       )}
+
       {/* begin::Form group */}
       <div className='fv-row mb-10'>
         <label className='form-label fs-6 fw-bolder text-dark'>Email</label>
@@ -124,6 +133,7 @@ export function Login() {
         )}
       </div>
       {/* end::Form group */}
+
       {/* begin::Form group */}
       <div className='fv-row mb-10'>
         <div className='d-flex justify-content-between mt-n5'>
@@ -165,6 +175,7 @@ export function Login() {
         )}
       </div>
       {/* end::Form group */}
+
       {/* begin::Action */}
       <div className='text-center'>
         <button
@@ -181,9 +192,11 @@ export function Login() {
             </span>
           )}
         </button>
+
         {/* begin::Separator */}
         {/* <div className='text-center text-muted text-uppercase fw-bolder mb-5'>or</div> */}
         {/* end::Separator */}
+
         {/* begin::Google link */}
         {/* <a href='#' className='btn btn-flex flex-center btn-light btn-lg w-100 mb-5'>
             <img
@@ -194,6 +207,7 @@ export function Login() {
             Continue with Google
           </a> */}
         {/* end::Google link */}
+
         {/* begin::Google link */}
         {/* <a href='#' className='btn btn-flex flex-center btn-light btn-lg w-100 mb-5'>
           <img
@@ -204,6 +218,7 @@ export function Login() {
           Continue with Facebook
         </a> */}
         {/* end::Google link */}
+
         {/* begin::Google link */}
         {/* <a href='#' className='btn btn-flex flex-center btn-light btn-lg w-100'>
           <img
