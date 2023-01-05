@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { LocalBaseURL } from '../../../../../BaseURLmanagement'
-import { ContainerCss, PopCloseFormNotification, PopCloseFormNotificationPtag, HeaderCss, IdCss, ID_inputCss, Create_BtnCss, Desc_InputCss } from "./CssCom"
+import { ContainerCss, PopCloseFormNotification, PopCloseFormNotificationPtag,  Create_BtnCss,  } from '../../../../consts/Styles/CssCom';
 interface Props {
     PopUpProblemBTN: () => void
 }

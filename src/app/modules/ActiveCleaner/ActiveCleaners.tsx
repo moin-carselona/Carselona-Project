@@ -12,6 +12,7 @@ const ReactDataTable = () => {
   const [Search, setSearch] = useState<any>('')
   const [isLoading, setLoading] = useState<boolean>(false)
   const [filterData, setfilterData] = useState<any>([])
+  console.log('filterData', filterData);
   const localKeyCheck = JSON.parse(localStorage.getItem('API') || '0')
   const [payloads, setPayloads] = useState({ cleanerType: "", superVisor: "" })
   const handleChange = (event: any) => {

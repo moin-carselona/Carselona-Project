@@ -2,8 +2,9 @@ import { useDispatch } from 'react-redux'
 const JobDetailsModal = (props: any) => {
   const dispatch = useDispatch()
   const { filteredData, data, jobDetailsTimeSlot, refrencsss, jobsiteid, handleCloseModal } = props
-  const handleChangeDate = (drawerRefs: any) => {
+  const   handleChangeDate = (drawerRefs: any) => {
     handleCloseModal()
+    
     dispatch({ type: "LISTDRAWER", payload: drawerRefs })
     dispatch({ type: "JOBDETAILS", payload: jobsiteid })
   }
@@ -40,13 +41,13 @@ const JobDetailsModal = (props: any) => {
             <p>{filteredData?.vehicle_details?.vehicleno || 'No Vehicle Number'}</p>
           </div>
         </div>
-        <div className='modal-footer'>
+        {/* <div className='modal-footer'>
           {
             refrencsss == "datechange" && <button type='button' className='btn btn-primary ms-2' onClick={() => handleChangeDate("JobDetails")} id="kt_activities2_toggle2">
               Change Date
             </button>
           }
-        </div>
+        </div> */}
       </div>
     </div>
   )

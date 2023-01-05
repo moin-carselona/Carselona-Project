@@ -107,7 +107,6 @@ const DailyTableBodyJobComponent = (props: any) => {
                   {
                     trackDataNull > 0 && trackDataNull < Max.length && Max?.map((ele: any, i: number) => {
                       var xx = Max.length - trackDataNull
-                      // console.log('xx==============================', xx);
                       if (i < xx) return (
                         <>
                           {
@@ -180,7 +179,6 @@ const DailyTableBodyJobComponent = (props: any) => {
                   {
                     trackDataNull > 0 && trackDataNull < Max.length && Max?.map((ele: any, i: number) => {
                       var xx = Max.length - trackDataNull
-                      // console.log('xx==============================', xx);
                       if (i < xx) return (
                         <>
                           {
@@ -203,16 +201,7 @@ const DailyTableBodyJobComponent = (props: any) => {
           })
         }
       </tbody>
-      {/* {isModalOpen && (
-        <Dialog
-          open={true}
-          onClose={HandleJobAssignCleaner}
-          aria-labelledby='alert-dialog-title'
-          aria-describedby='alert-dialog-description'
-        >
-          <DailyJobAssignCleaner cleanerids={cleanerids}></DailyJobAssignCleaner>
-        </Dialog>
-      )} */}
+     
       {isCleanerModelOpen && (
         <Dialog
           open={true}

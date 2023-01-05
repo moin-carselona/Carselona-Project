@@ -1,0 +1,42 @@
+[data-column-id='ID'].rdt_TableCol {
+  /* background-color: green; */
+  font-weight: 500;
+  width: 30px;
+}
+[data-column-class='commoncss'].rdt_TableCol {
+  /* background-color: green; */
+  font-weight: 500;
+}
+[data-column-id='director'].rdt_TableCol {
+  background-color: orange;
+}
+.hIWEKa {
+  z-index: 0 !important;
+}
+
+
+.DropdownContainerwidth{
+  width: 170px !important;
+}
+
+
+
+[data-column-id="ID"].rdt_TableCol {
+  /* background-color: green; */
+  font-weight: 500;
+  width: 30px;
+}
+[data-column-class="commoncss"].rdt_TableCol {
+  /* background-color: green; */
+  font-weight: 500;
+}
+[data-column-id="director"].rdt_TableCol {
+  background-color: orange;
+}
+
+
+.pac-container{
+  z-index: 99999999999 !important;
+} 
+
+

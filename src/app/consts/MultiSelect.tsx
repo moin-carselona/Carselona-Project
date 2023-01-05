@@ -6,9 +6,7 @@ const MultiSelect = ({ setSelectedData, allDatafilter, reference2, name }: any) 
   const [showData, setShowData] = React.useState<any>([])
   React.useEffect(() => {
     const updatedData = allDatafilter?.map((ele: any, i: number) => {
-      // console.log('ele', ele);
       if (ele.first_name) {
-        // console.log('first_name', ele.first_name);
         const newData = {
           label: ele.first_name + ' ' + ele.last_name + '(' + ele.phone + ')',
           value: ele.id,

@@ -5,7 +5,7 @@ import { GetAllSocietyData } from './API';
 import { columns } from './Columns';
 import { customStyles } from './CustomCss';
 import DialogBox from './DialogBox/DialogBox';
-import "./styles.css"
+
 const ReactDataTable = () => {
   LocalBaseURL()
   const [SocietyData, setSocietyData] = useState<any>([])

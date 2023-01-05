@@ -7,8 +7,6 @@ export default withSwal((props: any, ref: any) => {
   const dispatch  = useDispatch()
 //   DAILY-RE-ASSIGN
     const { swal, confirm, cancel, localKey, cleanerid, subscriptionid, subscriptionStatus } = props;
-    // console.log('subscriptionid  permanent champ', subscriptionid);
-    // console.log('cleanerid permanent champ', cleanerid);
    
     React.useEffect(() => {
         if (subscriptionStatus) {

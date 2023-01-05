@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import { LocalBaseURL } from '../../../../BaseURLmanagement';
-import MultiSelect from '../../../consts/MultiSelect';
-import SingleSelect from '../../../consts/SingleSelect';
+import MultiSelectSearchCategory from '../../../consts/MultiSelectSearchCategory';
+import MultiSelectSearchDetails from '../../../consts/MultiSelectSearchDetails';
+import SingleSelectSearchCategory from '../../../consts/SingleSelectSearchCategory';
+import SingleSelectSearchDetails from '../../../consts/SingleSelectSearchDetails';
+import { ContainerCss, PopCloseFormNotification, PopCloseFormNotificationPtag, Create_BtnCss, } from '../../../consts/Styles/CssCom';
 import { createticketByAdmin } from '../API';
 import { AdminListDataApi, cleanerDataApi, CustomerDataApi, localCheckAPI, payloadsInterfaces, SuperVisorDataApi, ticektInterfaces, TicektSourcesDataApi, TicektSubCategoryDataApi, ticketCategoryDataApi } from "../TicketInterface";
-import { ContainerCss, PopCloseFormNotification, PopCloseFormNotificationPtag, Create_BtnCss, } from "./CssCom"
-interface ticketInputChangeHnadlerInterface {
-}
 interface Props {
     handleTicketlistPopform: () => void
     ParentData: {
@@ -42,7 +42,6 @@ const AddNewTicketsForm = ({ handleTicketlistPopform, ParentData }: Props) => {
         cleaners: [],
         userid: userid
     })
-
     // storing data into payload for handling form data change
     const handleChangeInputData = (event: any, name: string) => {
         if (name === "subcategoryid") {
@@ -73,10 +72,6 @@ const AddNewTicketsForm = ({ handleTicketlistPopform, ParentData }: Props) => {
             toast.error(result.data?.msg)
         }
     }
-
-
-
-    
     const handleClose = () => {
         handleTicketlistPopform()
     }
@@ -114,26 +109,30 @@ const AddNewTicketsForm = ({ handleTicketlistPopform, ParentData }: Props) => {
                         <div className="col-6  mb-3">
                             <h5>Select Customer</h5>
                             {"filterationData" &&
-                                <SingleSelect
+                          
+                                <SingleSelectSearchDetails
                                     handleChangeInputData={handleChangeInputData}
+                                    HeaderTitle="Select Customer"
+                                    SelectData={ParentData?.CustomerfilterData}
+                                    DynamicKey={"first_name"}
+                                    DynamicKey2={"last_name"}
+                                    DynamicKey3={"phone"}
+                                    id={"id"}
                                     name="customerid"
-                                    refrence="Select Customer"
-                                    setSelectedData={null}
-                                    allDatafilter={ParentData?.CustomerfilterData}
-                                    reference2={null}
-                                ></SingleSelect>
+                                ></SingleSelectSearchDetails>
                             }
                         </div>
                         <div className="col-6  mb-3">
                             <h5>Select Category</h5>
-                            <SingleSelect
+                      
+                            <SingleSelectSearchCategory
                                 handleChangeInputData={handleChangeInputData}
+                                HeaderTitle="Select Category"
+                                SelectData={ParentData?.TicketCategoryData}
+                                DynamicKey={"category_name"}
+                                id={"id"}
                                 name="categoryid"
-                                refrence="Select Category"
-                                setSelectedData={null}
-                                allDatafilter={ParentData?.TicketCategoryData}
-                                reference2={null}
-                            ></SingleSelect>
+                            ></SingleSelectSearchCategory>
                         </div>
                         <hr />
                     </div>
@@ -141,24 +140,25 @@ const AddNewTicketsForm = ({ handleTicketlistPopform, ParentData }: Props) => {
                     <div className="row mb-5">
                         <div className="col-6  mb-3">
                             <h5>Select Sub Category</h5>
-                            <MultiSelect
-                               
-                                setSelectedData={handleChangeInputData}
-                                allDatafilter={ParentData?.ticektSubCategoryData}
-                                reference2={"default"}
+                            <MultiSelectSearchCategory
+                                handleChangeInputData={handleChangeInputData}
+                                HeaderTitle="Select Category"
+                                SelectData={ParentData?.ticektSubCategoryData}
+                                DynamicKey={"subcategory_name"}
+                                id={"id"}
                                 name="subcategoryid"
-                            ></MultiSelect>
+                            ></MultiSelectSearchCategory>
                         </div>
                         <div className="col-6  mb-3">
                             <h5>Select Source</h5>
-                            <SingleSelect
+                            <SingleSelectSearchCategory
                                 handleChangeInputData={handleChangeInputData}
+                                HeaderTitle="Select Source"
+                                SelectData={ParentData?.TicketSources}
+                                DynamicKey={"name"}
+                                id={"id"}
                                 name="source_id"
-                                refrence="Select Source"
-                                setSelectedData={null}
-                                allDatafilter={ParentData?.TicketSources}
-                                reference2={null}
-                            ></SingleSelect>
+                            ></SingleSelectSearchCategory>
                         </div>
                         <hr />
                     </div>
@@ -166,14 +166,14 @@ const AddNewTicketsForm = ({ handleTicketlistPopform, ParentData }: Props) => {
                     <div className="row mb-5">
                         <div className="col-6  mb-3">
                             <h5>Choose to show to customer or not</h5>
-                            <SingleSelect
+                            <SingleSelectSearchCategory
                                 handleChangeInputData={handleChangeInputData}
+                                HeaderTitle="Select Here"
+                                SelectData={[{ name: "No, Don't show to customer", id: "0" }, { name: "Yes, Don't show to customer", id: "1" }]}
+                                DynamicKey={"name"}
+                                id={"id"}
                                 name="visible_id"
-                                refrence="Select Here"
-                                setSelectedData={null}
-                                allDatafilter={[{ name: "No, Don't show to customer", id: "0" }, { name: "Yes, Don't show to customer", id: "1" }]}
-                                reference2={null}
-                            ></SingleSelect>
+                            ></SingleSelectSearchCategory>
                         </div>
                         <div className="col-6  ">
                             <h5>Choose Due Date</h5>
@@ -186,24 +186,32 @@ const AddNewTicketsForm = ({ handleTicketlistPopform, ParentData }: Props) => {
                     <div className="row mb-5">
                         <div className="col-6  mb-3">
                             <h5>Select Admin Users</h5>
-                            <MultiSelect
-                                // refrence="Admin Users"
-                                // setSelectedData={null}
-                                setSelectedData={handleChangeInputData}
-                                allDatafilter={ParentData?.AdminListData}
-                                reference2={"default"}
+                   
+                            <MultiSelectSearchDetails
+                            
+                                handleChangeInputData={handleChangeInputData}
+                                HeaderTitle="Select admins"
+                                SelectData={ParentData?.AdminListData}
+                                DynamicKey={"first_name"}
+                                DynamicKey2={"last_name"}
+                                DynamicKey3={"phone"}
+                                id={"id"}
                                 name="admins"
-                            ></MultiSelect>
+                            ></MultiSelectSearchDetails>
                         </div>
                         <div className="col-6  mb-3">
                             <h5>Select Supervisors</h5>
-                            <MultiSelect
-                               
-                                setSelectedData={handleChangeInputData}
-                                allDatafilter={ParentData?.SupervisorsListData}
-                                reference2={"default"}
+                     
+                            <MultiSelectSearchDetails
+                                handleChangeInputData={handleChangeInputData}
+                                HeaderTitle="Select Category"
+                                SelectData={ParentData?.SupervisorsListData}
+                                DynamicKey={"first_name"}
+                                DynamicKey2={"last_name"}
+                                DynamicKey3={"phone"}
+                                id={"id"}
                                 name="cleaners"
-                            ></MultiSelect>
+                            ></MultiSelectSearchDetails>
                         </div>
                         <hr />
                     </div>

@@ -1,5 +1,8 @@
 import React from 'react'
 import { CleanerstatusData, JobStatusData, timelotsData } from '../../../../consts/CommonData'
+import SingleSelectSearchCategory from '../../../../consts/SingleSelectSearchCategory'
+import SingleSelectSearchDetails from '../../../../consts/SingleSelectSearchDetails'
+import SingleSelectSearchTimeSlot from '../../../../consts/SingleSelectSearchTimeSlot'
 import {
     CleanerInterfaces,
     CustomerIntterfaces,
@@ -8,28 +11,14 @@ import {
 } from '../Interfaces'
 interface SecondHeaders {
     handleChangeInputData: (event: InputData, name: string) => void
-    setSelectedData: (event: any) => void
-    SingleSelect: any
     filterationData: DataFilterationInterfaces
-    payloads:{
-        attendencedatefrom: Date | any,
-        attendencedateto: Date | any,
-        cleanerid: number | string,
-        timeslotid: number | string,
-        cleanerstatus: number | string | null,
-        jobstatus: number | string,
-        reportid : number | string,
-        customerid: number | string,
-        radius: number | string,
-        supervisorId: number | string,
-    }
 }
 interface DataFilterationInterfaces {
     AllCleanerList: CleanerInterfaces
     AllCustomerList: CustomerIntterfaces
     AllSuperListData: SupervisorInterfaces
 }
-const SecondHeader: React.FC<SecondHeaders> = ({payloads,  handleChangeInputData, filterationData, setSelectedData, SingleSelect }) => {
+const SecondHeader: React.FC<SecondHeaders> = ({ handleChangeInputData, filterationData }) => {
     // console.log('filterationData', filterationData);
     // console.log('SingleSelect ========', SingleSelect);
     return (
@@ -37,87 +26,123 @@ const SecondHeader: React.FC<SecondHeaders> = ({payloads,  handleChangeInputData
             <div className='d-flex align-items-start justify-content-start mb-2 '>
                 <div className='me-1 w-50'>
                     {timelotsData && (
-                        <SingleSelect
-
+                        <SingleSelectSearchTimeSlot
+                            // handleChangeInputData, HeaderTitle, SelectData, DynamicKey,id, name , defaultData
                             handleChangeInputData={handleChangeInputData}
+                            HeaderTitle="Select Time"
+                            SelectData={timelotsData}
+                            DynamicKey={"name"}
+                            id={"id"}
                             name="timeslotid"
-                            refrence="Select Time"
-                            setSelectedData={setSelectedData}
-                            allDatafilter={timelotsData}
-                            reference2={"timeslotids"}
-                        ></SingleSelect>
+                            defaultData={{
+                                label: "06AM-07AM",
+                                value: "2",
+                            }}
+                        ></SingleSelectSearchTimeSlot>
                     )}
                 </div>
                 <div className='me-1 w-50'>
                     {filterationData?.AllCleanerList && (
-                        <SingleSelect
+                        // <SingleSelect
+                        //     handleChangeInputData={handleChangeInputData}
+                        //     name="cleanerid"
+                        //     HeaderTitle="Select Cleaner"
+                        //     setSelectedData={setSelectedData}
+                        //     allDatafilter={filterationData?.AllCleanerList}
+                        //     reference2={null}
+                        // ></SingleSelect>
+                        <SingleSelectSearchDetails
                             handleChangeInputData={handleChangeInputData}
+                            HeaderTitle="Select Cleaner"
+                            SelectData={filterationData?.AllCleanerList}
+                            DynamicKey={"first_name"}
+                            DynamicKey2={"last_name"}
+                            DynamicKey3={"phone"}
+                            id={"id"}
                             name="cleanerid"
-                            refrence="Select Cleaner"
-                            setSelectedData={setSelectedData}
-                            allDatafilter={filterationData?.AllCleanerList}
-                            reference2={null}
-
-                        ></SingleSelect>
+                        ></SingleSelectSearchDetails>
                     )}
                 </div>
                 <div className='me-1 w-50'>
                     {filterationData?.AllCustomerList && (
-                        <SingleSelect
+                        // <SingleSelect
+                        //     handleChangeInputData={handleChangeInputData}
+                        //     name="customerid"
+                        //     HeaderTitle="Select Customer"
+                        //     setSelectedData={setSelectedData}
+                        //     allDatafilter={filterationData?.AllCustomerList}
+                        //     reference2={null}
+                        // ></SingleSelect>
+                        <SingleSelectSearchDetails
                             handleChangeInputData={handleChangeInputData}
+                            HeaderTitle="Select Customer"
+                            SelectData={filterationData?.AllCustomerList}
+                            DynamicKey={"first_name"}
+                            DynamicKey2={"last_name"}
+                            DynamicKey3={"phone"}
+                            id={"id"}
                             name="customerid"
-                            refrence="Select Customer"
-                            setSelectedData={setSelectedData}
-                            allDatafilter={filterationData?.AllCustomerList}
-                            reference2={null}
-
-
-                        ></SingleSelect>
+                        ></SingleSelectSearchDetails>
                     )}
                 </div>
-           
             </div>
-        
-            
             <div className='d-flex align-items-center justify-content-start '>
-            <div className='me-1 w-50'>
-                    {filterationData?.AllSuperListData && (
-                        <SingleSelect
-                            handleChangeInputData={handleChangeInputData}
-                            name="supervisorId"
-                            refrence="Supervisor List"
-                            setSelectedData={setSelectedData}
-                            allDatafilter={filterationData?.AllSuperListData}
-                            reference2={null}
-
-                        ></SingleSelect>
-                    )}
-                </div>  
                 <div className='me-1 w-50'>
                     {filterationData?.AllSuperListData && (
-                        <SingleSelect
+                        // <SingleSelect
+                        //     handleChangeInputData={handleChangeInputData}
+                        //     name="supervisorId"
+                        //     refrence="Supervisor List"
+                        //     setSelectedData={setSelectedData}
+                        //     allDatafilter={filterationData?.AllSuperListData}
+                        //     reference2={null}
+                        // ></SingleSelect>
+                        <SingleSelectSearchDetails
                             handleChangeInputData={handleChangeInputData}
-                            name="jobstatus"
-                            refrence="Job Status"
-                            setSelectedData={setSelectedData}
-                            allDatafilter={JobStatusData}
-                            reference2={null}
-
-                        ></SingleSelect>
+                            HeaderTitle="Select Supervisor"
+                            SelectData={filterationData?.AllSuperListData}
+                            DynamicKey={"first_name"}
+                            DynamicKey2={"last_name"}
+                            DynamicKey3={"phone"}
+                            id={"id"}
+                            name="supervisorId"
+                        ></SingleSelectSearchDetails>
                     )}
                 </div>
-          
                 <div className='me-1 w-50'>
                     {filterationData?.AllSuperListData && (
-                        <SingleSelect
+                        <SingleSelectSearchCategory
+                            // handleChangeInputData={handleChangeInputData}
+                            // name="jobstatus"
+                            // HeaderTitle="Job Status"
+                            // setSelectedData={setSelectedData}
+                            // allDatafilter={JobStatusData}
+                            // reference2={null}
                             handleChangeInputData={handleChangeInputData}
+                            HeaderTitle="Job Status"
+                            SelectData={JobStatusData}
+                            DynamicKey={"name"}
+                            id={"id"}
+                            name="jobstatus"
+                        ></SingleSelectSearchCategory>
+                    )}
+                </div>
+                <div className='me-1 w-50'>
+                    {filterationData?.AllSuperListData && (
+                        <SingleSelectSearchCategory
+                            // handleChangeInputData={handleChangeInputData}
+                            // name="cleanerstatus"
+                            // HeaderTitle="Cleaner Status"
+                            // setSelectedData={setSelectedData}
+                            // allDatafilter={CleanerstatusData}
+                            // reference2={null}
+                            handleChangeInputData={handleChangeInputData}
+                            HeaderTitle="Cleaner Status"
+                            SelectData={CleanerstatusData}
+                            DynamicKey={"name"}
+                            id={"id"}
                             name="cleanerstatus"
-                            refrence="Cleaner Status"
-                            setSelectedData={setSelectedData}
-                            allDatafilter={CleanerstatusData}
-                            reference2={null}
-
-                        ></SingleSelect>
+                        ></SingleSelectSearchCategory>
                     )}
                 </div>
             </div>

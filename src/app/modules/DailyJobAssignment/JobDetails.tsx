@@ -1,17 +1,10 @@
-
-
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
-
 const JobDetails = (props: any) => {
     const { CustomerJobData, handleCloseModal } = props
     console.log('CustomerJobData', CustomerJobData);
-
-
-
     return (
-
         <div className='p-5 card' style={{ width: '500px' }}                                                                                                                                                                                                                                        >
             <div className='modal-content'>
                 <div className='modal-header mb-5'>
@@ -30,11 +23,8 @@ const JobDetails = (props: any) => {
                     <div className="col-5">
                         <h5>Job Type</h5>
                         <p>
-
                             {CustomerJobData?.todayAttendenceData?.servicetype == 1 ? "Exterior" : "Full cleaning Day"}
-
-
-                            </p>
+                        </p>
                     </div>
                     <div className="col-5">
                         <h5>Job Site</h5>
@@ -50,11 +40,9 @@ const JobDetails = (props: any) => {
                     </div>
                 </div>
                 <div className='modal-footer'>
-
                 </div>
             </div>
         </div>
     )
 }
-
 export default JobDetails

@@ -28,6 +28,7 @@ import ControllerRouteVisitors from '../modules/Visitors/ControllerRouteVisitors
 import DashboardRoute from '../../Dashboard/components/DashboardRoute'
 import ControllerRouteTickets from '../modules/TicketsList/ControllerRouteTickets'
 import TicketListMain from '../modules/TicketsList/TicketListMain'
+import ControllerRouteRatings from '../modules/Ratings/ControllerRouteRatings'
 // import MAPsRouting from '../modules/RoutingEndPoints/MAPsRouting'
 // import ControllerRoute from '../../Reuse/All Societies/ControllerRoute'
 const PrivateRoutes = () => {
@@ -224,7 +225,7 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <PageTitle>All Ratings</PageTitle>
-              <AllRatingsParents />
+              <ControllerRouteRatings />  
             </SuspensedView>
           }
         />

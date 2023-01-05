@@ -5,7 +5,7 @@ import { GetAllServicesOnly } from './API';
 import { columns } from './Columns';
 import { customStyles } from './CustomCss';
 import DialogBox from './DialogBox/DialogBox';
-import "./styles.css"
+
 const ServicesMain = () => {
   LocalBaseURL()
   const [Search, setSearch] = useState<any>("")

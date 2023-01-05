@@ -376,8 +376,6 @@ const CleanerAvailabilityRoute = (props: {
           />
           <input
             type='date'
-            // onSelect={attendencedatefrom == }
-            disabled={attendencedatefrom}
             className='form-select form-select-solid me-2'
             onChange={handleFromDateChange}
             value={attendencedatefrom}

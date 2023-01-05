@@ -3,9 +3,7 @@ import DataTable , {ExpanderComponentProps } from 'react-data-table-component'
 import { LocalBaseURL } from '../../../BaseURLmanagement'
 import { GetAllCleanerAttendanceData, GetAllCleanerListData, GetAllSuperVisorData, GetAllCutomerData, GetAllCleanerData, getAllJobStatusActionsV2 } from './Components/API'
 import { columns } from './Components/Columns'
-import SingleSelect from '../../consts/SingleSelect'
 import moment from 'moment'
-import './Components/styles.css'
 import TopHeader from './Components/InputBox/TopHeader'
 import SecondHeader from './Components/InputBox/SecondHeader'
 import DetailsHeader from './Components/InputBox/DetailsHeader'
@@ -24,8 +22,6 @@ const Old_JobList = () => {
   const [AllCustomerList, SetAllCustomerList] = useState<any>([])
   const [Search, setSearch] = useState<any>('')
   const [filterData, setfilterData] = useState<any>([])
-  console.log('filterData', filterData);
-  const [cleanerid, setSelectedData] = useState<any>(null)
   const [StatisticsData, setStatisticsData] = useState<any>({})
   const localKeyCheck = JSON.parse(localStorage.getItem('API') || '0')
   const [payloads, setPayloads] = useState({
@@ -93,10 +89,6 @@ const Old_JobList = () => {
     data?.data && setPending(false)
     data?.status != 200 && setPending(false)
     data?.data?.length == 0 && data?.status == 200 && setPending(false)
-    // previous code 
-    // data?.data && setLoading(false)
-    // data?.status != 200 && setLoading(false)
-    // data?.data?.length == 0 && data?.status == 200 && setLoading(false)
   }
   // console.log('payloads', payloads);
   return (
@@ -126,11 +118,8 @@ const Old_JobList = () => {
                 Search={Search}
               />
               {<SecondHeader
-                payloads={payloads}
                 handleChangeInputData={handleChangeInputData}
                 filterationData={{ AllCustomerList, AllCleanerList, AllSuperListData }}
-                setSelectedData={setSelectedData}
-                SingleSelect={SingleSelect}
               />}
               {<DetailsHeader
                 StatisticsData={StatisticsData}

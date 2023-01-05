@@ -26,7 +26,6 @@ const TopHeader: React.FC<topHeaders> = ({ payloads, handleChangeInputData, Sear
                     placeholder='Search Here'
                     value={Search}
                     onChange={(e: any) => setSearch(e.target.value)}
-                    // onChange={handleChangeInputData}
                     className='w-100 form-control me-2 align-start'
                 />
             </div>
@@ -34,21 +33,16 @@ const TopHeader: React.FC<topHeaders> = ({ payloads, handleChangeInputData, Sear
                 <input
                     type='date'
                     value={payloads.attendencedatefrom}
-                    // name="attendencedatefrom"
-                    // onChange={(e: any) => setDate(e.target.value)}
                     onChange={(event) => handleChangeInputData(event.target, "attendencedatefrom")}
                     className='w-100  height-100 form-control me-2 align-start'
                 />
                 <h4 className=' me-2  mt-4 '>to </h4>
                 <input
                     type='date'
-                    // name="attendencedateto"
                     value={payloads.attendencedateto}
-                    // onChange={(e: any) => setLastDate(e.target.value)}
                     onChange={(event) => handleChangeInputData(event.target, "attendencedateto")}
                     className='w-100 form-control me-2 align-start'
                 />
-                {/* <button  className='w-100 form-control me-2 align-start btn-primary' >Submit</button> */}
                 <a className="btn btn-sm btn-primary  cursor-pointer" id="kt_toolbar_primary_button" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app" onClick={handleSearchJoblist}>Search</a>
             </div>
         </div>

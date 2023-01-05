@@ -1,8 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import SingleSelect from '../../../consts/SingleSelect'
-import { getAdminList, GetChatGeneralApiReplies, getSupervisorList, getTicketCategories, getticketreplies, getTicketSources, updateAssignedUsers, updateCategory, updateSources, updateTicketStatus } from '../API'
+import SingleSelectSearchCategory from '../../../consts/SingleSelectSearchCategory'
+import { getAdminList, GetChatGeneralApiReplies, getSupervisorList, getTicketCategories, getTicketSources, updateAssignedUsers, updateCategory, updateSources, updateTicketStatus } from '../API'
 import AssignForm from './AssignForm'
 import "./PopCss.css"
 import Updateform from './Updateform'
@@ -100,26 +100,24 @@ const Customer_Information = ({ }: any) => {
         async function invoked() {
             const response = await updateSources(localKeyCheck, PayloadsStatus, setloading2)
             // console.log('response', response);
-            if(response?.data?.status == 200){
+            if (response?.data?.status == 200) {
                 toast.success('Changes Are saved successfully')
             }
-            else{
+            else {
                 toast.error('changes are not saved')
-
             }
         }
-        PayloadsStatus?.categoryid &&  invoked()
+        PayloadsStatus?.categoryid && invoked()
     }, [PayloadsStatus?.categoryid])
     React.useEffect(() => {
         async function invoked() {
-            const response = await updateCategory(localKeyCheck, PayloadsStatus,setloading2)
+            const response = await updateCategory(localKeyCheck, PayloadsStatus, setloading2)
             // console.log('response', response);
-            if(response?.data?.status == 200){
+            if (response?.data?.status == 200) {
                 toast.success('Changes Are saved successfully')
             }
-            else{
+            else {
                 toast.error('changes are not saved')
-
             }
         }
         PayloadsStatus?.source_id && invoked()
@@ -137,30 +135,32 @@ const Customer_Information = ({ }: any) => {
                                         <div className="col-12  mb-3">
                                             <h5 className='text-white'>Select Category</h5>
                                             {JobStatusData &&
-                                                <SingleSelect
+                                    
+                                                <SingleSelectSearchCategory
                                                     handleChangeInputData={handleChnageOnchangeStatus}
+                                                    HeaderTitle="Select Category"
+                                                    SelectData={TicketCategoryData}
+                                                    DynamicKey={"category_name"}
+                                                    id={"id"}
                                                     name="categoryid"
-                                                    refrence="Select Category"
-                                                    setSelectedData={null}
-                                                    allDatafilter={TicketCategoryData}
-                                                    reference2={null}
-                                                ></SingleSelect>
+                                                ></SingleSelectSearchCategory>
                                             }
                                         </div>
                                         <div className="col-12  mb-8">
                                             <h5 className='text-white'>Select Source</h5>
-                                            <SingleSelect
+                                 
+                                            <SingleSelectSearchCategory
                                                 handleChangeInputData={handleChnageOnchangeStatus}
+                                                HeaderTitle="Select Source"
+                                                SelectData={TicketCategoryData}
+                                                DynamicKey={"name"}
+                                                id={"id"}
                                                 name="source_id"
-                                                refrence="Select Source"
-                                                setSelectedData={null}
-                                                allDatafilter={SourcesData}
-                                                reference2={null}
-                                            ></SingleSelect>
+                                            ></SingleSelectSearchCategory>
                                         </div>
                                     </div>
                                     <div className="col-sm-6 mb-4 mt-4 bg-warning">
-                                        <AssignForm SingleSelect={SingleSelect} ParentData={{
+                                        <AssignForm  ParentData={{
                                             AdminData,
                                             Supervisordata,
                                         }} handleChnageInputAssign={handleChnageInputAssign} />
@@ -174,7 +174,7 @@ const Customer_Information = ({ }: any) => {
                                         </button>
                                     </div>
                                     <div className="col-sm-6 mb-4 mt-4 bg-primary">
-                                        <Updateform SingleSelect={SingleSelect} ParentData={{
+                                        <Updateform  ParentData={{
                                             JobStatusData,
                                         }} handleChnageInputUpdate={handleChnageInputUpdate} />
                                         <button
@@ -186,32 +186,6 @@ const Customer_Information = ({ }: any) => {
                                             <span className='indicator-label' onClick={() => HandleUpdate()}>Update</span>
                                         </button>
                                     </div>
-                                    {/* <div className="col-sm-12 mb-4 mt-4 bg-primary">
-                                        <div className="col-12  mb-3">
-                                            <h5>Select Category</h5>
-                                            {JobStatusData &&
-                                                <SingleSelect
-                                                    handleChangeInputData={(e: any) => setCategoryID(e.target.value)}
-                                                    name="categoryid"
-                                                    refrence="Select Category"
-                                                    setSelectedData={null}
-                                                    allDatafilter={TicketCategoryData}
-                                                    reference2={null}
-                                                ></SingleSelect>
-                                            }
-                                        </div>
-                                        <div className="col-12  mb-8">
-                                            <h5>Select Source</h5>
-                                            <SingleSelect
-                                                handleChangeInputData={(e: any) => setCategoryID(e.target.value)}
-                                                name="source"
-                                                refrence="Select Source"
-                                                setSelectedData={null}
-                                                allDatafilter={SourcesData}
-                                                reference2={null}
-                                            ></SingleSelect>
-                                        </div>
-                                    </div> */}
                                 </div>
                             </div>
                         </div>

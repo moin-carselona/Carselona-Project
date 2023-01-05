@@ -5,7 +5,7 @@ import { GetallSercicePriceData } from './API';
 import { columns } from './Columns';
 import { customStyles } from './CustomCss';
 import DialogBox from './DialogBox/DialogBox';
-import "./styles.css"
+
 const ProductsMains = () => {
   LocalBaseURL()
   // const [Search, setSearch] = useState<any>("")

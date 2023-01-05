@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { FC, useRef, useState } from 'react'
-import "./styles.css"
 import clsx from 'clsx'
 import { useSelector } from 'react-redux'
 import React from "react"

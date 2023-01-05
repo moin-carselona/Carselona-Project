@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { LocalBaseURL } from '../../../../../BaseURLmanagement';
+import { ContainerCss, PopCloseFormNotification, PopCloseFormNotificationPtag, Create_BtnCss, } from '../../../../consts/Styles/CssCom';
 import {  GetAllCleanerListandjobtype } from '../API';
-import { ContainerCss, PopCloseFormNotification, PopCloseFormNotificationPtag, Create_BtnCss, } from "./CssCom"
+
 interface Props {
     AttendanceID : any
     handleDiloagboxform: (event: number | string) => void

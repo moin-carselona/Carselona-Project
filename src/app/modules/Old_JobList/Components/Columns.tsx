@@ -5,37 +5,26 @@ import HandleDropDown from './DropBox/HandleDropDown'
 import DialogBox from './DialogBox/DialogBox'
 import SentenceShorter from './SentenceShorter'
 import GS_Chips from '../../../consts/GS_Chips'
-// console.log('DropdownAttendanceStatus', DropdownAttendanceStatus)
 export const columns: TableColumn<DataRow>[] = [
-  // {
-  //   name: 'ACTION',
-  //   cell: (row: { cleanerid: number }) => (
-  //     <button onClick={() => handleReassign(row.cleanerid)} style={{ width: "125%", fontSize: "11px" }} className='btn btn-sm btn-primary height-50'>
-  //       RE-ASSIGN
-  //     </button>
-  //   ),
-  // },
+
   {
     name: 'ACTION',
     cell: (row) => (
       <HandleDropDown props={row}></HandleDropDown>
-    ),  
+    ),
     grow: 1
-
   },
   {
     name: 'GALLARY',
     cell: (row) => {
       return (
         <>
-          {/* <span className='me-5' >{row?.id}</span> */}
           <ViewImages individualID={row.id}></ViewImages>
         </>
       )
     },
     sortable: true,
     grow: 1
-
     // id: 'ID',
   },
   {
@@ -51,7 +40,6 @@ export const columns: TableColumn<DataRow>[] = [
       )
     },
     sortable: true,
-    // id: 'director',
     grow: 1.5
   },
   {
@@ -67,7 +55,6 @@ export const columns: TableColumn<DataRow>[] = [
       )
     },
     sortable: true,
-    // id: 'ID',
     grow: 3
   },
   {
@@ -86,28 +73,24 @@ export const columns: TableColumn<DataRow>[] = [
       )
     },
     grow: 3
-
   },
   {
     name: 'DATE',
     selector: (row: { attendencedate: any }) => row.attendencedate,
     sortable: true,
     grow: 1
-
   },
   {
     name: 'TIMESLOTS',
     selector: (row) => row?.timeslotDetail?.name,
     sortable: true,
     grow: 1
-
   },
   {
     name: 'JOB STATUS',
     cell: (row) => {
       return (
         <div className='d-flex'>
-
           {
             row?.attendenceStatus ? <>
               <div className='badge badge-light-danger fs-8 fw-bold'>{row?.job_status_select}</div>
@@ -131,32 +114,7 @@ export const columns: TableColumn<DataRow>[] = [
       )
     },
     sortable: true,
-    // id: 'expandedrow',
     grow: 8,
-    // allowOverflow:false,
-    // maxWidth:"200px"
-    // <>
-    // {
-    //     row?.attendenceStatus ? <>
-    //       {row?.job_status_select}
-    //       {row?.job_status}
-    //     </> : row?.job_status_select === "Overdue" ? <>
-    //       {"Overdue"}
-    //     </> : row?.job_status_select === "Early" ? <>
-    //       {row?.attendencedatedone}
-    //       {"Early"}
-    //     </> : row?.job_status_select === "Ontime" ? <>
-    //       {row?.attendencedatedone}
-    //       {"Ontime"}
-    //     </> : row?.job_status_select === "Late" ? <>
-    //       {row?.attendencedatedone}
-    //       {"Late"}
-    //     </> : row?.job_status_select === "NotAtHome" ? <>
-    //       {row.job_status}
-    //     </> : ""
-    //   }
-    // </>
-
   },
   {
     name: 'CLEANER. STATUS',
@@ -171,13 +129,10 @@ export const columns: TableColumn<DataRow>[] = [
     },
     sortable: true,
     grow: 1
-
   },
   {
     name: 'DISTANCE',
-    // selector: (row) => row.distance ,
     cell: (row) => {
-      // console.log('row', row);
       return (
         <div className='text-left'>
           {
@@ -188,14 +143,12 @@ export const columns: TableColumn<DataRow>[] = [
     },
     sortable: true,
     grow: 1
-
   },
   {
     name: 'SOCIETY',
     selector: (row) => row.societyname,
     sortable: true,
     grow: 1
-
   },
   {
     name: 'JOB TYPE',
@@ -210,24 +163,20 @@ export const columns: TableColumn<DataRow>[] = [
     },
     sortable: true,
     grow: 1
-
   },
   {
     name: 'RATING/COMMENT',
     selector: (row) => row.ratings,
     grow: 1
-
   },
   {
     name: 'VEHICLE INFO',
-    // selector: (row) => row.vehicle_info,
     cell: (row) => {
       return (
         <GS_Chips row={row} reference={"vehicle-info"}></GS_Chips>
       )
     },
     grow: 1
-
   },
   // {
   //   name: 'JOB STATUS',

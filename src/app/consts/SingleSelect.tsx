@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from 'react-select'
 import { colourStyles2 } from '../../Css'
-const SingleSelect = ({ handleChangeInputData, name, setSelectedData, allDatafilter, refrence, reference2 }: any) => {
+const SingleSelect = ({ handleChangeInputData, name, allDatafilter, HeaderTitle, reference2 }: any) => {
   
   const [showData, setShowData] = React.useState<any>("")
   React.useEffect(() => {
@@ -61,7 +61,7 @@ const SingleSelect = ({ handleChangeInputData, name, setSelectedData, allDatafil
     <div>
       <Select
         // defaultValue={showData[0]}
-        placeholder={refrence}
+        placeholder={HeaderTitle}
         isClearable
         isSearchable
         options={showData}

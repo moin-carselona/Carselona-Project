@@ -7,8 +7,6 @@ export default withSwal((props: any, ref: any) => {
     const dispatch = useDispatch()
     //   DAILY-RE-ASSIGN
     const { swal, confirm, cancel, localKey, cleanerid, cleaner_details, attendanceids, userids, attendancestatus } = props;
-    // console.log('cleaner_details', cleaner_details);
-    // console.log('id  ==== . sweet alert ' , id);
     React.useEffect(() => {
         if (attendancestatus) {
             swal.fire({

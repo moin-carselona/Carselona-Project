@@ -4,7 +4,8 @@ const initState = {
     CurrentRefs : "",
     listDrawer : "",
     listDrawerids:0,
-    jobdetailsid:0
+    jobdetailsid:0,
+    addBank:{},
 } 
 export const ActiveStatsReducer = (state = initState, { type, payload }: any) => {
     // console.log('payload', payload);
@@ -19,6 +20,8 @@ export const ActiveStatsReducer = (state = initState, { type, payload }: any) =>
             return { ...state, listDrawerids: payload }
         case "JOBDETAILS":
             return { ...state, jobdetailsid: payload }
+        case "ADD-BANK":
+            return { ...state, addBank: payload }
         default:
             return state
     }

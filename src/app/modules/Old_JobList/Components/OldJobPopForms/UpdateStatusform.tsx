@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import { LocalBaseURL } from '../../../../../BaseURLmanagement';
+import { ContainerCss, PopCloseFormNotification, PopCloseFormNotificationPtag, Create_BtnCss, } from '../../../../consts/Styles/CssCom';
 import { getAllJobStatusActionsV2, PostRequestUpdateStatus } from '../API';
 import { attendenceStatusInterfaces } from '../Interfaces';
-import { ContainerCss, PopCloseFormNotification, PopCloseFormNotificationPtag, Create_BtnCss, } from "./CssCom"
+
 interface Props {
     handleDiloagboxform: (event: number | string) => void
     attendancestatusList: attendenceStatusInterfaces

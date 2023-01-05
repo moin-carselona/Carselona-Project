@@ -2,12 +2,9 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-// import { ID, KTSVG } from '../../../../../_metronic/helpers'
-// import "../../../../../styles.css"
 import { MenuComponent } from '../../../../_metronic/assets/ts/components'
 import { ID, KTSVG } from '../../../../_metronic/helpers'
-import { MasterLayoutDrawer } from '../../../../MasterDrawerListCommon/MasterLayoutDrawer'
-// import { MenuComponent } from '../../../../../_metronic/assets/ts/components'
+import Dialogbox from '../../../consts/Dialogbox/Dialogbox'
 type Props = {
   cleaneridSingle: ID
   filteredData: any
@@ -16,7 +13,8 @@ type Props = {
 export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle, filteredData }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  // console.log('cleaneridSingle=>>>> ActiveCleaner =>>>>>>>>>>>>>>>>', cleaneridSingle);
+  const [tagsData, setTagsData] = useState<any>({})
+  const [isOpenedTags, setIsOpenedTags] = useState<boolean>(false)
   useEffect(() => {
     MenuComponent.reinitialization()
   }, [])
@@ -35,6 +33,21 @@ export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle,
     //   }
     // })
     navigate(`/daily/job/assign/oldjob/${cleaneridSingle}`)
+  }
+  const handlNewAddTag = (singleData: any) => {
+    console.log('singleData', singleData);
+    setTagsData(singleData)
+    setIsOpenedTags(!isOpenedTags)
+  }
+  const handlAddBankAccount = (singleData: any) => {
+
+    dispatch({ type: "LISTDRAWER", payload: "AddBankAccount" })
+    dispatch({ type: "ADD-BANK", payload: singleData })
+    setTagsData(singleData)
+    // setIsOpenedTags(!isOpenedTags)
+  }
+  const handleCloseModel = () => {
+    setIsOpenedTags(false)
   }
   const ViewProfileCleaner = (cleaneridSingle: any) => {
   }
@@ -104,6 +117,29 @@ export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle,
             onClick={() => handleReAssignTemporay(cleaneridSingle)}
           >
             Re-Assign/Temporary
+          </a>
+        </div>
+        <div className='menu-item px-3'>
+          <a
+            // href={`/daily/job/assign/oldjob/${cleaneridSingle}`}
+            className='menu-link  px-3'
+            data-kt-users-table-filter='delete_row'
+            // target="_blank"
+            onClick={() => handlNewAddTag(filteredData)}
+          >
+            Add New Tags
+          </a>
+        </div>
+        <div className='menu-item px-3'>
+          <a
+            // href={`/daily/job/assign/oldjob/${cleaneridSingle}`}
+            className='menu-link  px-3'
+            id="kt_activities2_toggle2"
+            data-kt-users-table-filter='delete_row'
+            // target="_blank"
+            onClick={() => handlAddBankAccount(filteredData)}
+          >
+            Add Bank Account
           </a>
         </div>
         <div className='menu-item px-3' >
@@ -188,6 +224,9 @@ export const DropdownAttendanceStatus: FC<Props> = ({ referece, cleaneridSingle,
           </a>
         </div>
       </div>
+      {isOpenedTags && <Dialogbox handleCloseForm={handleCloseModel} PopUpPostFormOpen={isOpenedTags} ParentData={
+        tagsData
+      } reference={"ActiveCleanerDropDownAddNewTag"} />}
     </>
   )
 }

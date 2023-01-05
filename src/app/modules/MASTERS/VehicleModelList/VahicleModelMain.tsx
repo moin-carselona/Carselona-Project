@@ -5,7 +5,7 @@ import { GetAllVehicleModelData } from './API';
 import { columns } from './Columns';
 import { customStyles } from './CustomCss';
 import DialogBox from './DialogBox/DialogBox';
-import "./styles.css"
+
 const VahicleModelMain = () => {
   LocalBaseURL()
   // const [Search, setSearch] = useState<any>("")

@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 import { LocalBaseURL } from '../../../../BaseURLmanagement'
+import { ContainerCss, Create_BtnCss, PopCloseFormNotification, PopCloseFormNotificationPtag } from '../../../consts/Styles/CssCom'
 import { AddNewSocietyPostRequest, GetAllAreaData, GetAllCityData, GetAllClickapiData, GetAllPackageIDData } from '../API'
 import GoogleAutocompleteAddress from '../GoogleAutocompleteAddress/GoogleAutocompleteAddress'
-import { ContainerCss, Create_BtnCss, PopCloseFormNotification, PopCloseFormNotificationPtag } from "./CssCom"
+// import { ContainerCss, Create_BtnCss, PopCloseFormNotification, PopCloseFormNotificationPtag } from "./CssCom"
+
 interface Props {
     PopUpSocietyBTN: () => void
 }

@@ -4,9 +4,7 @@ import { LocalBaseURL } from '../../../BaseURLmanagement'
 import { GetAllCleanerAttendanceData, GetAllCleanerListData } from './Components/API'
 import { columns } from './Components/Columns'
 import { customStyles } from './Components/CustomCss'
-import SingleSelect from '../../consts/SingleSelect'
 import moment from 'moment'
-import './Components/styles.css'
 const CleanerAbsenteeism = () => {
   LocalBaseURL()
   const [CleanerAttendanceData, setCleanerAttendanceData] = useState<any>([])

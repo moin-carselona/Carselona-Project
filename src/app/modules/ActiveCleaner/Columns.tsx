@@ -1,6 +1,10 @@
+import { useState } from 'react'
+import React from 'react'
 import DataTable, { TableColumn } from 'react-data-table-component'
+import TagPopUp from '../../consts/PopUp/TagPopUp'
 import HandleDropDown from './DropBox/HandleDropDown'
 import { Root } from './interfaces'
+import Dialogbox from '../../consts/Dialogbox/Dialogbox'
 export const columns: TableColumn<Root>[] = [
   {
     name: 'ID',
@@ -8,7 +12,6 @@ export const columns: TableColumn<Root>[] = [
     sortable: true,
     id: 'ID',
   },
-
   {
     name: 'ACTION',
     cell: (row) => (
@@ -36,6 +39,12 @@ export const columns: TableColumn<Root>[] = [
       }
     },
   },
+ 
+  {
+    name: 'SUPERVISORS',
+    cell: (row) => supervisorSpan(row),
+    sortable: true,
+  },
   {
     name: 'PROJECT POINTS',
     cell: (row) => {
@@ -51,9 +60,43 @@ export const columns: TableColumn<Root>[] = [
     sortable: true,
   },
   {
-    name: 'SUPERVISORS',
-    cell: (row) => supervisorSpan(row),
-    sortable: true,
+    name: 'PRIVATE TAGS',
+    cell: (row: any) => (
+      <>
+        < div
+          className='badge badge- fw-bolder rounded mb-1 d-flex justify-content-center'
+          style={{ whiteSpace: 'pre-wrap', cursor: "pointer" }
+          }
+        >
+          {
+            row?.private_tag === "" ? <span className='me-1 badge badge-light-danger fs-8 fw-bold'> No Tags Are Available </span> : row?.private_tag.split(",").map((ele: any, index: number) => {
+              return (
+                <span className='me-1 badge badge-light-primary fs-8 fw-bold'> {ele} </span>
+              )
+            })
+          }
+        </div>
+      </>
+    )
+  },
+  {
+    name: 'PUBLIC TAGS',
+    cell: (row: any) => (
+      <>
+        < div
+          className='badge badge- fw-bolder rounded mb-1 d-flex justify-content-center'
+          style={{ whiteSpace: 'pre-wrap', cursor: "pointer" }
+          }
+        >
+          {row?.private_tag === "" ? <span className='me-1 badge badge-light-danger fs-8 fw-bold'> No Tags Are Available </span> :
+            row?.public_tag.split(",").map((ele: any, index: number) => {
+              return (
+                <span className='me-1 badge badge-light-primary fs-8 fw-bold'> {ele} </span>
+              )
+            })
+          }
+        </div>
+      </>)
   },
   {
     name: 'EMAIL',
@@ -113,3 +156,25 @@ const supervisorSpan = (row: any) => {
     )
   }
 }
+// const BTNShowTags = ({ row }: any) => {
+//   const [isOpenedTags, setOpenedTags] = useState<boolean>(false)
+//   const [tagsData, settagsData] = useState<any>({})
+//   const [DynamicHeaderinfos, setDynamicHeaderinfos] = useState<any>({})
+//   const handleMangangeBTN = (row: any) => {
+//     setOpenedTags(!isOpenedTags)
+//     settagsData(row)
+//     setDynamicHeaderinfos("Tags")
+//   }
+//   const handleclosedata = () => {
+//     setOpenedTags(false)
+//   }
+//   return (
+//     <>
+//       <span className='badge badge-light-primary fs-8 fw-bold' onClick={() => handleMangangeBTN(row)}>Tags</span>
+//       {isOpenedTags && <Dialogbox handleCloseForm={handleclosedata} PopUpPostFormOpen={isOpenedTags} ParentData={
+//         tagsData
+//       } reference={"ActiveCleanerTagShow"} />}
+//     </>
+//   )
+// }
+// export default BTNShowTags

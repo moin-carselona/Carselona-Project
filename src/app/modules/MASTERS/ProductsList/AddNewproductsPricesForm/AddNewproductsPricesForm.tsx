@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 import { LocalBaseURL } from '../../../../../BaseURLmanagement'
-import { ContainerCss, PopCloseFormNotification, PopCloseFormNotificationPtag, HeaderCss, IdCss, ID_inputCss, Create_BtnCss, Desc_InputCss } from "./CssCom"
+import { ContainerCss, PopCloseFormNotification, PopCloseFormNotificationPtag, Create_BtnCss } from '../../../../consts/Styles/CssCom'
 interface Props {
     PopUpProductsListsBTN: () => void
 }
@@ -35,8 +35,6 @@ const AddNewproductsPricesForm = ({ PopUpProductsListsBTN }: Props) => {
     const handleClose = () => {
         PopUpProductsListsBTN()
     }
-
-    
     React.useEffect(() => {
         // async function getCityInvoked() {
         //     const { data } = await GetAllCityData(localKeyCheck)
@@ -163,8 +161,6 @@ const AddNewproductsPricesForm = ({ PopUpProductsListsBTN }: Props) => {
                                         </option>
                                     )
                                 })}
-
-
                             </select>
                         </div>
                         <div className="col-6  mb-3">

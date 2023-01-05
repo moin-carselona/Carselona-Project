@@ -9,7 +9,6 @@ import DialogBox from './DialogBox/DialogBox';
 import DateSearchBOX from './InputBoxes/DateSearchBOX';
 import Filteration from './InputBoxes/Filteration';
 import SingleSelectInput from './MultiSelect/SingleSelectInput';
-import "./styles.css"
 import { AdminListDataApi, cleanerDataApi, CustomerDataApi, inputEventChanger, payloadsInterfaces, SuperVisorDataApi, ticektInterfaces, TicektSourcesDataApi, TicektSubCategoryDataApi, ticketCategoryDataApi } from './TicketInterface';
 const TicketListMain = () => {
   LocalBaseURL()
@@ -21,13 +20,11 @@ const TicketListMain = () => {
   const [CleanerfilterData, setCleanerfilterData] = React.useState<cleanerDataApi[]>([])
   const [CustomerfilterData, setCustomerfilterData] = React.useState<CustomerDataApi[]>([])
   const [SelectedFilterTicketCateogryData, setSelectedFilterTicketCateogryData] = React.useState<any>([])
-  // add ticket forms api data here for fillig up form -----------------------------------------------
   const [TicketCategoryData, setTicketCategoryData] = React.useState<ticketCategoryDataApi[]>([])
   const [ticektSubCategoryData, setticektSubCategoryData] = React.useState<TicektSubCategoryDataApi[]>([])
   const [TicketSources, setTicketSources] = React.useState<TicektSourcesDataApi[]>([])
   const [AdminListData, setAdminListData] = React.useState<AdminListDataApi[]>([])
   const [SupervisorsListData, setSupervisorsListData] = React.useState<SuperVisorDataApi[]>([])
-  console.log('SupervisorsListData', SupervisorsListData);
   const [payloads, setPayloads] = React.useState<payloadsInterfaces>(
     {
       attendencedatefrom: moment().add(-5, "days").format("YYYY-MM-DD"),
@@ -56,7 +53,6 @@ const TicketListMain = () => {
       setCleanerfilterData(data.cleanerdata)
       setCustomerfilterData(data.customerdata as CustomerDataApi[])
       setSelectedFilterTicketCateogryData(data.ticketcategorydata)
-      
     }
     invokedRatFil()
     async function invoked() {
@@ -161,7 +157,7 @@ const TicketListMain = () => {
           SupervisorsListData,
           payloads,
         }
-      } reference={"ticketParent"}/>}
+      } reference={"ticketParent"} />}
     </div>
   )
 }

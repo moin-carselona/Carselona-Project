@@ -10,21 +10,17 @@ import { useSelector } from 'react-redux'
 import JobDetails from './JobDetails'
 import JobDetailsModal from '../cleaner/cleaner-items/JobDetailsModal'
 import TagPopUp from '../../consts/PopUp/TagPopUp'
-import SweetDIalogDailyJOb from '../../consts/SweetAlert/SweetDIalogDailyJOb'
 const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: boolean }) => {
   const { cleanerid, iscleanerpage } = props
-  // const { state }: any = useLocation()
   const paramsIDS: any = useParams()
   const ReAssignmentDaily = useSelector((store: any) => store?.DailyReAssignments?.DailyReAssign)
   LocalBaseURL()
   const [Max, setMax] = React.useState<any>([])
   const [cleanerStats, setCleanerStats] = React.useState<any>([])
-  // console.log('cleanerStats', cleanerStats);
   const [cleanerData, setcleanerData] = React.useState<any>([])
   const [distenceRadeus, setDistenceRadeus] = React.useState<any>(2)
   const [empty] = React.useState<any>([])
   const [timingSlots, setTimingslots] = React.useState<any>([])
-  // const [id, setId] = React.useState('')
   const [isCleanerModelOpen, setCleanerModelOpen] = React.useState(false)
   const [isModelOpenss, setModalOpen] = React.useState(false)
   const [JobDetailsCustomer, setJobDetailsCustomer] = React.useState<any>({})
@@ -38,12 +34,10 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
   const [InfoTagData, SetInfoTagData] = React.useState("")
   const [CustomerJobData, setCustomerJobData] = React.useState(false)
   const handlesCutomerDetailsSubmit = (jobData: any) => {
-    // console.log('jobData', jobData);
     setCustomerJobData(jobData)
     setCsutomerModelOpen(!isCleanerModelOpen)
   }
-  const hadleInfoTagshowBTN = (infoTagData: any, DynamicHeaderinfo : string | null | [] | {}) => {
-    // console.log('infoTagData', infoTagData);
+  const hadleInfoTagshowBTN = (infoTagData: any, DynamicHeaderinfo: string | null | [] | {}) => {
     SetInfoTagData(infoTagData)
     SetDynamicHeaderinfo(DynamicHeaderinfo)
     setisInfoTagOpen(!isCleanerModelOpen)
@@ -132,7 +126,6 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
     setModalOpen(false)
   }
   const handleCleanerDetailsSubmit = (id: any) => {
-    // setId(id)
     setCleanerModelOpen(!isCleanerModelOpen)
   }
   if (isLoading) {
@@ -146,7 +139,7 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
   return (
     <>
       {!iscleanerpage && cleanerStats && (
-       
+
         <div className='card  d-flex flex-row mb-1 p-3 align-items-center    justify-content-between position-sticky' style={{ top: "69px", zIndex: 99, height: "80px" }}>
           <div className='my-2'>
             <div className='d-flex'>
@@ -166,7 +159,7 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
               </span>
             </div>
           </div>
-         
+
         </div>
       )}
       <div className='d-flex mb-3 justify-content-around align-items-center flex-wrap px-3 position-sticky' style={{ top: '160px', zIndex: 99 }}>
@@ -198,33 +191,7 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
       </div>
       <br />
       <div className='card'>
-        {/* <div className='d-flex mb-3 justify-content-around align-items-center flex-wrap px-3'>
-          <div className='col-12 col-sm-12 col-md-12 col-lg-5 d-flex align-items-center mt-3'>
-            <span className='me-2'>
-            </span>
-          </div>
-          <div className='col-12 col-sm-12 col-md-12 col-lg-6 d-flex align-items-center mt-3'>
-            <input
-              type='number'
-              className='form-control bg-secondary me-2 border'
-              placeholder='0/km'
-              onChange={handleDistanceFormData}
-              value={distenceRadeus}
-            />
-            <input
-              type='date'
-              className='form-select form-select-solid me-2'
-              onChange={handleFromDateChange}
-              value={attendencedatefrom}
-              data-format="yyyy-mm-dd"
-            />
-            <div>
-              <button className='btn btn-sm btn-warning' onClick={handleClick}>
-                Search
-              </button>
-            </div>
-          </div>
-        </div> */}
+       
         {loading2 ? (
           <div className='d-flex align-items-center justify-content-center h-75 flex-column'>
             <div className='spinner-border mr-15' role='status'></div>
@@ -291,7 +258,7 @@ const DailyJobAssignNotAvailable = (props: { cleanerid?: any; iscleanerpage?: bo
                   aria-labelledby='alert-dialog-title'
                   aria-describedby='alert-dialog-description'
                 >
-                  <TagPopUp  infoData={InfoTagData} DynamicHeaderinfo={DynamicHeaderinfos} handleCloseModal={handleCloseModal} reference={"SweetDIalogDailyJobTag"} />
+                  <TagPopUp infoData={InfoTagData} DynamicHeaderinfo={DynamicHeaderinfos} handleCloseModal={handleCloseModal} reference={"SweetDIalogDailyJobTag"} />
                 </Dialog>)}
               {isModelOpenss && (
                 <Dialog
