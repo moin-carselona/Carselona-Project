@@ -22,7 +22,7 @@ const {PUBLIC_URL} = process.env
 
 const AppRoutes: FC = () => {
   const {auth} = useAuth();
-  const token = 7;
+  const token = "token";
   return (
     <BrowserRouter >
       <Routes>
